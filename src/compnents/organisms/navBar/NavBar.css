@@ -1,0 +1,16 @@
+.navContainer {
+    border-bottom: 1px solid #b8bec7;
+}
+
+.navbar {
+    display: flex;
+    height: 78px;
+    justify-content: space-between;
+    margin: 0 5%;
+}
+
+.navbar img {
+    height: 60px;
+    width: 200px;
+    margin: auto 0;
+}
