@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100&display=swap");
+
+.sideNav {
+  width: 210px;
+  background-color: #fff;
+  height: 90vh;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  padding: 8px;
+  overflow-x: hidden;
+  position: absolute;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.title-icon {
+  /* font-weight: bold; */
+  font-size: 20px;
+  color: #1b34b5;
+}
+
+.title h3 {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.project,
+.members,
+.collaboProjects {
+  min-height: 189px;
+  margin-bottom: 20px;
+}
+
+.project-list,
+.members-list,
+.collaboProject-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #d9d9d9;
+  gap: 20px;
+  margin-bottom: 10px;
+  padding-left: 2px;
+  height: 30px;
+  transition: 0.3s ease-in-out;
+  border-radius: 3px;
+  color: rgb(42, 41, 41);
+  /* font-weight: 300; */
+  font-size: 12px;
+}
+
+.project-list:hover,
+.collaboProject-list:hover {
+  cursor: pointer;
+  background-color: #1b34b5;
+  color: #fff;
+}
+
+.project-list:active {
+  background-color: #1b34b5;
+  color: #fff;
+}
+
+.project-list p {
+  width: 100%;
+  overflow: hidden;
+  word-wrap: normal;
+  text-overflow: unset;
+}
+
+.members {
+  color: rgb(42, 41, 41);
+}
+
+.members-list {
+  border: none;
+  transition: 0.3s ease-in-out;
+  border-radius: 0%;
+}
+
+.member-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.member-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.members-list:hover {
+  cursor: pointer;
+  border-left: 10px solid #1b34b5;
+}
+
+.addProjectBtn {
+  margin-top: 50px;
+  display: flex;
+  background-color: #1b34b5;
+  justify-content: center;
+  position: relative;
+}
+
+.action-icon {
+  color: #fff;
+  font-size: 20px;
+}
