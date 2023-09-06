@@ -1,15 +1,16 @@
-import React from 'react'
-import NavBar from '../../compnents/organisms/navBar/NavBar'
+import React from "react";
+import "./LandingPage.css";
+import NavBar from "../../compnents/organisms/navBar/NavBar";
+import RightNav from "../../compnents/molecules/rightNav/RightNav";
 
 const LandingPage = () => {
   return (
     <>
-    <NavBar>
-        
-    </NavBar>
-      <h1>Landing page</h1>
+        <NavBar>
+          <RightNav />
+        </NavBar>
     </>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

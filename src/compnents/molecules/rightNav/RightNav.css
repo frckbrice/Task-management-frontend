@@ -1,0 +1,30 @@
+nav {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+nav,
+ul,
+.btn {
+  display: flex;
+}
+
+ul li {
+  list-style: none;
+  padding: 0 20px;
+  position: relative;
+}
+
+ul li a {
+  text-decoration: none;
+  font-size: 1.3em;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+  display: flex;
+  color: black;
+}
+
+/* .btn {
+  display: flex;
+} */
