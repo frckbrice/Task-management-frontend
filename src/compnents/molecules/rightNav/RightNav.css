@@ -1,10 +1,10 @@
-nav {
+.rightNav {
   align-items: center;
   justify-content: center;
-  text-align: center;
+  height: 100%;
 }
 
-nav,
+.rightNav,
 ul,
 .btn {
   display: flex;
@@ -18,13 +18,41 @@ ul li {
 
 ul li a {
   text-decoration: none;
-  font-size: 1.3em;
+  font-size: 1.2em;
   font-weight: 600;
   transition: 0.3s ease-in-out;
   display: flex;
   color: black;
 }
 
-/* .btn {
-  display: flex;
-} */
+.reg,
+.log {
+  cursor: pointer;
+  border: 0;
+  font-size: 1.1em;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 10px;
+  width: 120px;
+  padding: 8px 0;
+  box-shadow: 0 0 2px #f48207d4;
+  transition: 0.4s;
+}
+
+.reg {
+  color: white;
+  background-color: #F48207;
+}
+
+.log {
+  color: #F48207;
+  background-color: #ffffff;
+  border: 1px solid #F48207;
+}
+
+button:hover {
+  color: white;
+  box-shadow: 0 0 10px #F48207;
+  background-color: #F48207;
+}
+

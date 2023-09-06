@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  margin: auto;
+  color: white;
+  background-color: #04175A;
+  padding: 40px 140px;
+}
+
+.head1 {
+  width: 51rem;
+  font-size: 3rem;
+  margin: 50px 0;
+}
+
+.head3 {
+  
+}
