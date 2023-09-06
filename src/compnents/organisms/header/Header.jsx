@@ -1,6 +1,7 @@
 import React from "react";
 import "./Header.css";
 import HeaderImg from "../../../assets/taskimage.png";
+import Button from "../../atoms/button/Button";
 
 function Header() {
   return (
@@ -10,8 +11,8 @@ function Header() {
           Simple, Yet Powerful. Tasktrec Helps You Stay Organised And On Track
           With Your Tasks.
         </h1>
-        <h3 className="head3">Sign Up for Tasktrec today and start getting things done!</h3>
-        <button className="Started btn">Get Started</button>
+        <p className="par">Sign Up for Tasktrec today and start getting things done!</p>
+        < Button />
       </div>
 
       <div className="HeaderImg">

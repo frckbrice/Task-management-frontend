@@ -3,15 +3,31 @@
   margin: auto;
   color: white;
   background-color: #04175A;
-  padding: 40px 140px;
+  padding: 60px 140px;
+  justify-content: space-between;
 }
 
 .head1 {
   width: 51rem;
-  font-size: 3rem;
+  font-size: 2.8rem;
   margin: 50px 0;
 }
 
-.head3 {
-  
+.par {
+  width: 45rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 60px;
 }
+
+.HeaderImg {
+  /* width: 100%; */
+  margin: auto;
+  /* height: 100%; */
+  background-color: red;
+}
+
+img {
+  /* width: 100%; */
+}
+
