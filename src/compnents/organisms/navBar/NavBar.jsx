@@ -10,7 +10,7 @@ const NavBar = ({ children }) => {
   return (
     <nav className="navContainer">
       <div className="navbar">
-        <img src={logo} alt="tasktrec logo" />
+        <img src={logo} alt="tasktrec logo" className="logo" />
         {children}
       </div>
     </nav>

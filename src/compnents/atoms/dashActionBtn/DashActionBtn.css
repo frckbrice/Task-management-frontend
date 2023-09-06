@@ -1,0 +1,12 @@
+.DashActionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  padding: 0 5px;
+  background-color: #1b34b5;
+  border: none;
+  color: #fff;
+  width: 140px;
+  gap: 5px;
+}

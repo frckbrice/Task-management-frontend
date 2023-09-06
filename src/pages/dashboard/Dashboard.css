@@ -1,0 +1,12 @@
+.dashboard {
+  background-color: #f7f7f7;
+  height: fit-content;
+}
+
+.workSpace {
+  padding: 0 5%;
+}
+
+.dashNav {
+  position: sticky;
+}

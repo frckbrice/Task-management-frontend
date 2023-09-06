@@ -1,16 +1,19 @@
 .navContainer {
-    border-bottom: 1px solid #b8bec7;
+  border-bottom: 1px solid #b8bec7;
+  background-color: white;
+  position: sticky;
+  width: 100%;
 }
 
 .navbar {
-    display: flex;
-    height: 78px;
-    justify-content: space-between;
-    margin: 0 5%;
+  display: flex;
+  height: 78px;
+  justify-content: space-between;
+  margin: 0 5%;
 }
 
-.navbar img {
-    height: 60px;
-    width: 200px;
-    margin: auto 0;
+.logo {
+  height: 60px;
+  width: 200px;
+  margin: auto 0;
 }
