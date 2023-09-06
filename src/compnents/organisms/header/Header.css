@@ -1,4 +1,5 @@
 .header {
+  font-size: serif;
   display: flex;
   margin: auto;
   color: white;
@@ -8,9 +9,9 @@
 }
 
 .head1 {
-  width: 51rem;
+  width: 53rem;
   font-size: 2.8rem;
-  margin: 50px 0;
+  margin: 40px 0;
 }
 
 .par {
@@ -21,13 +22,10 @@
 }
 
 .HeaderImg {
-  /* width: 100%; */
   margin: auto;
-  /* height: 100%; */
-  background-color: red;
 }
 
 img {
-  /* width: 100%; */
+  width: 650px;
 }
 
