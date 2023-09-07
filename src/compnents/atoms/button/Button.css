@@ -10,7 +10,7 @@
   border: 0;
   color: #fff;
   letter-spacing: 3px;
-  box-shadow: 60px 0px 0px #f48207da;
+  box-shadow: 70px 0px 0px #f48207da;
   outline: transparent;
   position: relative;
   user-select: none;
@@ -90,7 +90,7 @@
   }
 }
 
-@media (min-width: 768px) {
+@media screen and (min-width: 768px) {
   .StrtBtn,
   .StrtBtn:after {
     width: 200px;

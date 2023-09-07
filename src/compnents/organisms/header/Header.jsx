@@ -12,11 +12,11 @@ function Header() {
           With Your Tasks.
         </h1>
         <p className="par">Sign Up for Tasktrec today and start getting things done!</p>
-        < Button />
+        <Button />
       </div>
 
       <div className="HeaderImg">
-        <img src={HeaderImg} alt="HeaderImg" />
+        <img  className="img1" src={HeaderImg} alt="HeaderImg" />
       </div>
 
     </div>

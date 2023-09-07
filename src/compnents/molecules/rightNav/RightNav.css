@@ -69,12 +69,17 @@ ul li a {
     font-size: 20px;
   }
   
+  #bar {
+    font-size: 28px;
+    color: #04175A;
+  }
+  
   .rightNav,
   ul {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  padding:  0 0 20px;
+  width: 300px;
+  padding:  0 0 30px;
   align-items: center;
   font-weight: 700;
 }
@@ -84,15 +89,16 @@ ul li a {
 }
 
 #RightText {
-  margin: 240px -490px 0 0;
+  margin: 240px 0 0;
+  display: none;
   line-height: 2.5;
-  padding-top: 20px;
-  background-color: black;
+  padding: 5px 90px 0 0;
+  background-color: #04175A;
   transition: 0.3s ease-in-out;
 }
 
 #RightText.active {
-  margin: 240px 0 0;
+  display: block;
 }
 
 ul li a {

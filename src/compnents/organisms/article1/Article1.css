@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap');
+
+.article1 {
+  margin: 80px auto;
+  border: 1px solid #6c666637;
+  align-items: center;
+  text-align: center;
+  width: 86%;
+}
+
+table {
+  line-height: 2;
+  margin: 2px 0 50px;
+  width: 200px;
+  margin: auto;
+}
+
+.tabs {
+  /* padding: 20px; */
+}
+
+.tab1 {
+  margin-right: 40px;
+  text-decoration: underline 3px solid #1740d7;
+  /* border-bottom: 3px solid #1740d7; */
+}
+
+.head2 {
+  font-size: 2rem;
+  font-family: cursive;
+  font-weight: 700;
+  margin: 25px auto 60px;
+  width: 800px;
+  /* margin: auto; */
+}
+
+.img2 {
+  width: 80rem;
+
+}
