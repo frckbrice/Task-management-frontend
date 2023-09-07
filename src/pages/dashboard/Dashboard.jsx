@@ -5,21 +5,27 @@ import "./Dashboard.css";
 // components import
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import NavIterms from "./nav_iterms/NavIterms";
-import { projectData } from "../../dummyData";
+// import { projectData } from "../../dummyData";
 import SideNav from "../../compnents/organisms/sideNav/SideNav";
+import ProjectDetialsBar from "../../compnents/organisms/projectDetialsBar/ProjectDetialsBar";
+import TaskSection from "../../compnents/organisms/taskSection/TaskSection";
 
 const Dashboard = () => {
-  console.log(projectData);
-
   return (
     <div className="dashboard">
-      <NavBar className="dashNav">
+      <NavBar className="dashNav" padding={"2%"}>
         <div className="navContent">
           <NavIterms></NavIterms>
         </div>
       </NavBar>
       <div className="workSpace">
-        <SideNav />
+        <div className="sideNav-section">
+          <SideNav />
+        </div>
+        <div className="main-section">
+          <ProjectDetialsBar />
+          <TaskSection />
+        </div>
       </div>
     </div>
   );

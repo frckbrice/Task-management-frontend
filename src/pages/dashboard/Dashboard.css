@@ -4,9 +4,32 @@
 }
 
 .workSpace {
-  padding: 0 5%;
+  padding: 0 2%;
+  /* display: flex;
+  width: 100%;
+  justify-content: space-between; */
+
+  display: grid;
+  grid-template-columns: 228px auto;
 }
 
 .dashNav {
   position: sticky;
+  padding: 0 2%;
+}
+
+.main-section {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  margin-left: auto;
+  width: 100%;
+  padding-left: 5px;
+  /* height: 100vh; */
+  /* background-color: red; */
+}
+
+.sideNav-section {
+  /* width: 12%; */
+  /* background-color: green; */
 }

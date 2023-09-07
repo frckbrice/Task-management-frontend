@@ -23,6 +23,9 @@ const SideNav = () => {
           <GoProjectSymlink className="title-icon" />
           <h3>Projects</h3>
         </div>
+        <DashActionBtn text="Add Project" className="addProjectBtn">
+          <IoMdAddCircle className="action-icon" />
+        </DashActionBtn>
         {projectData.map((project, index) => (
           <div className="list project-list" key={index}>
             <p>{project.name}</p>
@@ -63,9 +66,6 @@ const SideNav = () => {
           </div>
         ))}
       </div>
-      <DashActionBtn text="Add Project" className="addProjectBtn">
-        <IoMdAddCircle className="action-icon" />
-      </DashActionBtn>
     </div>
   );
 };

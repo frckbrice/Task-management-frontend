@@ -103,11 +103,15 @@
 }
 
 .addProjectBtn {
-  margin-top: 50px;
+  margin-bottom: 10px;
   display: flex;
-  background-color: #1b34b5;
+  /* background-color: #1b34b5; */
   justify-content: center;
   position: relative;
+}
+
+.addProjectBtn:hover {
+  cursor: pointer;
 }
 
 .action-icon {

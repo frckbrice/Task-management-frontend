@@ -1,0 +1,34 @@
+.detialsBar {
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  height: 70px;
+  border-bottom: 1px solid red;
+}
+
+.addMemberBtn {
+  display: flex;
+  flex-direction: column;
+  width: 130px;
+  height: auto;
+  margin: auto 0;
+}
+
+.progess-icon {
+  background-color: #1b34b5;
+  /* font-size: 30px; */
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+}
+
+.progress-section {
+  display: flex;
+  height: auto;
+  margin: auto 0;
+}
