@@ -26,15 +26,23 @@ table {
 }
 
 .head2 {
-  font-size: 2rem;
-  font-family: cursive;
+  font-size: 2.5rem;
+  font-family: serif;
   font-weight: 700;
   margin: 25px auto 60px;
-  width: 800px;
-  /* margin: auto; */
+  width: 1000px;
+  color: #020c32;
+  /* color: #1740d7; */
 }
 
 .img2 {
-  width: 80rem;
+  width: 84rem;
+}
+
+@media only screen and (min-width: 360px) and (max-width: 768px) {
+  .article1 {
+    width: 90%;
+    background-color: red;
+  }
 
 }
