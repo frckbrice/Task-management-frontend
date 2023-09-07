@@ -6,6 +6,7 @@
   background-color: #04175A;
   padding: 60px 140px;
   justify-content: space-between;
+  /* height: 70vh; */
 }
 
 .head1 {
@@ -18,14 +19,9 @@
   width: 45rem;
   font-size: 1.8rem;
   font-weight: 500;
-  margin-bottom: 60px;
-}
-
-.HeaderImg {
-  margin: auto;
+  margin-bottom: 100px;
 }
 
 img {
-  width: 650px;
+  width: 700px;
 }
-

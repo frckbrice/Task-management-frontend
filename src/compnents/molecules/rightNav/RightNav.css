@@ -23,6 +23,7 @@ ul li a {
   transition: 0.3s ease-in-out;
   display: flex;
   color: black;
+  cursor: pointer;
 }
 
 .reg,
@@ -50,9 +51,52 @@ ul li a {
   border: 1px solid #F48207;
 }
 
-button:hover {
+.reg:hover,
+.log:hover {
   color: white;
   box-shadow: 0 0 10px #F48207;
   background-color: #F48207;
 }
 
+#mobile {
+  display: none;
+  position: fixed;
+}
+
+@media screen and (max-width: 768px) {
+  #mobile {
+    display: block;
+    font-size: 20px;
+  }
+  
+  .rightNav,
+  ul {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding:  0 0 20px;
+  align-items: center;
+  font-weight: 700;
+}
+
+.btn {
+  display: none;
+}
+
+#RightText {
+  margin: 240px -490px 0 0;
+  line-height: 2.5;
+  padding-top: 20px;
+  background-color: black;
+  transition: 0.3s ease-in-out;
+}
+
+#RightText.active {
+  margin: 240px 0 0;
+}
+
+ul li a {
+  color: white;
+  font-size: 16px;
+}   
+}
