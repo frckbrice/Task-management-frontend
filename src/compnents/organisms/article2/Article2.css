@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap');
+
+.article2 {
+  padding: 40px;
+  display: flex;
+  background-color: #04175A;
+  color: white;
+  margin: 50px auto;
+  align-items: center;
+}
+
+.art2Text h4 {
+  color: orange;
+  font-size: 3em;
+  font-weight: 700;
+  font-family: cursive;
+}
+
+.art2Text ul {
+  list-style-type: none;
+  /* list-style-type: decimal !ie;  */
+  /* margin-left: 1em; */
+  counter-reset: li-counter;
+  display: flex;
+  flex-direction: column;
+}
+
+.art2Text ul li{
+  /* position: relative; */
+  margin: 1.5em;
+  padding: 0.3em;
+  background-color: #04175A;
+  border-radius: 25px;
+  box-shadow: 2px 2px 2px orange;
+  padding-left: 60px;
+}
+  
+.art2Text li:hover{
+  box-shadow:inset -1em 0 #6CD6CC;
+  -webkit-transition: box-shadow 0.5s; /* For Safari 3.1 to 6.0 */
+  transition: box-shadow 0.5s;
+}
+  
+.art2Text ul li:before {
+  position: absolute;
+  top: -0.3em;
+  left: -0.5em;
+  width: 1.8em;
+  height: 1.2em;
+  font-size: 2em;
+  line-height: 1.2;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  background-color: #6CD6CC;
+  transform: rotate(-20deg);
+  -ms-transform: rotate(-20deg);
+  -webkit-transform: rotate(-20deg);
+  z-index: 99;
+  overflow: hidden;
+  content: counter(li-counter);
+  counter-increment: li-counter;
+}
