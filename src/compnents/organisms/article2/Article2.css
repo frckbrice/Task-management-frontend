@@ -72,3 +72,9 @@
   content: counter(li-counter);
   counter-increment: li-counter;
 }
+
+@media only screen and (min-width: 360px) and (max-width: 768px) {
+  .art2Img {
+    display: none;
+  }
+}
