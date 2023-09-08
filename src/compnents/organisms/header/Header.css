@@ -31,7 +31,7 @@
   width: 740px;
 }
 
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   .header {
     flex-direction: column !important;
     display: flex !important;

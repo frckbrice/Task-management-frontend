@@ -11,14 +11,15 @@ function Header() {
           Simple, Yet Powerful. Tasktrec Helps You Stay Organised And On Track
           With Your Tasks.
         </h1>
-        <p className="par">Sign Up for Tasktrec today and start getting things done!</p>
+        <p className="par">
+          Sign Up for Tasktrec today and start getting things done!
+        </p>
         <Button />
       </div>
 
       <div className="HeaderImg">
-        <img  className="img1" src={HeaderImg} alt="HeaderImg" />
+        <img className="img1" src={HeaderImg} alt="HeaderImg" />
       </div>
-
     </div>
   );
 }

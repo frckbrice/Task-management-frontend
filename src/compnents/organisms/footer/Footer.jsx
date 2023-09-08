@@ -26,9 +26,14 @@ function Footer() {
 
       <div className="footer-divs">
         <div className="div1 div">
-          <h4>Let's Talk</h4>
-          <p className="lettalkPar">Every project starts with a chat GDB leads our client conversations and will be happy to discuss your project. She will also pull in the right people from the team when needed.</p>
-          <h5>Tell us about your project</h5>
+          <h4>Let's Talk!</h4>
+          <p className="letstalkPar">
+            Every project starts with a chat GDB leads our client conversations
+            and will be happy to discuss your project.
+          </p>
+            <label className="inputlabel">Tell us about your project</label>
+            <input className="inputfield" type="text" />
+
         </div>
 
         <div className="div2 div">
@@ -41,7 +46,7 @@ function Footer() {
         </div>
 
         <div className="div3 div">
-        <h4>Resources</h4>
+          <h4>Resources</h4>
           <p>eBooks</p>
           <p>Comparison Guide</p>
           <p>Blog</p>
@@ -50,20 +55,20 @@ function Footer() {
         </div>
 
         <div className="div4 div">
-        <h4>Get Help</h4>
+          <h4>Get Help</h4>
           <p>Help Center</p>
           <p>Contact Us</p>
           <p>Privacy Policy</p>
           <p>Terms</p>
           <p>Login</p>
         </div>
-
       </div>
 
       <div className="copyrightfooter">
-        <p>Copyright 2020-2023 GDB dev's| <span>It's free for use</span></p>
+        <p>
+          Copyright 2020-2023 GDB Dev...| <span>It's free for use</span>
+        </p>
       </div>
-
     </div>
   );
 }
