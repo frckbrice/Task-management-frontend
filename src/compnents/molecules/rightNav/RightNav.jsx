@@ -12,23 +12,30 @@ class RightNav extends Component {
   render() {
     return (
       <div className="rightNav">
-        <div id="RightText" className={this.state.clicked ? "#RightText active" : "#RightText"}>
-          <ul>
-            <li>
-              <a href="index">Features</a>
-            </li>
-            <li>
-              <a href="index">For Teams</a>
-            </li>
-            <li>
-              <a href="index">Get Help</a>
-            </li>
-          </ul>
-        </div>
+        <div
+          id="righttxtbtn"
+          className={
+            this.state.clicked ? "#righttxtbtn active" : "#righttxtbtn"
+          }
+        >
+          <div className="righttxt">
+            <ul>
+              <li>
+                <a href="index">Features</a>
+              </li>
+              <li>
+                <a href="index">For Teams</a>
+              </li>
+              <li>
+                <a href="index">Get Help</a>
+              </li>
+            </ul>
+          </div>
 
-        <div className="btn">
-          <button className="reg">Sign Up</button>
-          <button className="log">Log In</button>
+          <div className="btn">
+            <button className="reg">Sign Up</button>
+            <button className="log">Log In</button>
+          </div>
         </div>
 
         <div id="mobile">

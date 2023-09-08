@@ -31,27 +31,27 @@
   width: 740px;
 }
 
-@media only screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .header {
-    flex-direction: column !important;
-    display: flex !important;
+    flex-direction: column;
+    display: flex;
     text-align: center;
     color: #04175A;
     background-color: white;
-    padding: 50px;
+    padding: 20px;
   }
 
   .head1 {
-    margin: auto auto 55px;
-    width: 50rem;
-    font-size: 3.5rem;
+    font-size: 2rem;
+    width: 100%;
   }
   
   .par {
     margin: auto;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 500;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
+    width: 100%;
   }
   
   .img1 {

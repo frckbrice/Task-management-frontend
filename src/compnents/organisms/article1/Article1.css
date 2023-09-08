@@ -15,10 +15,6 @@ table {
   margin: auto;
 }
 
-.tabs {
-  /* padding: 20px; */
-}
-
 .tab1 {
   margin-right: 40px;
   text-decoration: underline 3px solid #1740d7;
@@ -39,10 +35,26 @@ table {
   width: 84rem;
 }
 
-@media only screen and (min-width: 360px) and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .article1 {
-    width: 90%;
-    background-color: red;
+    background-color: #020c32;
+    color: white;
+    margin: 40px auto;
+    padding: 50px 0;
+    border: none;
+    width: 100%;
   }
 
+  .head2 {
+    font-size: 1rem;
+    width: 80%;
+    font-family: serif;
+    font-weight: 700;
+    margin: 25px auto 60px;
+    color: white;
+  }
+
+  .img2 {
+    width: 98%;
+  }
 }

@@ -87,11 +87,12 @@
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .StrtBtn,
   .StrtBtn:after {
     width: 200px;
-    height: 86px;
-    line-height: 88px;
+    height: 66px;
+  letter-spacing: 0;
+    box-shadow: 10px 0px 0px #f48207da;
   }
 }

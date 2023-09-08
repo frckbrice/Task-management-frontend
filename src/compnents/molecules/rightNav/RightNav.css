@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+.righttxtbtn {
+  display: flex;
+}
+
 .rightNav,
 ul,
 .btn {
@@ -12,7 +16,7 @@ ul,
 
 ul li {
   list-style: none;
-  padding: 0 20px;
+  padding: 5px 20px;
   position: relative;
 }
 
@@ -65,44 +69,41 @@ ul li a {
 
 @media screen and (max-width: 768px) {
   #mobile {
-    display: block;
+    display: initial;
+    position: absolute;
     font-size: 20px;
+    right: 25px;
   }
-  
+
   #bar {
     font-size: 28px;
     color: #04175A;
   }
-  
-  .rightNav,
-  ul {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  padding:  0 0 30px;
-  align-items: center;
-  font-weight: 700;
-}
 
-.btn {
-  display: none;
-}
+  #righttxtbtn {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100%;
+    margin-left: -100%;
+    padding: 30px;
+    display: none;
+    line-height: 2.5;
+    border-radius: 20px;
+    background-color: #04175A;
+    transition: 0.3s ease-in-out;
+  }
 
-#RightText {
-  margin: 240px 0 0;
-  display: none;
-  line-height: 2.5;
-  padding: 5px 90px 0 0;
-  background-color: #04175A;
-  transition: 0.3s ease-in-out;
-}
+  .righttxt ul {
+    display: flex;
+    flex-direction: column;
+  }
 
-#RightText.active {
-  display: block;
-}
+  #righttxtbtn.active {
+    display: initial;
+  }
 
-ul li a {
-  color: white;
-  font-size: 16px;
-}   
+  ul li a {
+    color: white;
+    font-size: 16px;
+  }
 }

@@ -73,8 +73,41 @@
   counter-increment: li-counter;
 }
 
-@media only screen and (min-width: 360px) and (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .art2Img {
     display: none;
+  }
+
+  .article2 {
+    padding: 10px;
+    background-color: white;
+    /* margin-top: 0; */
+  }
+
+  .art2Text {
+    width: 88%;
+  }
+
+  .art2Text h4 {
+    color: #04175A;
+    font-size: 3em;
+    font-weight: 700;
+    text-align: center;
+    font-family: cursive;
+    margin-bottom: 20px;
+  }
+  
+  .art2Text ul {
+    font-size: 14px;
+  }
+  
+  .art2Text ul li {
+    box-shadow: 3px 3px 2px orange;
+    cursor: auto;
+    transition: none;
+  }
+  
+  .art2Text li:hover {
+    transform: none;
   }
 }
