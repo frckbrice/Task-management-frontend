@@ -4,8 +4,9 @@
   height: 100%;
 }
 
-.righttxtbtn {
+#righttxtbtn {
   display: flex;
+  flex-direction: row;
 }
 
 .rightNav,

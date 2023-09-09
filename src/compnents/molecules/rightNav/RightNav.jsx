@@ -9,6 +9,10 @@ class RightNav extends Component {
     this.setState({ clicked: !this.state.clicked });
   };
 
+  signupPage = () => {
+    this.props.history.push('/signup')
+  }
+
   render() {
     return (
       <div className="rightNav">
@@ -21,19 +25,19 @@ class RightNav extends Component {
           <div className="righttxt">
             <ul>
               <li>
-                <a href="index">Features</a>
+                <a href="/features">Features</a>
               </li>
               <li>
-                <a href="index">For Teams</a>
+                <a href="/teams">For Teams</a>
               </li>
               <li>
-                <a href="index">Get Help</a>
+                <a href="/help">Get Help</a>
               </li>
             </ul>
           </div>
 
           <div className="btn">
-            <button className="reg">Sign Up</button>
+            <button className="reg" onClick={this.signupPage}>Sign Up</button>
             <button className="log">Log In</button>
           </div>
         </div>

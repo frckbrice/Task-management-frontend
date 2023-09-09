@@ -81,3 +81,42 @@
     border-radius: 1.8em;
     background-size: 200% 100%;
   }
+
+  @media screen and (max-width: 768px) {
+    .footercontainer {
+      background-color: black;
+      padding: 10px;
+      color: white;
+    }
+    
+    .head4 {
+      font-size: 1.3rem;
+    }
+    
+    .footer-divs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .div {
+      width: 98%;
+    }
+    
+    .div h4 {
+      font-size: 26px;
+      color: blue;
+    }
+
+    .letstalkPar {
+      margin: 4px 0 20px;
+      font-size: 20px;
+    }
+    
+    .div2,
+    .div3,
+    .div4 {
+      display: none;
+    }
+  }
+  

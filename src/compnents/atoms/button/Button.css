@@ -2,12 +2,14 @@
 .StrtBtn:after {
   font-size: 26px;
   font-weight: 700;
+  height: 89px;
+  width: 290px;
   font-family: sans-serif;
   background: linear-gradient(45deg, transparent 10%, #F48207 10%);
   border: 0;
   color: #fff;
   letter-spacing: 3px;
-  box-shadow: 70px 0px 0px #f48207da;
+  box-shadow: 50px 0px 0px #f48207da;
   outline: transparent;
   position: relative;
   user-select: none;
@@ -87,12 +89,14 @@
   }
 }
 
+
 @media screen and (max-width: 768px) {
+
   .StrtBtn,
   .StrtBtn:after {
     width: 200px;
     height: 66px;
-  letter-spacing: 0;
+    letter-spacing: 0;
     box-shadow: 10px 0px 0px #f48207da;
   }
 }

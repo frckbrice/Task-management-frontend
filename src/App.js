@@ -1,7 +1,5 @@
-import "./App.css";
-
-// libery imports
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import LandingPage from "./pages/landing/LandingPage";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Signup from "./pages/signup/Signup"
