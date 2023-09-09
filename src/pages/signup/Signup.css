@@ -2,24 +2,28 @@
   /* margin: 8% 10%; */
   display: flex;
   width: 70%;
-  margin: auto;
-  background-color: red;
-  justify-content: center;
+  margin: 50px auto;
+  /* background-color: red; */
   align-items: center;
-  height: 90vh;
+  text-align: center;
+  height: 70vh;
   /* background-color: #f2f2f2; */
 }
 
 .signupImg {
   position: relative;
   width: 50%;
-  height: 100%;
-  background-color: blue;
+  justify-content: right;
+  height: 60vh;
+  /* background-color: blue; */
 }
 
 .signupImg img {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
+  /* position:relative;
+  display:inline-block;
+  background: -moz-linear-gradient(top, rgba(0,47,75,0.5) 0%, rgba(220, 66, 37, 0.5) 100%); */
 }
 
 .overlay {
@@ -48,33 +52,54 @@
 }
 
 .signupForm {
-  width: 50%;
-  /* margin: auto; */
+  width: 40%;
+  margin: 0 10% 0 10%;
   padding: 50px;
   background-color: #fff;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1); */
+}
+
+.signupform-h2,
+.signupform-p {
+  text-align: left;
+  width: 80%;
+  margin: auto;
+}
+
+.signupform-p {
+  font-size: 12px;
+  margin: 6px auto 20px;
+  color: grey;
 }
 
 .formlabel {
   display: block;
   font-size: 18px;
+  text-align: left;
+  width: 50%;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin: 0 0 10px 50px;
 }
 
 .forminput {
-  width: 60%;
-  padding: 10px;
+  width: 73%;
+  padding: 7px;
   font-size: 16px;
-  /* border: none; */
   border: 2px solid #ccc;
   margin-bottom: 20px;
+}
+
+.message {
+  color: red;
+  font-size: 12px;
+  width: 70%;
+  margin: auto;
 }
 
 .signupbtn {
   background-color: #000;
   color: #fff;
-  width: 63%;
+  width: 78%;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;

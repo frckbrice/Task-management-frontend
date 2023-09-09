@@ -40,6 +40,8 @@
 .art2Text ul li {
   margin: 0.7em;
   padding: 0.5em;
+  z-index: 0;
+  /* position: sticky; */
   background-color: #04175A;
   border-radius: 25px;
   box-shadow: 1px 1px 2px orange;
@@ -49,7 +51,7 @@
 }
 
 .art2Text li:hover {
-  transform: translateX(-20px);
+  transform: translateX(-25px);
 }
 
 .art2Text ul li:before {
@@ -67,7 +69,7 @@
   transform: rotate(-20deg);
   -ms-transform: rotate(-20deg);
   -webkit-transform: rotate(-20deg);
-  z-index: 99;
+  /* z-index: 0; */
   overflow: hidden;
   content: counter(li-counter);
   counter-increment: li-counter;

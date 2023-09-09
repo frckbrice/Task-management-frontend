@@ -7,6 +7,7 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,15 +17,15 @@ function Signup() {
           // add authentication and backend connection here
           console.log("Form submitted successfully!");
         } else {
-          alert("Passwords do not match.");
+          setMessage("Passwords do not match");
         }
       } else {
-        alert(
+        setMessage(
           "Password must be at least 6 characters and contain at least one number."
         );
       }
     } else {
-      alert("Please fill in all required fields.");
+      setMessage("Please fill in all required fields.");
     }
   };
 
@@ -41,6 +42,8 @@ function Signup() {
       </div>
 
       <form className="signupForm" onSubmit={handleSubmit}>
+        <h2 className="signupform-h2">Sign up</h2>
+        <p className="signupform-p">Sign up for Tasktrec today and start getting things done!</p>
         <div className="fullname">
           <label className="formlabel" htmlFor="fullName">
             Full Name{" "}
@@ -95,6 +98,8 @@ function Signup() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+          <p className="message">{message}</p>
+          <br />
         </div>
 
         <button type="submit" className="signupbtn">
