@@ -1,0 +1,29 @@
+.task-board {
+  display: flex;
+  /* justify-content: center; */
+  height: 100%;
+  max-width: 78vw;
+  overflow: scroll;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.droppable {
+  margin: 8px;
+  border: 1px solid red;
+}
+
+.add-list {
+  height: 20px;
+  width: 90rem;
+}
+
+.list-hearder {
+  /* background-color: red; */
+  /* width: 10%; */
+  /* margin: 8px; */
+}

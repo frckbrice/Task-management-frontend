@@ -8,7 +8,7 @@ import NavIterms from "./nav_iterms/NavIterms";
 // import { projectData } from "../../dummyData";
 import SideNav from "../../compnents/organisms/sideNav/SideNav";
 import ProjectDetialsBar from "../../compnents/organisms/projectDetialsBar/ProjectDetialsBar";
-import TaskSection from "../../compnents/organisms/taskSection/TaskSection";
+import TaskBoard from "../../compnents/organisms/taskBoard/TaskBoard";
 
 const Dashboard = () => {
   return (
@@ -24,7 +24,7 @@ const Dashboard = () => {
         </div>
         <div className="main-section">
           <ProjectDetialsBar />
-          <TaskSection />
+          <TaskBoard />
         </div>
       </div>
     </div>
