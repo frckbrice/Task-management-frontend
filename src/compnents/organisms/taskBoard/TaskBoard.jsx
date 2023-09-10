@@ -5,10 +5,11 @@ import { v4 as uuid } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import "./TaskBoard.css";
+import { faker } from "@faker-js/faker";
 
 const taskformBackend = [
-  { id: uuid(), content: "first task" },
-  { id: uuid(), content: "second task" },
+  { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "second task", description: faker.lorem.paragraph(2) },
 ];
 
 const list = {
@@ -76,7 +77,6 @@ const onDragEnd = (result, columns, setColumns) => {
       },
     });
   }
-
   console.log("this is column: ", columns);
 };
 
@@ -90,10 +90,10 @@ const TaskBoard = () => {
       >
         {Object.entries(columns).map(([id, column]) => {
           return (
-            <div className="columns">
+            <div className="columns" key={id}>
               <div className="list-hearder">
                 <h3>{column.task_status}</h3>
-                <button>Add Task</button>
+                <button className="add-list-btn">Add Task</button>
               </div>
 
               <div className="droppable">
@@ -106,7 +106,7 @@ const TaskBoard = () => {
                         style={{
                           background: snapshot.isDraggingOver
                             ? "lightblue"
-                            : "lightgray",
+                            : "transparent",
                           padding: 4,
                           width: 250,
                           minHeight: 500,
@@ -132,12 +132,15 @@ const TaskBoard = () => {
                                       minHeight: "50px",
                                       backgroundColor: snapshot.isDragging
                                         ? "#263B4A"
-                                        : "#456C86",
-                                      color: "white",
+                                        : "white",
+                                      border: "1px solid #d9d9dd",
                                       ...provided.draggableProps.style,
                                     }}
                                   >
-                                    {task.content}
+                                    <div className="task-card">
+                                      <h3>{task.name}</h3>
+                                      <p>{task.description}</p>
+                                    </div>
                                   </div>
                                 );
                               }}
