@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap');
+
+.header {
+  /* font-family: 'Lobster', cursive; */
+  display: flex;
+  margin: auto;
+  color: white;
+  background-color: #04175A;
+  /* background-color: #0433dd; */
+  padding: 130px 140px 40px;
+  justify-content: space-between;
+  /* height: 70vh; */
+}
+
+.head1 {
+  font-family: serif;
+  width: 53rem;
+  font-size: 3.7rem;
+  margin: 55px 0;
+}
+
+.par {
+  /* font-family: cursive; */
+  width: 45rem;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 70px;
+}
+
+.img1 {
+  width: 740px;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+    color: #04175A;
+    background-color: white;
+    padding: 20px;
+  }
+
+  .head1 {
+    font-size: 2rem;
+    width: 100%;
+  }
+  
+  .par {
+    margin: auto;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  
+  .img1 {
+    display: none;
+  }
+}
