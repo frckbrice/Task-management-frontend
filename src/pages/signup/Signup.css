@@ -1,0 +1,97 @@
+.formBody {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-left: 8%;
+}
+
+.signupImg {
+  height: 682px;
+  width: 44%;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(#02027ba3, blue), url("../../assets/signupImg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.signupImg text,
+.logbtn {
+  font-size: 20px;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  }
+
+.logbtn {
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 5px 26px;
+  color: white;
+  margin-top: 45px;
+  cursor: pointer;
+}
+
+.signupForm {
+  width: 40%;
+  height: 582px;
+  padding: 50px;
+  background-color: #750505;
+}
+
+.signupform-h2,
+.signupform-p {
+  text-align: left;
+  width: 80%;
+  margin: auto;
+}
+
+.signupform-p {
+  font-size: 12px;
+  margin: 6px auto 20px;
+  color: grey;
+}
+
+.formlabel {
+  display: block;
+  font-size: 18px;
+  text-align: left;
+  font-weight: bold;
+  margin: 0 0 10px 68px;
+}
+
+.forminput {
+  width: 73%;
+  padding: 7px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.cred {
+  width: 80%;
+  margin: auto;
+}
+
+.message {
+  color: red;
+  font-size: 12px;
+  width: 70%;
+  margin: auto;
+}
+
+.signupbtn {
+  background-color: #000;
+  color: #fff;
+  width: 63%;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}

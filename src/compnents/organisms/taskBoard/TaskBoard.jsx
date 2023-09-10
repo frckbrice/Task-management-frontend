@@ -125,6 +125,7 @@ const TaskBoard = () => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    className="card"
                                     style={{
                                       userSelect: "none",
                                       padding: 16,

@@ -48,7 +48,9 @@
   cursor: pointer;
 }
 
-.task-card {
+.card {
+  max-height: 5rem;
+  overflow: hidden;
 }
 
 .task-card h3 {
