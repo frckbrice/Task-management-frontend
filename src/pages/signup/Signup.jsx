@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Signup.css";
-import Image from "../../assets/signupImg.png";
+import NavBar from "../../compnents/organisms/navBar/NavBar";
 
 function Signup() {
   const [fullName, setFullName] = useState("");
@@ -30,82 +30,89 @@ function Signup() {
   };
 
   return (
-    <div className="formBody">
-      <div className="signupImg">
-        <img src={Image} alt="signup" />
-        <div className="overlay">
+    <div>
+      <NavBar />
+      <div className="formBody">
+        <div className="signupImg">
           <text>Already have an Account...!</text>
+          <br />
           <button type="submit" className="logbtn">
             Login
           </button>
         </div>
+
+        <form className="signupForm" onSubmit={handleSubmit}>
+          <div className="cred">
+            {" "}
+            <h2 className="signupform-h2">Sign up</h2>
+            <p className="signupform-p">
+              Sign up for Tasktrec today and start getting things done!
+            </p>
+          </div>
+
+          <div className="fullname cred">
+            <label className="formlabel" htmlFor="fullName">
+              Full Name{" "}
+            </label>
+            <input
+              type="text"
+              name="fullName"
+              id="fullName"
+              className="forminput"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="email cred">
+            <label className="formlabel" htmlFor="email">
+              Email{" "}
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="forminput"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="password cred">
+            <label className="formlabel" htmlFor="password">
+              Password{" "}
+            </label>
+            <input
+              className="forminput"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="confirm-password cred">
+            <label className="formlabel" htmlFor="confirmPassword">
+              Confirm Password{" "}
+            </label>
+            <input
+              className="forminput"
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <p className="message">{message}</p>
+            <br />
+          </div>
+
+          <button type="submit" className="signupbtn cred">
+            Sign Up
+          </button>
+        </form>
       </div>
-
-      <form className="signupForm" onSubmit={handleSubmit}>
-        <h2 className="signupform-h2">Sign up</h2>
-        <p className="signupform-p">Sign up for Tasktrec today and start getting things done!</p>
-        <div className="fullname">
-          <label className="formlabel" htmlFor="fullName">
-            Full Name{" "}
-          </label>
-          <input
-            type="text"
-            name="fullName"
-            id="fullName"
-            className="forminput"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="email">
-          <label className="formlabel" htmlFor="email">
-            Email{" "}
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="forminput"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="password">
-          <label className="formlabel" htmlFor="password">
-            Password{" "}
-          </label>
-          <input
-            className="forminput"
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="confirm-password">
-          <label className="formlabel" htmlFor="confirmPassword">
-            Confirm Password{" "}
-          </label>
-          <input
-            className="forminput"
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-          <p className="message">{message}</p>
-          <br />
-        </div>
-
-        <button type="submit" className="signupbtn">
-          Sign Up
-        </button>
-      </form>
     </div>
   );
 }
