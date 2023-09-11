@@ -23,7 +23,7 @@
 .art2Text h4 {
   color: white;
   font-size: 3.8em;
-  width: 70%;
+  width: 65%;
   margin: 0 auto 20px;
   font-weight: 700;
   font-family: cursive;
@@ -33,7 +33,7 @@
   list-style-type: none;
   counter-reset: li-counter;
   font-size: 18px;
-  width: 80%;
+  width: 65%;
   margin: auto;
   display: flex;
   flex-direction: column;
