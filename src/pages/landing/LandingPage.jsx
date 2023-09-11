@@ -11,6 +11,7 @@ import Footer from "../../compnents/organisms/footer/Footer";
 const LandingPage = () => {
   return (
     <>
+    <div className="landingPage">
       <NavBar>
         <RightNav />
       </NavBar>
@@ -19,6 +20,7 @@ const LandingPage = () => {
       <Article2 />
       <Article3 />
       <Footer />
+      </div>
     </>
   );
 };

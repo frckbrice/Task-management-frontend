@@ -2,6 +2,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  z-index: 10;
 }
 
 #righttxtbtn {
@@ -73,7 +74,7 @@ ul li a {
     display: initial;
     position: absolute;
     font-size: 20px;
-    right: 25px;
+    right: 30px;
   }
 
   #bar {
@@ -82,14 +83,15 @@ ul li a {
   }
 
   #righttxtbtn {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
-    margin-top: 100%;
-    margin-left: -100%;
+    margin-top: 41vh;
+    /* width: 80vw; */
+    margin-left: -135%;
     padding: 30px;
     display: none;
     line-height: 2.5;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     background-color: #04175A;
     transition: 0.3s ease-in-out;
   }
@@ -106,5 +108,15 @@ ul li a {
   ul li a {
     color: white;
     font-size: 16px;
+  }
+
+  .btn {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .btn button {
+    /* padding: 0.5rem 1.5rem; */
+    font-size: smaller ;
   }
 }
