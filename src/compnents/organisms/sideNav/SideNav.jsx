@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // dummy data import
 import { projectData, members, collaboProjects } from "../../../dummyData";
 
@@ -14,8 +14,11 @@ import { IoMdAddCircle } from "react-icons/io";
 
 // components import
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
+import PopupModal from "../../molecules/popupModal/PopupModal";
 
 const SideNav = () => {
+  const [showProjectPopUp, setShowProjectPopUp] = useState(false);
+
   return (
     <div className="sideNav">
       <div className="project">
@@ -23,9 +26,20 @@ const SideNav = () => {
           <GoProjectSymlink className="title-icon" />
           <h3>Projects</h3>
         </div>
-        <DashActionBtn text="Add Project" className="addProjectBtn">
+        <DashActionBtn
+          text="Add Project"
+          className="addProjectBtn"
+          onClick={() => setShowProjectPopUp((prev) => !prev)}
+        >
           <IoMdAddCircle className="action-icon" />
         </DashActionBtn>
+
+        {showProjectPopUp && (
+          <div className="add-project-popup">
+            <PopupModal title="Add new project" />
+          </div>
+        )}
+
         {projectData.map((project, index) => (
           <div className="list project-list" key={index}>
             <p>{project.name}</p>

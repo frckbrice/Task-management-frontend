@@ -8,6 +8,7 @@ import NavIterms from "./nav_iterms/NavIterms";
 // import { projectData } from "../../dummyData";
 import SideNav from "../../compnents/organisms/sideNav/SideNav";
 import ProjectDetialsBar from "../../compnents/organisms/projectDetialsBar/ProjectDetialsBar";
+
 import TaskBoard from "../../compnents/organisms/taskBoard/TaskBoard";
 
 const Dashboard = () => {

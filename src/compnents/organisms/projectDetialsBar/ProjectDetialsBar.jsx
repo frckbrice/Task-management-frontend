@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "./ProjectDetialsBar.css";
 // react icons imports
@@ -7,24 +7,35 @@ import { GoProjectSymlink } from "react-icons/go";
 
 // component import
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
+import PopupModal from "../../molecules/popupModal/PopupModal";
+// custom hook import
 
 const ProjectDetialsBar = () => {
+  const [showPopup, setShowPopup] = useState(false);
+
   return (
-    <div className="detialsBar">
-      <div className="progress-section">
-        <div className="progess-icon">
-          <GoProjectSymlink />
+    <div className="bar-container">
+      <div className="detialsBar">
+        <div className="progress-section">
+          <div className="progess-icon">
+            <GoProjectSymlink />
+          </div>
+          <h3>Web Enterprice</h3>
         </div>
-        <h3>Web Enterprice</h3>
+        <div className="addMemberBtn">
+          <DashActionBtn onClick={() => setShowPopup((prev) => !prev)}>
+            <span>
+              <BsPersonAdd />
+            </span>
+            Add Members
+          </DashActionBtn>
+        </div>
       </div>
-      <div className="addMemberBtn">
-        <DashActionBtn>
-          <span>
-            <BsPersonAdd />
-          </span>
-          Add Members
-        </DashActionBtn>
-      </div>
+      {showPopup && (
+        <div className="add-member-popup">
+          <PopupModal onClick={() => setShowPopup(false)} />
+        </div>
+      )}
     </div>
   );
 };

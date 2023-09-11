@@ -9,6 +9,7 @@
   padding: 8px;
   overflow-x: hidden;
   bottom: 0;
+  position: relative;
 }
 
 .title {
@@ -29,6 +30,9 @@
   font-family: Roboto;
   font-weight: 500;
   font-size: 13px;
+}
+
+.project {
 }
 
 .project,
@@ -117,4 +121,11 @@
 .action-icon {
   color: #fff;
   font-size: 20px;
+}
+
+/*  add project popup styles */
+
+.add-project-popup {
+  position: absolute;
+  left: 30px;
 }

@@ -1,9 +1,14 @@
+.bar-container {
+  position: relative;
+}
+
 .detialsBar {
   background-color: #fff;
   width: auto;
   display: flex;
   justify-content: space-between;
   height: 70px;
+  /* position: absolute; */
 }
 
 .addMemberBtn {
@@ -30,4 +35,10 @@
   display: flex;
   height: auto;
   margin: auto 0;
+}
+
+.add-member-popup {
+  position: absolute;
+  top: 30px;
+  right: 0;
 }
