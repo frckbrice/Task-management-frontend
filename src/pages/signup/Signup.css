@@ -2,19 +2,21 @@
   display: flex;
   align-items: center;
   text-align: center;
-  margin-left: 8%;
+  width: 90%;
+  justify-content: center;
+  margin: auto;
 }
 
 .signupImg {
+  background: linear-gradient(#00008ba3, #0101b3e8), url("../../assets/signupImg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 682px;
-  width: 44%;
+  width: 35%;
   text-align: center;
   color: white;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(#02027ba3, blue), url("../../assets/signupImg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .signupImg text,
@@ -26,50 +28,55 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  }
+}
 
 .logbtn {
   background-color: transparent;
   border: 1px solid white;
   padding: 5px 26px;
+  font-size: smaller;
   color: white;
   margin-top: 45px;
   cursor: pointer;
 }
 
 .signupForm {
-  width: 40%;
-  height: 582px;
-  padding: 50px;
-  background-color: #750505;
+  width: 38%;
+  background-color: #413e3e0a;
+  height: 682px;
+}
+
+.signupform-h2 {
+  padding-top: 80px;
+  font-size: 28px;
 }
 
 .signupform-h2,
 .signupform-p {
   text-align: left;
-  width: 80%;
+  width: 75%;
   margin: auto;
 }
 
 .signupform-p {
   font-size: 12px;
-  margin: 6px auto 20px;
+  margin: 5px auto 20px;
   color: grey;
 }
 
 .formlabel {
   display: block;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
   font-weight: bold;
-  margin: 0 0 10px 68px;
+  margin: 0 0 10px 70px;
 }
 
 .forminput {
-  width: 73%;
-  padding: 7px;
+  width: 70%;
+  padding: 5px;
   font-size: 16px;
-  border: 2px solid #ccc;
+  border: 1px solid #ccc;
   margin-bottom: 20px;
 }
 
@@ -86,9 +93,9 @@
 }
 
 .signupbtn {
-  background-color: #000;
+  background-color: #0707a0;
   color: #fff;
-  width: 63%;
+  width: 58%;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
