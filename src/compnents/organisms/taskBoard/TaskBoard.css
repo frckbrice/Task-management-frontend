@@ -5,6 +5,7 @@
   height: 100%;
   max-width: 78vw;
   overflow: scroll;
+  /* position: relative; */
 }
 
 .columns {
@@ -61,4 +62,10 @@
 
 .task-card p {
   font-size: 12px;
+}
+
+.add-task {
+  position: absolute;
+  left: 41%;
+  top: 40%;
 }

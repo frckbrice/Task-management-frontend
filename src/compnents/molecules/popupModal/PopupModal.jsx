@@ -5,7 +5,7 @@ import { MdOutlineCancel } from "react-icons/md";
 
 import "./PopupModal.css";
 
-const PopupModal = ({ title, onClick }) => {
+const PopupModal = ({ title, onClick, children }) => {
   return (
     <div className="popup-modal">
       <div className="modal-top">
@@ -14,6 +14,7 @@ const PopupModal = ({ title, onClick }) => {
           <MdOutlineCancel />
         </button>
       </div>
+      {children}
     </div>
   );
 };

@@ -6,6 +6,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
+import PopupModal from "../../molecules/popupModal/PopupModal";
+import PopupForm from "../popupForm/PopupForm";
 
 const taskformBackend = [
   { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
@@ -82,9 +84,31 @@ const onDragEnd = (result, columns, setColumns) => {
 
 const TaskBoard = () => {
   const [columns, setColumns] = useState(list);
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [currentStatus, setCurrentTaskStatus] = useState("");
+
+  const togglePopup = (status = "") => {
+    setCurrentTaskStatus(status);
+    setShowAddTask((prev) => !prev);
+  };
 
   return (
     <div className="task-board">
+      {showAddTask && (
+        <div className="add-task">
+          <PopupModal
+            onClick={togglePopup}
+            title={`Add new ${currentStatus} task `}
+          >
+            <PopupForm
+              inputText="Enter task name"
+              textarea="Add task description..."
+              buttonText="Add Task"
+            />
+          </PopupModal>
+        </div>
+      )}
+
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >
@@ -93,7 +117,12 @@ const TaskBoard = () => {
             <div className="columns" key={id}>
               <div className="list-hearder">
                 <h3>{column.task_status}</h3>
-                <button className="add-list-btn">Add Task</button>
+                <button
+                  className="add-list-btn"
+                  onClick={() => togglePopup(column.task_status)}
+                >
+                  Add Task
+                </button>
               </div>
 
               <div className="droppable">
@@ -114,38 +143,41 @@ const TaskBoard = () => {
                       >
                         {column.tasks.map((task, index) => {
                           return (
-                            <Draggable
-                              key={task.id}
-                              draggableId={task.id}
-                              index={index}
-                            >
-                              {(provided, snapshot) => {
-                                return (
-                                  <div
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    className="card"
-                                    style={{
-                                      userSelect: "none",
-                                      padding: 16,
-                                      margin: "0 0 8px 0",
-                                      minHeight: "50px",
-                                      backgroundColor: snapshot.isDragging
-                                        ? "#263B4A"
-                                        : "white",
-                                      border: "1px solid #d9d9dd",
-                                      ...provided.draggableProps.style,
-                                    }}
-                                  >
-                                    <div className="task-card">
-                                      <h3>{task.name}</h3>
-                                      <p>{task.description}</p>
+                            <div className="edit">
+                              <button>edit</button>
+                              <Draggable
+                                key={task.id}
+                                draggableId={task.id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => {
+                                  return (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      className="card"
+                                      style={{
+                                        userSelect: "none",
+                                        padding: 16,
+                                        margin: "0 0 8px 0",
+                                        minHeight: "50px",
+                                        backgroundColor: snapshot.isDragging
+                                          ? "#263B4A"
+                                          : "white",
+                                        border: "1px solid #d9d9dd",
+                                        ...provided.draggableProps.style,
+                                      }}
+                                    >
+                                      <div className="task-card">
+                                        <h3>{task.name}</h3>
+                                        <p>{task.description}</p>
+                                      </div>
                                     </div>
-                                  </div>
-                                );
-                              }}
-                            </Draggable>
+                                  );
+                                }}
+                              </Draggable>
+                            </div>
                           );
                         })}
                         {provided.placeholder}

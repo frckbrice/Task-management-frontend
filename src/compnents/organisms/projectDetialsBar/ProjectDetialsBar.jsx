@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import "./ProjectDetialsBar.css";
 // react icons imports
 import { BsPersonAdd } from "react-icons/bs";
-import { GoProjectSymlink } from "react-icons/go";
 
 // component import
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
+import PopupForm from "../popupForm/PopupForm";
 // custom hook import
 
 const ProjectDetialsBar = () => {
@@ -17,9 +17,9 @@ const ProjectDetialsBar = () => {
     <div className="bar-container">
       <div className="detialsBar">
         <div className="progress-section">
-          <div className="progess-icon">
+          {/* <div className="progess-icon">
             <GoProjectSymlink />
-          </div>
+          </div> */}
           <h3>Web Enterprice</h3>
         </div>
         <div className="addMemberBtn">
@@ -33,7 +33,12 @@ const ProjectDetialsBar = () => {
       </div>
       {showPopup && (
         <div className="add-member-popup">
-          <PopupModal onClick={() => setShowPopup(false)} />
+          <PopupModal
+            title="Add new member"
+            onClick={() => setShowPopup(false)}
+          >
+            <PopupForm />
+          </PopupModal>
         </div>
       )}
     </div>

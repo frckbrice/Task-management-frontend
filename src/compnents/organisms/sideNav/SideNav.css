@@ -9,7 +9,7 @@
   padding: 8px;
   overflow-x: hidden;
   bottom: 0;
-  position: relative;
+  /* position: relative; */
 }
 
 .title {
@@ -128,4 +128,34 @@
 .add-project-popup {
   position: absolute;
   left: 30px;
+}
+
+.add-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.add-project-form textarea {
+  outline: none;
+  padding: 5px;
+  border: 1px solid #d9d9d9;
+
+  height: 100px;
+  font-size: 12px;
+}
+
+.add-project-form input {
+  outline: none;
+  border: 1px solid #d9d9d9;
+  font-size: 10px;
+  padding: 2px;
+}
+
+.add-project-form button {
+  background-color: #353636;
+  color: #fff;
+  border: none;
+  padding: 2px;
 }

@@ -10,14 +10,19 @@ import { GoProjectSymlink } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { IoMdAddCircle } from "react-icons/io";
+// import { IoMdAddCircle } from "react-icons/io";
 
 // components import
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
+import PopupForm from "../popupForm/PopupForm";
 
 const SideNav = () => {
   const [showProjectPopUp, setShowProjectPopUp] = useState(false);
+
+  const togglePopup = () => {
+    setShowProjectPopUp((prev) => !prev);
+  };
 
   return (
     <div className="sideNav">
@@ -29,14 +34,20 @@ const SideNav = () => {
         <DashActionBtn
           text="Add Project"
           className="addProjectBtn"
-          onClick={() => setShowProjectPopUp((prev) => !prev)}
+          onClick={togglePopup}
         >
-          <IoMdAddCircle className="action-icon" />
+          {/* <IoMdAddCircle className="action-icon" /> */}
         </DashActionBtn>
 
         {showProjectPopUp && (
           <div className="add-project-popup">
-            <PopupModal title="Add new project" />
+            <PopupModal title="Add new project" onClick={togglePopup}>
+              <PopupForm
+                inputText="Enter project Name"
+                textarea="Add project description"
+                buttonText="Done"
+              />
+            </PopupModal>
           </div>
         )}
 
