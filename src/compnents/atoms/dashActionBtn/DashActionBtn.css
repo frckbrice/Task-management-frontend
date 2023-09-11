@@ -2,11 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 35px;
+  height: 30px;
   padding: 0 5px;
   background-color: #1b34b5;
   border: none;
   color: #fff;
-  width: 140px;
+  width: 100%;
   gap: 5px;
+}
+
+.DashActionBtn:hover {
+  cursor: pointer;
+}
+
+.DashActionBtn:active {
+  background-color: #0f1e6a;
 }

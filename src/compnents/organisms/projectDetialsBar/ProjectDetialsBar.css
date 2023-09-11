@@ -1,0 +1,44 @@
+.bar-container {
+  position: relative;
+}
+
+.detialsBar {
+  background-color: #fff;
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  height: 70px;
+  /* position: absolute; */
+}
+
+.addMemberBtn {
+  display: flex;
+  flex-direction: column;
+  width: 130px;
+  height: auto;
+  margin: auto 0;
+}
+
+.progess-icon {
+  background-color: #1b34b5;
+  /* font-size: 30px; */
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+}
+
+.progress-section {
+  display: flex;
+  height: auto;
+  margin: auto 0;
+}
+
+.add-member-popup {
+  position: absolute;
+  top: 30px;
+  right: 0;
+}

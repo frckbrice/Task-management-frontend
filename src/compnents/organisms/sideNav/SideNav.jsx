@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // dummy data import
 import { projectData, members, collaboProjects } from "../../../dummyData";
 
@@ -10,12 +10,20 @@ import { GoProjectSymlink } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdPeopleOutline } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { IoMdAddCircle } from "react-icons/io";
+// import { IoMdAddCircle } from "react-icons/io";
 
 // components import
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
+import PopupModal from "../../molecules/popupModal/PopupModal";
+import PopupForm from "../popupForm/PopupForm";
 
 const SideNav = () => {
+  const [showProjectPopUp, setShowProjectPopUp] = useState(false);
+
+  const togglePopup = () => {
+    setShowProjectPopUp((prev) => !prev);
+  };
+
   return (
     <div className="sideNav">
       <div className="project">
@@ -23,6 +31,26 @@ const SideNav = () => {
           <GoProjectSymlink className="title-icon" />
           <h3>Projects</h3>
         </div>
+        <DashActionBtn
+          text="Add Project"
+          className="addProjectBtn"
+          onClick={togglePopup}
+        >
+          {/* <IoMdAddCircle className="action-icon" /> */}
+        </DashActionBtn>
+
+        {showProjectPopUp && (
+          <div className="add-project-popup">
+            <PopupModal title="Add new project" onClick={togglePopup}>
+              <PopupForm
+                inputText="Enter project Name"
+                textarea="Add project description"
+                buttonText="Done"
+              />
+            </PopupModal>
+          </div>
+        )}
+
         {projectData.map((project, index) => (
           <div className="list project-list" key={index}>
             <p>{project.name}</p>
@@ -63,9 +91,6 @@ const SideNav = () => {
           </div>
         ))}
       </div>
-      <DashActionBtn text="Add Project" className="addProjectBtn">
-        <IoMdAddCircle className="action-icon" />
-      </DashActionBtn>
     </div>
   );
 };

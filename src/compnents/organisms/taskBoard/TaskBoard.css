@@ -1,0 +1,71 @@
+.task-board {
+  margin-top: 5px;
+  display: flex;
+  /* justify-content: center; */
+  height: 100%;
+  max-width: 78vw;
+  overflow: scroll;
+  /* position: relative; */
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+
+.droppable {
+  margin: 8px;
+  border: 1px solid #d9d9dd;
+  background-color: transparent;
+}
+
+.add-list {
+  height: 20px;
+  width: 90rem;
+}
+
+.list-hearder {
+  /* background-color: red; */
+  /* width: 100px; */
+  margin: 8px;
+}
+
+.list-hearder h3 {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.add-list-btn {
+  width: 100%;
+  height: 30px;
+  margin-top: 5px;
+  border: 1px solid #d9d9dd;
+  background-color: #fff;
+  color: #1b34b5;
+}
+
+.add-list-btn:hover {
+  cursor: pointer;
+}
+
+/* .card {
+  max-height: 5rem;
+  overflow: hidden;
+} */
+
+.task-card h3 {
+  color: #f48207;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+
+.task-card p {
+  font-size: 12px;
+}
+
+.add-task {
+  position: absolute;
+  left: 41%;
+  top: 40%;
+}
