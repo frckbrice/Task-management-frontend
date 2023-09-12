@@ -1,13 +1,14 @@
 .bar-container {
   position: relative;
+  width: 100%;
 }
 
 .detialsBar {
   background-color: #fff;
-  width: auto;
   display: flex;
   justify-content: space-between;
   height: 70px;
+  padding-left: 10px;
   /* position: absolute; */
 }
 

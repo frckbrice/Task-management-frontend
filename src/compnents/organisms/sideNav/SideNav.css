@@ -3,11 +3,11 @@
 .sideNav {
   width: 210px;
   background-color: #fff;
-  height: 90vh;
+  /* height: 90vh; */
   border-left: 1px solid #d9d9d9;
   border-right: 1px solid #d9d9d9;
   padding: 8px;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   bottom: 0;
   /* position: relative; */
 }
@@ -154,7 +154,7 @@
 }
 
 .add-project-form button {
-  background-color: #353636;
+  background-color: #242525;
   color: #fff;
   border: none;
   padding: 2px;

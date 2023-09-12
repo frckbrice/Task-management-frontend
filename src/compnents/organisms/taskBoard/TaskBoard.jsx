@@ -8,6 +8,7 @@ import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
 import PopupModal from "../../molecules/popupModal/PopupModal";
 import PopupForm from "../popupForm/PopupForm";
+// import TaskOpen from "../taskOpen/TaskOpen";
 
 const taskformBackend = [
   { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
@@ -143,41 +144,42 @@ const TaskBoard = () => {
                       >
                         {column.tasks.map((task, index) => {
                           return (
-                            <div className="edit">
-                              <button>edit</button>
-                              <Draggable
-                                key={task.id}
-                                draggableId={task.id}
-                                index={index}
-                              >
-                                {(provided, snapshot) => {
-                                  return (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className="card"
-                                      style={{
-                                        userSelect: "none",
-                                        padding: 16,
-                                        margin: "0 0 8px 0",
-                                        minHeight: "50px",
-                                        backgroundColor: snapshot.isDragging
-                                          ? "#263B4A"
-                                          : "white",
-                                        border: "1px solid #d9d9dd",
-                                        ...provided.draggableProps.style,
-                                      }}
-                                    >
-                                      <div className="task-card">
-                                        <h3>{task.name}</h3>
-                                        <p>{task.description}</p>
-                                      </div>
+                            <Draggable
+                              key={task.id}
+                              draggableId={task.id}
+                              index={index}
+                            >
+                              {(provided, snapshot) => {
+                                return (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      alert(`you clicked on ${task.name}`)
+                                    }
+                                    className="card"
+                                    style={{
+                                      userSelect: "none",
+                                      padding: 16,
+                                      margin: "0 0 8px 0",
+                                      minHeight: "50px",
+                                      backgroundColor: snapshot.isDragging
+                                        ? "#263B4A"
+                                        : "white",
+
+                                      // border: "1px solid #d9d9dd",
+                                      ...provided.draggableProps.style,
+                                    }}
+                                  >
+                                    <div className="task-card">
+                                      <h3>{task.name}</h3>
+                                      <p>{task.description}</p>
                                     </div>
-                                  );
-                                }}
-                              </Draggable>
-                            </div>
+                                  </div>
+                                );
+                              }}
+                            </Draggable>
                           );
                         })}
                         {provided.placeholder}
@@ -190,7 +192,7 @@ const TaskBoard = () => {
           );
         })}
       </DragDropContext>
-      <button className="add-list">add list</button>
+      {/* <TaskOpen /> */}
     </div>
   );
 };
