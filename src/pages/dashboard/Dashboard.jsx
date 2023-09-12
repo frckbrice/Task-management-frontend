@@ -14,7 +14,7 @@ import TaskBoard from "../../compnents/organisms/taskBoard/TaskBoard";
 const Dashboard = () => {
   return (
     <div className="dashboard">
-      <NavBar className="dashNav" padding={"2%"}>
+      <NavBar className="dashNav">
         <div className="navContent">
           <NavIterms></NavIterms>
         </div>
