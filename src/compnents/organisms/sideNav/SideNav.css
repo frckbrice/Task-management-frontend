@@ -32,14 +32,15 @@
   font-size: 13px;
 }
 
-.project {
-}
-
 .project,
 .members,
 .collaboProjects {
   min-height: 189px;
   margin-bottom: 20px;
+}
+
+.project-list {
+  margin-top: 10px;
 }
 
 .project-list,
@@ -103,7 +104,8 @@
 
 .members-list:hover {
   cursor: pointer;
-  border-left: 10px solid #1b34b5;
+  border-left: 15px solid #1b34b5;
+  background-color: #f1f1f1;
 }
 
 .addProjectBtn {
