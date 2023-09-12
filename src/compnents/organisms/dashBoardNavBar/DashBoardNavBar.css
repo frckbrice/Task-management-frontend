@@ -1,0 +1,22 @@
+.dashBoardNav {
+  background-color: #fff;
+  padding: 3px 5px;
+  border-bottom: 1px solid #d3d3d3;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  /* width: 100vw; */
+}
+
+.favicon {
+  width: 50px;
+}
+
+.right-iterms {
+  margin-top: 15px;
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  margin: auto 0;
+  padding-right: 8px;
+}

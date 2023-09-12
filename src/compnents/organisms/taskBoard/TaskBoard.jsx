@@ -8,7 +8,7 @@ import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
 import PopupModal from "../../molecules/popupModal/PopupModal";
 import PopupForm from "../popupForm/PopupForm";
-// import TaskOpen from "../taskOpen/TaskOpen";
+import TaskOpen from "../taskOpen/TaskOpen";
 
 const taskformBackend = [
   { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
@@ -87,6 +87,7 @@ const TaskBoard = () => {
   const [columns, setColumns] = useState(list);
   const [showAddTask, setShowAddTask] = useState(false);
   const [currentStatus, setCurrentTaskStatus] = useState("");
+  const [openTask, setOpenTask] = useState(false);
 
   const togglePopup = (status = "") => {
     setCurrentTaskStatus(status);
@@ -155,9 +156,7 @@ const TaskBoard = () => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    onClick={() =>
-                                      alert(`you clicked on ${task.name}`)
-                                    }
+                                    onClick={() => setOpenTask((prev) => !prev)}
                                     className="card"
                                     style={{
                                       userSelect: "none",
@@ -192,7 +191,7 @@ const TaskBoard = () => {
           );
         })}
       </DragDropContext>
-      {/* <TaskOpen /> */}
+      {openTask && <TaskOpen onClick={() => setOpenTask((prev) => !prev)} />}
     </div>
   );
 };
