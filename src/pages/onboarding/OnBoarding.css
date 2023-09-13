@@ -1,0 +1,163 @@
+.onBoarding {
+  width: 450px;
+  font-family: sans-serif;
+  padding: 40px;
+  margin: 50px auto;
+}
+
+.welcome-card {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 5px 5px 5px #554f4f;
+  line-height: 2;
+}
+
+.Btns {
+  justify-content: space-between;
+  display: flex;
+  padding: 20px 20px;
+}
+
+.create-project {
+  box-shadow: 2px 2px 6px 1px black;
+  padding: 20px;
+}
+
+.projectCard,
+h3,
+p {
+  margin: 5px 0 15px;
+  text-align: center;
+}
+
+.projectCard,
+label {
+  margin-left: 15px;
+}
+
+#projectname {
+  margin: 5px 0 5px 40px;
+  border: 1px solid #80808025;
+  width: 50%;
+}
+
+.projectField {
+  display: flex;
+  align-items: center;
+}
+
+#projectdesc {
+  margin: 10px 0 5px 4px;
+  width: 50%;
+  height: 60px;
+  border: 1px solid #80808025;
+}
+
+.create-task {
+  color: white;
+  background-color: black;
+  text-align: center;
+  padding: 20px;
+}
+
+.create-task p {
+  width: 75%;
+  margin: 0 auto 15px; 
+}
+
+.create-task fieldset {
+  width: 70%;
+  border: 1px solid #80808063;
+  height: 70px;
+  margin: 5px auto;
+}
+
+.invitation {
+  padding: 20px;
+  box-shadow: 2px 5px 1px black;
+  text-align: center;
+}
+
+#invitemember {
+  padding: 0 5px;
+  border: 1px solid #80808063;
+}
+
+.inviteBtn {
+  border: none;
+  font-size: smaller;
+  padding: 1px 5px;
+  background-color: blue;
+  color: white;
+  cursor: pointer;
+}
+
+.congratulation {
+  color: white;
+  background-color: black;
+  padding: 20px;
+}
+
+/* .onBoarding {
+  width: 450px;
+  font-family: sans-serif;
+  padding: 40px;
+  margin: 50px auto;
+}
+
+.welcome-card {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 5px 5px 5px #554f4f;
+  line-height: 2;
+}
+
+.Btns {
+  justify-content: space-between;
+  display: flex;
+  padding: 20px 20px;
+}
+
+.create-project {
+  box-shadow: 2px 2px 6px 1px black;
+  padding: 20px;
+}
+
+.projectCard,
+.create-project h2,
+.create-project p {
+  margin: 5px 0 15px;
+  text-align: center;
+}
+
+.projectField {
+  margin-top: 10px;
+}
+
+.create-task,
+.invitation,
+.congratulation {
+  box-shadow: 2px 2px 6px 1px black;
+  padding: 20px;
+}
+
+.taskBtns,
+.inviteBtns,
+.congratsBtns {
+  justify-content: space-between;
+  display: flex;
+  padding: 20px 20px;
+}
+
+.cardForm {
+  display: flex;
+  align-items: center;
+}
+
+.cardForm input {
+  margin-right: 10px;
+} */

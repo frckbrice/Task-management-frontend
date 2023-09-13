@@ -2,17 +2,17 @@
   display: flex;
   align-items: center;
   text-align: center;
-  width: 90%;
+  width: 100%;
   justify-content: center;
   margin: auto;
 }
 
 .signupImg {
-  background: linear-gradient(#00008ba3, #0101b3e8), url("../../assets/signupImg.png");
+  background: linear-gradient(#0101b3ea, #0101b3e8), url("../../assets/signupImg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 682px;
-  width: 35%;
+  height: 100vh;
+  width: 50%;
   text-align: center;
   color: white;
   position: relative;
@@ -41,9 +41,11 @@
 }
 
 .signupForm {
-  width: 38%;
+  width:50%;
   background-color: #413e3e0a;
-  height: 682px;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .signupform-h2 {
@@ -54,7 +56,7 @@
 .signupform-h2,
 .signupform-p {
   text-align: left;
-  width: 75%;
+  /* width: 75%; */
   margin: auto;
 }
 
