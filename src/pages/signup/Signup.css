@@ -1,7 +1,8 @@
 .formBody {
   display: flex;
   text-align: center;
-  width: 80%;
+  width: 94%;
+  padding: 20px 0;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -34,32 +35,29 @@
 
 .logbtn {
   background-color: transparent;
-  border: 1px solid white;
-  padding: 5px 26px;
+  border: 1px solid #ffffffb5;
+  padding: 5px 25px;
   font-size: smaller;
   color: white;
-  margin-top: 45px;
+  margin-top: 50px;
   cursor: pointer;
 }
 
 .signupForm {
   width:45%;
   background-color: #413e3e0a;
-  /* height: 75vh; */
-  justify-content: center;
-  align-items: center;
 }
 
 .signupform-h2 {
-  padding-top: 80px;
+  padding-top: 60px;
   font-size: 24px;
 }
 
 .signupform-h2,
 .signupform-p {
-  text-align: left;
-  width: 75%;
-  margin: auto;
+  /* text-align: left; */
+  /* width: 75%; */
+  /* margin: auto; */
 }
 
 .signupform-p {
@@ -70,10 +68,8 @@
 
 .formlabel {
   display: block;
-  font-size: 14px;
-  text-align: left;
+  font-size: 15px;
   font-weight: bold;
-  margin: 0 0 10px 75px;
 }
 
 .forminput {
@@ -86,7 +82,11 @@
 
 .cred {
   width: 80%;
+  justify-content: left;
+  /* align-items: center; */
+  text-align: left;
   margin: auto;
+  padding: 0 0 0 30px;
 }
 
 .message {
@@ -100,9 +100,11 @@
 .signupbtn {
   background-color: #0707a0;
   color: #fff;
-  width: 58%;
+  text-align: center;
+  width: 60%;
   border: none;
   padding: 10px 20px;
+  margin-right: 50px;
   border-radius: 5px;
   font-size: 18px;
   cursor: pointer;

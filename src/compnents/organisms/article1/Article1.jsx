@@ -5,11 +5,11 @@ import Image from "../../../assets/art1Img.png";
 function Article1() {
   return (
     <div className="article1">
-      <table>
-        <tab className="tabs tab1">Docs</tab>
-        <tab className="tabs">Whiteboards</tab>
+      <table className="art1Table">
+        <tab className="tab1">Docs</tab>
+        <tab>Whiteboards</tab>
         <br />
-        <tab className="tabs">Dashboards</tab>
+        <tab>Dashboards</tab>
       </table>
 
       <div className="head2">
