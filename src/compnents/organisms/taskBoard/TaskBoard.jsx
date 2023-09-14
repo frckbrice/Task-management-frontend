@@ -40,6 +40,14 @@ const list = {
 
 // handle drag and drop changes
 const onDragEnd = (result, columns, setColumns) => {
+  console.log("results: ", result);
+  console.log("results dropableId: ", result.draggableId);
+  console.log("source dropableId: ", result.source.droppableId);
+
+  // if (result.droppableId === undefined) return;
+  // console.log("this is dropableId: ", result.draggableId);
+
+  // if (result.source[0].droggableId === result.description.droppableId) return;
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -110,7 +118,6 @@ const TaskBoard = () => {
           </PopupModal>
         </div>
       )}
-
       <DragDropContext
         onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
       >
