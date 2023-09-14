@@ -34,8 +34,8 @@ function OnBoarding() {
 
       {currentStep === 1 && (
         <div className="create-project">
-          <h2>Create your first project</h2>
-          <p>
+          <h2 className="createH2">Create your first project</h2>
+          <p className="createP">
             Input the name of your project and describe the purpose of that
             project.
           </p>

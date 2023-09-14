@@ -52,9 +52,8 @@ span {
   color: #04175A;
 }
 
-.projectCard,
-h2,
-p {
+.createH2,
+.createP {
   margin: 5px 0 15px;
   text-align: center;
 }
@@ -134,11 +133,10 @@ label {
 .congratulation {
   color: white;
   background-color: #04175A;
-  padding: 20px;
+  padding: 25px;
+  text-align: center;
 }
 
-.congratulation, h1, h3 {
-  align-items: center;
-  text-align: center;
+.congratulation, p {
   margin: 20px auto;
 }
