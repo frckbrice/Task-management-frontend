@@ -1,0 +1,144 @@
+.onBoarding {
+  width: 550px;
+  font-family: sans-serif;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.onBoarding
+.Btns
+button {
+  background-color: #04175A;
+  color: white;
+  padding: 5px 15px;
+  cursor: pointer;
+  border: none;
+  width: 110px;
+  border-radius: 10px;
+}
+
+.onBoarding
+.Btn
+button {
+background-color: #f48207;
+}
+
+.welcome-card {
+  background-color: #04175A;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 5px 5px 5px #554f4f;
+  line-height: 2;
+}
+
+.welcome-card
+span {
+  color: #f48207;
+}
+
+.Btns {
+  justify-content: space-between;
+  display: flex;
+  padding: 40px 10px 15px;
+}
+
+.create-project {
+  box-shadow: 1px 1px 1px 1px #0f0f1152;
+  padding: 20px;
+  color: #04175A;
+}
+
+.projectCard,
+h2,
+p {
+  margin: 5px 0 15px;
+  text-align: center;
+}
+
+.projectCard,
+label {
+  margin-left: 15px;
+}
+
+#projectname {
+  margin: 5px 0 5px 40px;
+  border: 1px solid #80808025;
+  width: 50%;
+}
+
+.projectField {
+  display: flex;
+  align-items: center;
+}
+
+#projectdesc {
+  margin: 10px 0 5px 4px;
+  width: 50%;
+  height: 60px;
+  border: 1px solid #80808025;
+}
+
+.create-task {
+  color: white;
+  background-color: #04175A;
+  text-align: center;
+  padding: 20px;
+}
+
+.create-task p {
+  width: 75%;
+  margin:20px auto; 
+}
+
+#taskinput {
+  width: 50%;
+  border: 1px solid #80808063;
+  background-color: #04175A;
+  margin: 15px auto;
+}
+
+.addtaskBtn {
+  padding: 9px 14px 7px;
+  border: none;
+  font-size: smaller;
+  background-color: #f48207;
+  color: white;
+  cursor: pointer;
+}
+
+.invitation {
+  padding: 20px;
+  color: #04175A;
+  box-shadow: 1px 1px 1px 1px #0f0f1152;
+  text-align: center;
+}
+
+#invitemember {
+  padding: 5px 13px;
+  border: 1px solid #80808063;
+}
+
+.inviteBtn {
+  border: none;
+  font-size: smaller;
+  padding: 5px 5px;
+  background-color: #04175A;
+  color: white;
+  cursor: pointer;
+}
+
+.congratulation {
+  color: white;
+  background-color: #04175A;
+  padding: 20px;
+}
+
+.congratulation, h1, h3 {
+  align-items: center;
+  text-align: center;
+  margin: 20px auto;
+}

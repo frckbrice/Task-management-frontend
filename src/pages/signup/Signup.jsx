@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 
@@ -9,6 +10,8 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (fullName && email && password && confirmPassword) {
@@ -16,6 +19,7 @@ function Signup() {
         if (password === confirmPassword) {
           // add authentication and backend connection here
           console.log("Form submitted successfully!");
+          navigate("/onboarding"); // navigate to onboarding page
         } else {
           setMessage("Passwords do not match");
         }
@@ -25,7 +29,7 @@ function Signup() {
         );
       }
     } else {
-      setMessage("Please fill in all required fields.");
+      setMessage("Please fill in all the fields provided above.");
     }
   };
 
@@ -36,7 +40,7 @@ function Signup() {
         <div className="signupImg">
           <text>Already have an Account...!</text>
           <br />
-          <button type="submit" className="logbtn">
+          <button type="submit" className="logbtn" onClick={()=> {navigate("/login")}}>
             Login
           </button>
         </div>
@@ -108,7 +112,7 @@ function Signup() {
             <br />
           </div>
 
-          <button type="submit" className="signupbtn cred">
+          <button type="submit" className="signupbtn cred" onClick={handleSubmit}>
             Sign Up
           </button>
         </form>

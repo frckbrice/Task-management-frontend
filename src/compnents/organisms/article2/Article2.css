@@ -1,38 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap');
 
 .article2 {
-  padding: 60px;
+  padding: 40px;
   background-color: #04175A;
   display: flex;
   color: white;
-  margin: 50px auto;
   align-items: center;
-  justify-content: space-evenly;
-
+  margin: auto;
+  justify-content: center;
+  height: 70vh;
 }
 
 .art2Text {
-  width: 22%;
-  /* margin: 0 5% 0 25%; */
+  width: 35%;
 }
 
 .art2Img {
   width: 600px;
-  /* margin: 0 5% 0 35%; */
+  margin-right: 90px;
 }
 
 .art2Text h4 {
   color: white;
   font-size: 3.8em;
+  width: 65%;
+  margin: 0 auto 20px;
   font-weight: 700;
   font-family: cursive;
-  margin-bottom: 20px;
 }
 
 .art2Text ul {
   list-style-type: none;
   counter-reset: li-counter;
   font-size: 18px;
+  width: 65%;
+  margin: auto;
   display: flex;
   flex-direction: column;
 }
@@ -98,17 +100,17 @@
     font-family: cursive;
     margin-bottom: 20px;
   }
-  
+
   .art2Text ul {
     font-size: 14px;
   }
-  
+
   .art2Text ul li {
     box-shadow: 3px 3px 2px orange;
     cursor: auto;
     transition: none;
   }
-  
+
   .art2Text li:hover {
     transform: none;
   }

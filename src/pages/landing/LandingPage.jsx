@@ -1,5 +1,6 @@
 import React from "react";
 import "./LandingPage.css";
+
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import RightNav from "../../compnents/molecules/rightNav/RightNav";
 import Header from "../../compnents/organisms/header/Header";
@@ -11,6 +12,7 @@ import Footer from "../../compnents/organisms/footer/Footer";
 const LandingPage = () => {
   return (
     <>
+    <div className="landingPage">
       <NavBar>
         <RightNav />
       </NavBar>
@@ -19,6 +21,7 @@ const LandingPage = () => {
       <Article2 />
       <Article3 />
       <Footer />
+      </div>
     </>
   );
 };
