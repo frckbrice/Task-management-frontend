@@ -92,7 +92,7 @@ function OnBoarding() {
         <div className="congratulation">
           <h1>Congratulations! "daisy"</h1>
           <h3>You have created your first project on Tasktrec</h3>
-          <p>
+          <p className="congratP">
             Explore more fields on your workspace like Project progress,
             sharing, and generating reports.
           </p>
