@@ -3,37 +3,25 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 
-function Signup() {
+function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [message, setMessage] = useState("");
-  const [triesLeft, setTriesLeft] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password) {
-      // Check if email and password match signup credentials
-      const storedEmail = localStorage.getItem("email");
-      const storedPassword = localStorage.getItem("password");
-      if (email !== storedEmail) {
-        setMessage("Email does not match the Email you used to signup.");
-      } else if (password !== storedPassword) {
-        // Allow user to try entering the wrong password up to 3 times
-        if (triesLeft > 0) {
-          setTriesLeft(triesLeft - 1);
-          setMessage(
-            `Password does not match the Password you used to signup. ${triesLeft} tries left.`
-          );
-        } else {
-          setMessage(
-            "You have exceeded the maximum number of tries. Click 'Forgot Password?' to reset your password."
-          );
-        }
-      } else {
+      if (password.length >= 6 && /\d/.test(password)) {
         console.log("Login successful!");
+        navigate("/dashboard")
+      }
+      else {
+        setMessage(
+          "Password must be at least 6 characters and contain at least one number."
+        ); 
       }
     } else {
       setMessage("Please fill in all required fields.");
@@ -90,7 +78,13 @@ function Signup() {
         <div className="loginImg">
           <text>Don't have an Account...?</text>
           <br />
-          <button type="submit" className="signbtn" onClick={() => {navigate("/signup")}}>
+          <button
+            type="submit"
+            className="signbtn"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
             Signup
           </button>
         </div>
@@ -99,4 +93,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;
