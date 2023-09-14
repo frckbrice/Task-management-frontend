@@ -4,7 +4,7 @@ import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 
 function Signup() {
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,7 +14,7 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (fullName && email && password && confirmPassword) {
+    if (username && email && password && confirmPassword) {
       if (password.length >= 6 && /\d/.test(password)) {
         if (password === confirmPassword) {
           // add authentication and backend connection here
@@ -34,7 +34,7 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div className="allForm">
       <NavBar />
       <div className="formBody">
         <div className="signupImg">
@@ -54,17 +54,17 @@ function Signup() {
             </p>
           </div>
 
-          <div className="fullname cred">
-            <label className="formlabel" htmlFor="fullName">
-              Full Name{" "}
+          <div className="username cred">
+            <label className="formlabel" htmlFor="username">
+              User Name{" "}
             </label>
             <input
               type="text"
-              name="fullName"
-              id="fullName"
+              name="username"
+              id="username"
               className="forminput"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
