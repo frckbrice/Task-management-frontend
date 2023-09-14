@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
-function Signup() {
+function Signin() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -11,6 +13,54 @@ function Signup() {
 
   const [message, setMessage] = useState("");
   const [triesLeft, setTriesLeft] = useState("");
+
+    const login = useGoogleLogin({
+      onSuccess: (codeResponse) => {
+        console.log("login goood");
+        // setUser(codeResponse);
+        if (codeResponse) {
+          axios
+            .get(
+              `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${codeResponse.access_token}`,
+                  Accept: "application/json",
+                },
+              }
+            )
+            .then((res) => {
+              console.log("connect to the backend");
+              // setProfile(res.data);
+              let data = {
+                username: res.data.name,
+                email: res.data.email,
+                picture: res.data.picture,
+                id: res.data.id,
+              };
+              axios({
+                url: "http://localhost:4000/auth/register",
+                method: "POST",
+                data: data,
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+            })
+            .then((res) => {
+              if (res && res.data) {
+                console.log("Form submitted successfully!");
+                navigate("/onboarding"); // navigate to onboarding page
+              }
+            })
+            .catch((err) => console.log("error", err));
+        }
+      },
+      onError: (error) => {
+        console.log("failed");
+        console.log("Login Failed:", error);
+      },
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,4 +149,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Signin;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
-import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 
