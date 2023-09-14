@@ -47,7 +47,7 @@
 
 .letstalkPar {
   line-height: 1.5;
-  margin: 0 0 15px 40px;
+  margin: 0 0 15px 10px;
 }
 
 .copyrightfooter {
@@ -59,64 +59,63 @@
   font-size: 14px;
 }
 
-  .inputlabel {
-    text-transform: uppercase;
-    font-size: 0.875em;
-    font-weight: 600;
+.inputlabel {
+  text-transform: uppercase;
+  font-size: 0.875em;
+  font-weight: 600;
+}
+
+.inputfield {
+  color: #fff;
+  font-size: 1rem;
+  border-style: none;
+  outline: none;
+  width: 75%;
+  margin-left: 30px;
+  padding: 0.8em 1em;
+  border: 2px solid transparent;
+  background-image: linear-gradient(#000000b4, #000),
+    linear-gradient(120deg, #0000ffac 0%, #80808085 30%, #ffa600d3 50%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 1.8em;
+  background-size: 200% 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .footercontainer {
+    background-color: black;
+    padding: 10px;
+    color: white;
   }
 
-  .inputfield {
-    color: #fff;
-    font-size: 1rem;
-    border-style: none;
-    outline: none;
-    width: 75%;
-    margin-left: 30px;
-    padding: 0.8em 1em;
-    border: 0.25em solid transparent;
-    background-image: linear-gradient(#000000b4, #000),
-      linear-gradient(120deg, #0000ffac 0%, #80808085 30%, #ffa600d3 50%);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    border-radius: 1.8em;
-    background-size: 200% 100%;
+  .head4 {
+    font-size: 1.3rem;
   }
 
-  @media screen and (max-width: 768px) {
-    .footercontainer {
-      background-color: black;
-      padding: 10px;
-      color: white;
-    }
-    
-    .head4 {
-      font-size: 1.3rem;
-    }
-    
-    .footer-divs {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    
-    .div {
-      width: 98%;
-    }
-    
-    .div h4 {
-      font-size: 26px;
-      color: blue;
-    }
-
-    .letstalkPar {
-      margin: 4px 0 20px;
-      font-size: 20px;
-    }
-    
-    .div2,
-    .div3,
-    .div4 {
-      display: none;
-    }
+  .footer-divs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-  
+
+  .div {
+    width: 98%;
+  }
+
+  .div h4 {
+    font-size: 26px;
+    color: blue;
+  }
+
+  .letstalkPar {
+    margin: 4px 0 20px;
+    font-size: 20px;
+  }
+
+  .div2,
+  .div3,
+  .div4 {
+    display: none;
+  }
+}

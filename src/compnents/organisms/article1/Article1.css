@@ -8,7 +8,7 @@
   width: 86%;
 }
 
-table {
+.art1Table {
   line-height: 2;
   margin: 2px 0 50px;
   width: 200px;
@@ -18,27 +18,25 @@ table {
 .tab1 {
   margin-right: 40px;
   text-decoration: underline 3px solid #1740d7;
-  /* border-bottom: 3px solid #1740d7; */
 }
 
 .head2 {
-  font-size: 2.5rem;
+  font-size: 34px;
   font-family: serif;
   font-weight: 700;
   margin: 25px auto 60px;
-  width: 1000px;
-  color: #020c32;
-  /* color: #1740d7; */
+  width: 65%;
+  color: #04175A;
 }
 
 .img2 {
-  width: 84rem;
+  width: 90%;
   zoom: 0.9;
 }
 
 @media screen and (max-width: 768px) {
   .article1 {
-    background-color: #020c32;
+    background-color: #04175A;
     color: white;
     margin: 40px auto;
     padding: 50px 0;

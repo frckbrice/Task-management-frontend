@@ -5,7 +5,7 @@ import Image from "../../../assets/Art2Img.png";
 function Article2() {
   return (
       <div className="article2">
-        <div>
+        <div className="art2ImgDiv">
           <img className="art2Img" src={Image} alt="Tracking todos" />
         </div>
 

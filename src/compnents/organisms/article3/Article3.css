@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap');
 
 .artContainer {
-  width: 86%;
+  width: 90%;
   margin: 50px auto;
   padding: 50px;
 }
@@ -12,14 +12,14 @@
 }
 
 .firstPar {
-  color: orange;
-  font-size: 1.5rem;
-  margin: 40px auto;
+  color: #f48207;
+  font-size: 22px;
+  margin: 30px auto;
   font-weight: 700;
 }
 
 .Art3head {
-  font-size: 2.8rem;
+  font-size: 44px;
   font-weight: 600;
   font-family: serif;
 }
@@ -38,23 +38,24 @@
 .art3b {
   display: flex;
   margin: 20px auto;
-  padding: 15px 0;
+  width: 80%;
+  padding: 40px;
   align-items: center;
   justify-content: space-around;
-  box-shadow: inset 0px 5px 10px 0px #0a34cb;
+  box-shadow: inset 0px 2px 5px 0px #0a34cb;
   ;
 }
 
 .art3bhead h3 {
-  font-size: 3rem;
+  font-size: 40px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
-  margin: 30px auto;
+  font-family: serif;
+  margin: 20px auto;
 }
 
 .art3bhead p {
-  margin: 0 auto 40px;
-  font-size: 18px;
+  margin: 0 auto 30px;
+  font-size: 16px;
 }
 
 @media screen and (max-width: 768px) {
@@ -62,7 +63,7 @@
   .artContainer {
     width: 100%;
     margin: 30px auto;
-    padding: 2px;
+    padding: 5px;
     background-color: #04175A;
     color: white;
     text-align: center;
@@ -74,14 +75,6 @@
     justify-content: center;
   }
 
-  .firstPar {
-    /* width: 96%; */
-  }
-
-  .Art3head {
-    /* width: 98%; */
-  }
-
   .secondPar {
     color: cornflowerblue;
     /* width: 100%; */
@@ -89,7 +82,7 @@
 
   .leftArt3,
   .rightArt3 {
-    width: 98%;
+    width: 95%;
   }
 
   .art3b {
