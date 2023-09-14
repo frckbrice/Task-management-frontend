@@ -1,25 +1,94 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
+import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 
 function Signup() {
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log("login goood");
+      // setUser(codeResponse);
+      if (codeResponse) {
+        axios
+          .get(
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
+            {
+              headers: {
+                Authorization: `Bearer ${codeResponse.access_token}`,
+                Accept: "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            console.log("connect to the backend");
+            // setProfile(res.data);
+            let data = {
+              username: res.data.name,
+              email: res.data.email,
+              picture: res.data.picture,
+              id: res.data.id,
+            };
+            axios({
+              url: "http://localhost:4000/auth/register",
+              method: "POST",
+              data: data,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          })
+          .then((res) => {
+            if (res && res.data) {
+              console.log("Form submitted successfully!");
+              navigate("/onboarding"); // navigate to onboarding page
+            }
+          })
+          .catch((err) => console.log("error", err));
+      }
+    },
+    onError: (error) => {
+      console.log("failed");
+      console.log("Login Failed:", error);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (fullName && email && password && confirmPassword) {
+    if (username && email && password && confirmPassword) {
       if (password.length >= 6 && /\d/.test(password)) {
         if (password === confirmPassword) {
           // add authentication and backend connection here
-          console.log("Form submitted successfully!");
-          navigate("/onboarding"); // navigate to onboarding page
+          let data = {
+            username,
+            email,
+            password,
+          };
+          axios({
+            url: "http://localhost:4000/auth/register",
+            method: "POST",
+            data: data,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => {
+              if (res && res.data) {
+                console.log("Form submitted successfully!");
+                navigate("/onboarding"); // navigate to onboarding page
+              }
+            })
+            .catch((err) => console.log("error", err));
         } else {
           setMessage("Passwords do not match");
         }
@@ -40,9 +109,20 @@ function Signup() {
         <div className="signupImg">
           <text>Already have an Account...!</text>
           <br />
-          <button type="submit" className="logbtn" onClick={()=> {navigate("/login")}}>
+          <button
+            type="submit"
+            className="logbtn"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             Login
           </button>
+          <div className="cred" id="signInDiv">
+            <button onClick={login} className="signupButton">
+              <FcGoogle className="mr" size={40} /> Sign in with Google
+            </button>
+          </div>
         </div>
 
         <form className="signupForm" onSubmit={handleSubmit}>
@@ -54,17 +134,17 @@ function Signup() {
             </p>
           </div>
 
-          <div className="fullname cred">
-            <label className="formlabel" htmlFor="fullName">
+          <div className="username cred">
+            <label className="formlabel" htmlFor="username">
               Full Name{" "}
             </label>
             <input
               type="text"
-              name="fullName"
-              id="fullName"
+              name="username"
+              id="username"
               className="forminput"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -112,7 +192,11 @@ function Signup() {
             <br />
           </div>
 
-          <button type="submit" className="signupbtn cred" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="signupbtn cred"
+            onClick={handleSubmit}
+          >
             Sign Up
           </button>
         </form>
