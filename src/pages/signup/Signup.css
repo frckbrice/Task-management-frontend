@@ -1,10 +1,14 @@
+.allForm {
+  position: relative;
+}
+
 .formBody {
   display: flex;
   text-align: center;
   width: 94%;
   padding: 20px 0;
   position: absolute;
-  top: 50%;
+  top: 625%;
   left: 50%;
   transform: translate(-50%, -50%);
   justify-content: center;
@@ -51,13 +55,6 @@
 .signupform-h2 {
   padding-top: 60px;
   font-size: 24px;
-}
-
-.signupform-h2,
-.signupform-p {
-  /* text-align: left; */
-  /* width: 75%; */
-  /* margin: auto; */
 }
 
 .signupform-p {
