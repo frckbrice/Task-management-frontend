@@ -3,11 +3,11 @@
 .sideNav {
   width: 210px;
   background-color: #fff;
-  height: 90vh;
+  /* height: 90vh; */
   border-left: 1px solid #d9d9d9;
   border-right: 1px solid #d9d9d9;
   padding: 8px;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   bottom: 0;
   /* position: relative; */
 }
@@ -32,14 +32,15 @@
   font-size: 13px;
 }
 
-.project {
-}
-
 .project,
 .members,
 .collaboProjects {
   min-height: 189px;
   margin-bottom: 20px;
+}
+
+.project-list {
+  margin-top: 10px;
 }
 
 .project-list,
@@ -103,7 +104,8 @@
 
 .members-list:hover {
   cursor: pointer;
-  border-left: 10px solid #1b34b5;
+  border-left: 15px solid #1b34b5;
+  background-color: #f1f1f1;
 }
 
 .addProjectBtn {
@@ -154,7 +156,7 @@
 }
 
 .add-project-form button {
-  background-color: #353636;
+  background-color: #242525;
   color: #fff;
   border: none;
   padding: 2px;

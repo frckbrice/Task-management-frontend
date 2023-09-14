@@ -1,0 +1,86 @@
+.taskOpen {
+  position: absolute;
+  left: 30%;
+  /* top: 50%; */
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  width: 40vw;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  min-height: 30vh;
+  justify-content: space-between;
+  padding: 5px 5px 10px;
+  border-radius: 10px;
+}
+
+.head-text {
+  display: flex;
+  justify-content: space-between;
+}
+
+.head-text button {
+  width: 30px;
+  background-color: transparent;
+  font-size: 20px;
+  border: none;
+  transition: 0.3s all ease-in-out;
+}
+
+.head-text button:hover {
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.content {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.content h3 {
+  font-size: 12px;
+}
+
+.content p {
+  font-size: 12px;
+}
+
+.updateBtn button {
+  background-color: transparent;
+  /* width: 30px; */
+  border: none;
+  margin-right: 5px;
+  align-items: center;
+}
+
+.updateBtn button span {
+  font-size: 15px;
+}
+
+.assign-task {
+  padding: 0 8px;
+  /* border-radius: 20px; */
+  color: #1b34b5;
+  outline: none;
+  /* background-color: #d1caca; */
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border: none;
+  font-weight: 500;
+  transition: 0.3s all ease-in-out;
+}
+
+.assign-task:hover {
+  cursor: pointer;
+}
+
+.assign-task:active {
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}

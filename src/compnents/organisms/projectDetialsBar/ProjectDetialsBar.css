@@ -1,19 +1,22 @@
 .bar-container {
   position: relative;
+  width: 100%;
 }
 
 .detialsBar {
   background-color: #fff;
-  width: auto;
   display: flex;
   justify-content: space-between;
   height: 70px;
+  padding-left: 10px;
   /* position: absolute; */
 }
 
 .addMemberBtn {
   display: flex;
   flex-direction: column;
+  border: 1px solid #1b34b5;
+  /* border-radius: 20px; */
   width: 130px;
   height: auto;
   margin: auto 0;

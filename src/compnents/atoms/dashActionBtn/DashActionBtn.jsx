@@ -2,7 +2,7 @@ import React from "react";
 import "./DashActionBtn.css";
 const DashActionBtn = ({ text, children, onClick, className }) => {
   return (
-    <div className={className}>
+    <div className={className && "action_btn"}>
       <button onClick={onClick} className="DashActionBtn">
         {children}
         {text}

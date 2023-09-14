@@ -3,7 +3,8 @@
   display: flex;
   /* justify-content: center; */
   height: 100%;
-  max-width: 78vw;
+  width: 82vw;
+  /* width: fit-content; */
   overflow: scroll;
   /* position: relative; */
 }
@@ -29,6 +30,7 @@
   /* background-color: red; */
   /* width: 100px; */
   margin: 8px;
+  /* position: relative; */
 }
 
 .list-hearder h3 {
@@ -49,10 +51,10 @@
   cursor: pointer;
 }
 
-/* .card {
-  max-height: 5rem;
-  overflow: hidden;
-} */
+.card {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
 
 .task-card h3 {
   color: #f48207;
@@ -61,11 +63,19 @@
 }
 
 .task-card p {
-  font-size: 12px;
+  font-size: 10px;
+  color: #393838;
 }
 
 .add-task {
   position: absolute;
   left: 41%;
   top: 40%;
+}
+
+.task-option-btn {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #d9d9dd;
+  margin-top: 5px;
 }
