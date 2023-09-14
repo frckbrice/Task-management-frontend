@@ -3,42 +3,41 @@
 .header {
   /* font-family: 'Lobster', cursive; */
   display: flex;
-  margin: auto;
-  width: 100%;
   align-items: center;
   justify-content: center;
   color: white;
+  padding: 50px 0;
+  object-fit: contain;
   background-color: #04175A;
-  height: 78vh;
 }
 
-.HeaderTxt {
-  margin: 0 0 35px 150px;
-}
+/* .HeaderTxt {
+  margin: 0 0 35px 80px;
+} */
 
 .HeaderTxt,
 .HeaderImg {
-  width: 45%;
+  width: 40%;
 }
 
 .head1 {
   font-family: serif;
-  width: 97%;
+  width: 100%;
   text-align: left;
-  font-size: 3.5rem;
-  margin: 50px 0;
+  font-size: 50px;
+  margin:  0 0 40px 0;
 }
 
 .par {
-  width: 80%;
+  width: 75%;
   text-align: left;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 300;
-  margin-bottom: 50px;
+  margin: 50px 0;
 }
 
 .img1 {
-  width: 80%;
+  width: 100%;
   object-fit: contain;
   margin: 60px 0 0;
 }
@@ -46,13 +45,10 @@
 @media screen and (max-width: 768px) {
   .header {
     flex-direction: column;
-    display: flex;
     text-align: center;
     color: #04175A;
     background-color: white;
-    padding: 10px;
-    /* width: 100%; */
-    height: 50vh;
+    padding: 50px 0;
   }
 
   .HeaderTxt {
@@ -63,13 +59,14 @@
   .head1 {
     font-size: 1.8rem;
     margin: auto;
-    /* width: 100%; */
+    text-align: center;
   }
   
   .par {
     margin: auto;
     font-size: 1.2rem;
     font-weight: 500;
+    text-align: center;
     margin: 30px auto;
     /* width: 100%; */
   }
