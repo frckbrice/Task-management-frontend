@@ -103,7 +103,7 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div className="allForm">
       <NavBar />
       <div className="formBody">
         <div className="signupImg">
@@ -136,7 +136,9 @@ function Signup() {
 
           <div className="username cred">
             <label className="formlabel" htmlFor="username">
+
               Full Name{" "}
+
             </label>
             <input
               type="text"

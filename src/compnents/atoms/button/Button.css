@@ -1,18 +1,18 @@
 .StrtBtn,
 .StrtBtn:after {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
-  height: 89px;
-  width: 290px;
+  height: 85px;
+  width: 240px;
   font-family: sans-serif;
   background: linear-gradient(45deg, transparent 10%, #F48207 10%);
   border: 0;
   color: #fff;
   letter-spacing: 3px;
-  box-shadow: 50px 0px 0px #f48207da;
+  box-shadow: 40px 0px 0px #f48207da;
   outline: transparent;
   position: relative;
-  user-select: none;
+  user-select: none; 
   -webkit-user-select: none;
   touch-action: manipulation;
 }
@@ -38,7 +38,7 @@
 }
 
 .StrtBtn:hover:after {
-  animation: 1s glitch;
+  animation: 1.5s glitch;
   animation-timing-function: steps(2, end);
 }
 
@@ -94,9 +94,11 @@
 
   .StrtBtn,
   .StrtBtn:after {
-    width: 200px;
-    height: 66px;
+    width: 180px;
+    height: 60px;
     letter-spacing: 0;
     box-shadow: 10px 0px 0px #f48207da;
+    justify-content: center;
+    text-align: center;
   }
 }
