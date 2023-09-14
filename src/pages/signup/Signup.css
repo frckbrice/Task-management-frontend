@@ -1,15 +1,16 @@
 .formBody {
   display: flex;
-  align-items: center;
   text-align: center;
   width: 80%;
-  /* height: 50vh; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   justify-content: center;
-  margin: auto;
 }
 
 .signupImg {
-  background: linear-gradient(#0101b3ea, #0101b3e8), url("../../assets/signupImg.png");
+  background: linear-gradient(#0101b3f3, #0101b3f0), url("../../assets/signupImg.png");
   background-size: cover;
   background-repeat: no-repeat;
   height: 75vh;
@@ -51,7 +52,7 @@
 
 .signupform-h2 {
   padding-top: 80px;
-  font-size: 28px;
+  font-size: 24px;
 }
 
 .signupform-h2,
@@ -69,10 +70,10 @@
 
 .formlabel {
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   text-align: left;
   font-weight: bold;
-  margin: 0 0 10px 70px;
+  margin: 0 0 10px 75px;
 }
 
 .forminput {

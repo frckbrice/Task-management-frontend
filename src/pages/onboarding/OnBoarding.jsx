@@ -1,16 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./OnBoarding.css";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const handleSkip = () => {
-    // navigate to dashboard
-  };
-
-  const handleOk = () => {
-    // navigate to dashboard
-  };
+  const navigate = useNavigate()
 
   const handlePrev = () => {
     setCurrentStep(currentStep - 1);
@@ -31,7 +26,7 @@ function OnBoarding() {
           </p>
           <h4>Let's guide you to get started</h4>
           <div className="Btn Btns">
-            <button onClick={handleSkip}>Skip</button>
+            <button onClick={() => {navigate("/dashboard")}}>Skip</button>
             <button onClick={handleNext}>Get Started</button>
           </div>
         </div>
@@ -103,7 +98,7 @@ function OnBoarding() {
           </p>
           <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>
-            <button onClick={handleOk}>OK</button>
+            <button onClick={() => {navigate("/dashboard")}}>OK</button>
           </div>
         </div>
       )}

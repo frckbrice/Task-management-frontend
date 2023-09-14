@@ -1,8 +1,11 @@
 .onBoarding {
-  width: 450px;
+  width: 550px;
   font-family: sans-serif;
   padding: 40px;
-  margin: 50px auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .onBoarding
@@ -24,7 +27,7 @@ background-color: #f48207;
 }
 
 .welcome-card {
-  background-color: black;
+  background-color: #04175A;
   color: white;
   padding: 20px;
   text-align: center;
@@ -46,10 +49,11 @@ span {
 .create-project {
   box-shadow: 1px 1px 1px 1px #0f0f1152;
   padding: 20px;
+  color: #04175A;
 }
 
 .projectCard,
-h3,
+h2,
 p {
   margin: 5px 0 15px;
   text-align: center;
@@ -80,7 +84,7 @@ label {
 
 .create-task {
   color: white;
-  background-color: black;
+  background-color: #04175A;
   text-align: center;
   padding: 20px;
 }
@@ -93,7 +97,7 @@ label {
 #taskinput {
   width: 50%;
   border: 1px solid #80808063;
-  background-color: black;
+  background-color: #04175A;
   margin: 15px auto;
 }
 
@@ -129,6 +133,12 @@ label {
 
 .congratulation {
   color: white;
-  background-color: black;
+  background-color: #04175A;
   padding: 20px;
+}
+
+.congratulation, h1, h3 {
+  align-items: center;
+  text-align: center;
+  margin: 20px auto;
 }

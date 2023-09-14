@@ -17,6 +17,10 @@ function App() {
       element: <Signup />,
     },
     {
+      path: "/login",
+      element: <Login />,
+    },
+    {
       path: "/onboarding",
       element: <OnBoarding />,
     },
