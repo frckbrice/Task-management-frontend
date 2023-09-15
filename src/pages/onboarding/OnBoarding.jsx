@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OnBoarding.css";
+import axios from 'axios';
+import { TmsContext } from "../../context/TaskBoardContext";
+import toast from "react-hot-toast";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [projectName, setProjectName] = useState('');
+  const [projectdescription, setProjectDescription] = useState('');
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { token, setProjectname } = useContext(TmsContext);
 
   const handlePrev = () => {
     setCurrentStep(currentStep - 1);
@@ -15,18 +23,49 @@ function OnBoarding() {
     setCurrentStep(currentStep + 1);
   };
 
+  const createProject = async () => {
+    let data = {
+      name: projectName,
+      description: projectdescription,
+    };
+
+    const response = await axios({
+      url: "https://tms-gdb08-0923.onrender.com/projects",
+      method: "POST",
+      data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (response && response.data) {
+      toast.success("project successfully created");
+      setProjectname(response.data.name);
+    } else {
+      toast.error("Failed to create project.");
+    }
+  }
+
   return (
     <div className="onBoarding">
       {currentStep === 0 && (
         <div className="welcome-card">
           <h1>welcome! "daisy"</h1>
           <p>
-            We are delighted to have you on board. We built <span>TaskTrec</span> to help you
-            or you and your team stay organised and to automate work.
+            We are delighted to have you on board. We built{" "}
+            <span>TaskTrec</span> to help you or you and your team stay
+            organised and to automate work.
           </p>
           <h4>Let's guide you to get started</h4>
           <div className="Btn Btns">
-            <button onClick={() => {navigate("/dashboard")}}>Skip</button>
+            <button
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              Skip
+            </button>
             <button onClick={handleNext}>Get Started</button>
           </div>
         </div>
@@ -39,18 +78,58 @@ function OnBoarding() {
             Input the name of your project and describe the purpose of that
             project.
           </p>
-          <card className="projectCard">
+          <div className="projectCard">
             <label>Name</label>
-            <input type="text" id="projectname" />
+            <input
+              type="text"
+              id="projectname"
+              name="project-name"
+              className="form-input"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+            />{" "}
+            <br />
+            <label>starting date : </label>
+            <input
+              type="date"
+              id="start_date"
+              name="start_date"
+              className="form-input"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            <br />
+            <label>estimate ending date : </label>
+            <input
+              type="date"
+              id="end_date"
+              name="end_date"
+              className="form-input"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
             <br />
             <div className="projectField">
               <label>Description</label>
-              <input type="text" id="projectdesc" className="forminput" />
+              <textarea
+                id="projectdesc"
+                className="forminput"
+                name="projectdesc"
+                value={projectdescription}
+                onChange={(e) => setProjectDescription(e.target.value)}
+              />
             </div>
-          </card>
+          </div>
           <div className="projectBtns Btns">
             <button onClick={handlePrev}>Prev</button>
-            <button onClick={handleNext}>Next</button>
+            <button
+              onClick={() => {
+                handleNext();
+                createProject();
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       )}
@@ -98,7 +177,13 @@ function OnBoarding() {
           </p>
           <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>
-            <button onClick={() => {navigate("/dashboard")}}>OK</button>
+            <button
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              OK
+            </button>
           </div>
         </div>
       )}
