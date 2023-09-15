@@ -182,7 +182,7 @@ const TaskBoard = () => {
                                         minHeight: "50px",
                                         backgroundColor: snapshot.isDragging
                                           ? "#263B4A"
-                                          : "white",
+                                          : "#fff",
 
                                         // border: "1px solid #d9d9dd",
                                         ...provided.draggableProps.style,
