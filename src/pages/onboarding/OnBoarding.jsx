@@ -15,7 +15,39 @@ function OnBoarding() {
   const [error, setError] = useState()
 
   const navigate = useNavigate();
-  const { token, setProjectname } = useContext(TmsContext);
+  const { token, setProjectname, userData } = useContext(TmsContext);
+
+  const addTask = async (taskData) => {
+    const response = await axios("tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add task");
+    }
+
+    const data = await response.json();
+    return data;
+  };
+
+  const handleAddTask = async () => {
+    const taskName = document.getElementById('taskinput').value;
+    const taskData = { name: taskName };
+    try {
+      const createdTask = await addTask(taskData);
+      // Update state with the created task data
+      setTasks([...tasks, createdTask]);
+      // Clear the input field
+      document.getElementById('taskinput').value = '';
+    } catch (error) {
+      // Handle error, e.g. display error message to user
+      setError("Can't create task", error.message);
+    }
+  };
 
   const addTask = async (taskData) => {
     const response = await axios("tasks", {
@@ -76,6 +108,7 @@ function OnBoarding() {
     if (response && response.data) {
       toast.success("project successfully created");
       setProjectname(response.data.name);
+      console.log(response.data)
     } else {
       toast.error("Failed to create project.");
     }
@@ -85,7 +118,7 @@ function OnBoarding() {
     <div className="onBoarding">
       {currentStep === 0 && (
         <div className="welcome-card">
-          <h1>welcome! "daisy"</h1>
+          <h1>welcome! {userData.username}</h1>
           <p>
             We are delighted to have you on board. We built{" "}
             <span>TaskTrec</span> to help you or you and your team stay
