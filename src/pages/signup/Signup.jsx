@@ -60,7 +60,7 @@ function Signup() {
               })
               .catch((err) => console.log("error registering a user", err));
           })
-          .catch((err) => console.log("error fectching user from google", err));
+          .catch((err) => console.log("error fetching user from google", err));
       }
     },
     onError: (error) => {
@@ -77,7 +77,7 @@ function Signup() {
     if (username && email && password && confirmPassword) {
       if (password.length >= 6 && /\d/.test(password)) {
         if (password === confirmPassword) {
-          // add authentication and backend connection here
+          //authentication and backend connection
           let data = {
             username,
             email,
