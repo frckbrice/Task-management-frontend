@@ -71,6 +71,7 @@
   position: absolute;
   left: 41%;
   top: 40%;
+  z-index: 5;
 }
 
 .task-option-btn {
