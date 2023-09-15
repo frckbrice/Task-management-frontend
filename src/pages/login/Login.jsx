@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
+import { TmsContext } from "../../context/TaskBoardContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,115 +13,119 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState("");
-  const [profile, setProfile] = useState("");
+  // const [user, setUser] = useState("");
+  // const [profile, setProfile] = useState("");
 
-    const login = useGoogleLogin({
-      onSuccess: (codeResponse) => {
-        console.log("login goood");
-        // setUser(codeResponse);
-        if (codeResponse) {
-          axios
-            .get(
-              `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
-              {
-                headers: {
-                  Authorization: `Bearer ${codeResponse.access_token}`,
-                  Accept: "application/json",
-                },
-              }
-            )
-            .then((res) => {
-              console.log("connect to the backend : registration");
-              // setProfile(res.data);
-              if (res && res.data) {
-              }
-              let data = {
-                username: res.data.name,
-                email: res.data.email,
-                picture: res.data.picture,
-                id: res.data.id,
-              };
-              axios({
-                url: "https://tms-gdb08-0923.onrender.com/auth/register",
-                method: "POST",
-                data: data,
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              })
-                .then((response) => {
-                  if (response && response.data) {
-                    console.log(response.data);
-                    let data = {
-                      email: response.data.email,
-                    };
-                    axios({
-                      url: "https://tms-gdb08-0923.onrender.com/auth/login",
-                      method: "POST",
-                      data: data,
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                    })
-                      .then((response) => {
-                        if (response && response.data) {
-                          console.log(
-                            "User successfully logged in! cookie: ",
-                            response.data
-                          );
-                          navigate("/dashboard"); // navigate to onboarding page
-                        }
-                      })
-                      .catch((err) =>
-                        console.log("error loggin in", err.code, err.message)
-                      );
-                  }
-                })
-                .catch((err) =>
-                  console.log("error registering to db", err.code, err.message)
-                );
+  const { setToken } = useContext(TmsContext);
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log("login goood");
+      // setUser(codeResponse);
+      if (codeResponse) {
+        axios
+          .get(
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
+            {
+              headers: {
+                Authorization: `Bearer ${codeResponse.access_token}`,
+                Accept: "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            console.log("connect to the backend : registration");
+            // setProfile(res.data);
+            if (res && res.data) {
+            }
+            let data = {
+              username: res.data.name,
+              email: res.data.email,
+              picture: res.data.picture,
+              id: res.data.id,
+            };
+            axios({
+              url: "https://tms-gdb08-0923.onrender.com/auth/register",
+              method: "POST",
+              data: data,
+              headers: {
+                "Content-Type": "application/json",
+              },
             })
-            .catch((err) =>
-              console.log(
-                "error fetching user data from google",
-                err.code,
-                err.message
-              )
-            );
-        }
-      },
-      onError: (error) => {
-        console.log("failed");
-        console.log("Login Failed:", error);
-      },
-    });
+              .then((response) => {
+                if (response && response.data) {
+                  console.log(response.data);
+                  let data = {
+                    email: response.data.email,
+                  };
+                  axios({
+                    url: "https://tms-gdb08-0923.onrender.com/auth/login",
+                    method: "POST",
+                    data: data,
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                  })
+                    .then((response) => {
+                      if (response && response.data) {
+                        console.log(
+                          "User successfully logged in! cookie: ",
+                          response.data
+                        );
+                        setToken(response.data);
+                        navigate("/dashboard"); // navigate to onboarding page
+                      }
+                    })
+                    .catch((err) =>
+                      console.log("error loggin in", err.code, err.message)
+                    );
+                }
+              })
+              .catch((err) =>
+                console.log("error registering to db", err.code, err.message)
+              );
+          })
+          .catch((err) =>
+            console.log(
+              "error fetching user data from google",
+              err.code,
+              err.message
+            )
+          );
+      }
+    },
+    onError: (error) => {
+      console.log("failed");
+      console.log("Login Failed:", error);
+    },
+  });
 
-  console.log(user);
-  console.log(profile);
+  // console.log(user);
+  // console.log(profile);
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password) {
       if (password.length >= 6 && /\d/.test(password)) {
-        
         let data = {
           email,
           password,
         };
         axios({
-          url: "http://localhost:5000/auth/login",
+          url: "https://tms-gdb08-0923.onrender.com/auth/login",
           method: "POST",
           data: data,
           headers: {
             "Content-Type": "application/json",
+            'Access-Control-Allow-Credentials': 'true',
           },
+          withCredentials: true,
         })
           .then((res) => {
             if (res && res.data.status === 200) {
               console.log("Login successful!");
-              navigate("/dashboard");// navigate to onboarding page
+              navigate("/dashboard"); // navigate to onboarding page
             }
           })
           .catch((err) => console.log("error login in", err.message));
@@ -182,7 +187,7 @@ function Login() {
         </form>
 
         <div className="loginImg">
-          <text>Don't have an Account...?</text>
+          <h3>Don't have an Account...?</h3>
           <br />
           <button
             type="submit"
