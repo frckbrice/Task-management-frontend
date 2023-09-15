@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import jwtDecode from 'jwt-decode';
-import { TmsContext } from "../../context/TaskBoardContext";
+import { TmsContext } from "../context/TaskBoardContext";
 
 
 const useAuth = () => {
