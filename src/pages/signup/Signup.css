@@ -88,9 +88,10 @@
 
 .message {
   color: red;
-  font-size: 12px;
-  width: 70%;
-  margin: auto;
+  font-size: 13px;
+  width: 75%;
+  /* margin: auto; */
+
 }
 
 .signupButton,
