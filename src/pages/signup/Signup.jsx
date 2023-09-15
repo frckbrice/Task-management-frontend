@@ -40,21 +40,22 @@ function Signup() {
               id: res.data.id,
             };
             axios({
-              url: "http://localhost:4000/auth/register",
+              url: "http://localhost:5000/auth/register",
               method: "POST",
               data: data,
               headers: {
                 "Content-Type": "application/json",
               },
-            });
+            })
+              .then((response) => {
+                if (response && response.data) {
+                  console.log("Form submitted successfully!");
+                  navigate("/onboarding"); // navigate to onboarding page
+                }
+              })
+              .catch((err) => console.log("error registering a user", err));
           })
-          .then((res) => {
-            if (res && res.data) {
-              console.log("Form submitted successfully!");
-              navigate("/onboarding"); // navigate to onboarding page
-            }
-          })
-          .catch((err) => console.log("error", err));
+          .catch((err) => console.log("error fectching user from google", err));
       }
     },
     onError: (error) => {
@@ -75,7 +76,7 @@ function Signup() {
             password,
           };
           axios({
-            url: "http://localhost:4000/auth/register",
+            url: "http://localhost:5000/auth/register",
             method: "POST",
             data: data,
             headers: {
@@ -88,7 +89,7 @@ function Signup() {
                 navigate("/onboarding"); // navigate to onboarding page
               }
             })
-            .catch((err) => console.log("error", err));
+            .catch((err) => console.log("error registering user", err));
         } else {
           setMessage("Passwords do not match");
         }
@@ -120,7 +121,7 @@ function Signup() {
           </button>
           <div className="cred" id="signInDiv">
             <button onClick={login} className="signupButton">
-              <FcGoogle className="mr" size={40} /> Sign in with Google
+              <FcGoogle className="mr" size={40} /> Signup with Google
             </button>
           </div>
         </div>

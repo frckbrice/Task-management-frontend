@@ -2,13 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
-import { useGoogleLogin } from "@react-oauth/goog
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+
+function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [message, setMessage] = useState("");
+  const [user, setUser] = useState("");
+  const [profile, setProfile] = useState("");
 
     const login = useGoogleLogin({
       onSuccess: (codeResponse) => {
@@ -26,8 +31,10 @@ import { useGoogleLogin } from "@react-oauth/goog
               }
             )
             .then((res) => {
-              console.log("connect to the backend");
+              console.log("connect to the backend : registration");
               // setProfile(res.data);
+              if (res && res.data) {
+              }
               let data = {
                 username: res.data.name,
                 email: res.data.email,
@@ -35,21 +42,52 @@ import { useGoogleLogin } from "@react-oauth/goog
                 id: res.data.id,
               };
               axios({
-                url: "http://localhost:4000/auth/register",
+                url: "http://localhost:5000/auth/register",
                 method: "POST",
                 data: data,
                 headers: {
                   "Content-Type": "application/json",
                 },
-              });
+              })
+                .then((response) => {
+                  if (response && response.data) {
+                    console.log(response.data);
+                    let data = {
+                      email: response.data.email,
+                    };
+                    axios({
+                      url: "http://localhost:5000/auth/login",
+                      method: "POST",
+                      data: data,
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                      .then((response) => {
+                        if (response && response.data) {
+                          console.log(
+                            "User successfully logged in! cookie: ",
+                            response.data
+                          );
+                          navigate("/dashboard"); // navigate to onboarding page
+                        }
+                      })
+                      .catch((err) =>
+                        console.log("error loggin in", err.code, err.message)
+                      );
+                  }
+                })
+                .catch((err) =>
+                  console.log("error registering to db", err.code, err.message)
+                );
             })
-            .then((res) => {
-              if (res && res.data) {
-                console.log("Form submitted successfully!");
-                navigate("/onboarding"); // navigate to onboarding page
-              }
-            })
-            .catch((err) => console.log("error", err));
+            .catch((err) =>
+              console.log(
+                "error fetching user data from google",
+                err.code,
+                err.message
+              )
+            );
         }
       },
       onError: (error) => {
@@ -58,17 +96,38 @@ import { useGoogleLogin } from "@react-oauth/goog
       },
     });
 
+  console.log(user);
+  console.log(profile);
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password) {
       if (password.length >= 6 && /\d/.test(password)) {
-        console.log("Login successful!");
-        navigate("/dashboard")
-      }
-      else {
+        
+        let data = {
+          email,
+          password,
+        };
+        axios({
+          url: "http://localhost:5000/auth/login",
+          method: "POST",
+          data: data,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            if (res && res.data.status === 200) {
+              console.log("Login successful!");
+              navigate("/dashboard");// navigate to onboarding page
+            }
+          })
+          .catch((err) => console.log("error login in", err.message));
+      } else {
         setMessage(
           "Password must be at least 6 characters and contain at least one number."
-        ); 
+        );
       }
     } else {
       setMessage("Please fill in all required fields.");
@@ -134,14 +193,19 @@ import { useGoogleLogin } from "@react-oauth/goog
           >
             Signup
           </button>
+          <button onClick={login} className="signupButton">
+            <FcGoogle className="mr" size={40} /> login in with Google
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-<<<<<<< HEAD
-export default Signin;
-=======
 export default Login;
->>>>>>> 7d9758eecc29f03d62717ed683cc48e0c6971263
+
+/*<div className="cred" id="signInDiv">
+          <button onClick={login} className="signupButton">
+            <FcGoogle className="mr" size={40} /> login in with Google
+          </button>
+        </div>*/
