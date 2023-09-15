@@ -42,6 +42,7 @@ function OnBoarding() {
     if (response && response.data) {
       toast.success("project successfully created");
       setProjectname(response.data.name);
+      console.log(response.data)
     } else {
       toast.error("Failed to create project.");
     }

@@ -66,7 +66,8 @@ function Login() {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                    withCredentials: true,
+                   credentials: true,
+                   mode: 'cors'
                   })
                     .then((response) => {
                       if (response && response.data) {
@@ -122,6 +123,7 @@ function Login() {
             "Access-Control-Allow-Credentials": "true",
           },
           credentials: true,
+          mode: "cors",
         })
           .then((res) => {
             if (res && res.data.status === 200) {
@@ -130,8 +132,7 @@ function Login() {
             }
           })
           .catch((err) => {
-            
-            console.log("error login in", err.message)
+            console.log("error login in", err.message);
             if (!err.status) {
               setErrMsg("No Server Response");
             } else if (err.status === 400) {

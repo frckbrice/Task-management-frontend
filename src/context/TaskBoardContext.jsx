@@ -23,4 +23,5 @@ const ContextProvider = ({ children }) => {
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;
 };
 
+export default ContextProvider;
 
