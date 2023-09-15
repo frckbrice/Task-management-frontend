@@ -103,14 +103,18 @@ const TaskBoard = () => {
     setShowAddTask((prev) => !prev);
   };
 
-  const handleOpenTask = () => {
+
+  const handleOpentask = () => {
+
+
     setOpenTask(!openTask);
   };
 
   return (
     <>
       {showAddTask && <OverLay action={togglePopup} />}
-      {openTask && <OverLay action={handleOpenTask} />}
+
+      {openTask && <OverLay action={handleOpentask} />}
 
       <div className="task-board">
         {showAddTask && (
@@ -209,7 +213,9 @@ const TaskBoard = () => {
             );
           })}
         </DragDropContext>
-        {openTask && <TaskOpen onClick={handleOpenTask} />}
+
+        {openTask && <TaskOpen onClick={handleOpentask} />}
+
       </div>
     </>
   );
