@@ -1,19 +1,53 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OnBoarding.css";
-import axios from 'axios';
+import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import toast from "react-hot-toast";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [projectName, setProjectName] = useState('');
-  const [projectdescription, setProjectDescription] = useState('');
+  const [projectName, setProjectName] = useState("");
+  const [projectdescription, setProjectDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [tasks, setTasks] = useState([])
+  const [error, setError] = useState()
 
   const navigate = useNavigate();
   const { token, setProjectname } = useContext(TmsContext);
+
+  const addTask = async (taskData) => {
+    const response = await axios("tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add task");
+    }
+
+    const data = await response.json();
+    return data;
+  };
+
+  const handleAddTask = async () => {
+    const taskName = document.getElementById('taskinput').value;
+    const taskData = { name: taskName };
+    try {
+      const createdTask = await addTask(taskData);
+      // Update state with the created task data
+      setTasks([...tasks, createdTask]);
+      // Clear the input field
+      document.getElementById('taskinput').value = '';
+    } catch (error) {
+      // Handle error, e.g. display error message to user
+      setError("Can't create task", error.message);
+    }
+  };
 
   const handlePrev = () => {
     setCurrentStep(currentStep - 1);
@@ -45,7 +79,7 @@ function OnBoarding() {
     } else {
       toast.error("Failed to create project.");
     }
-  }
+  };
 
   return (
     <div className="onBoarding">
@@ -143,7 +177,10 @@ function OnBoarding() {
           </p>
           <h4>Backlogs</h4>
           <input type="text" id="taskinput" className="forminput" />
-          <button className="addtaskBtn">Add Task</button>
+          <button className="addtaskBtn" onClick={handleAddTask}>
+            Add Task
+          </button>
+          {error && <p className="error">{error}</p>}
           <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>
             <button onClick={handleNext}>Next</button>
