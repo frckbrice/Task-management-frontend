@@ -13,15 +13,16 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  // const [user, setUser] = useState("");
-  // const [profile, setProfile] = useState("");
+ const [errMsg, setErrMsg] = useState("");
+  const [profile, setProfile] = useState("");
+   const [user, setUser] = useState("");
 
   const { setToken } = useContext(TmsContext);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
-      // setUser(codeResponse);
+      setUser(codeResponse);
       if (codeResponse) {
         axios
           .get(
@@ -35,7 +36,7 @@ function Login() {
           )
           .then((res) => {
             console.log("connect to the backend : registration");
-            // setProfile(res.data);
+            setProfile(res.data);
             if (res && res.data) {
             }
             let data = {
@@ -65,7 +66,8 @@ function Login() {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                    withCredentials: true,
+                   credentials: true,
+                   mode: 'cors'
                   })
                     .then((response) => {
                       if (response && response.data) {
@@ -101,8 +103,8 @@ function Login() {
     },
   });
 
-  // console.log(user);
-  // console.log(profile);
+  console.log(user);
+  console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,7 +122,8 @@ function Login() {
             "Content-Type": "application/json",
             "Access-Control-Allow-Credentials": "true",
           },
-          withCredentials: true,
+          credentials: true,
+          mode: "cors",
         })
           .then((res) => {
             if (res && res.data.status === 200) {
@@ -128,7 +131,24 @@ function Login() {
               navigate("/dashboard"); // navigate to onboarding page
             }
           })
-          .catch((err) => console.log("error login in", err.message));
+          .catch((err) => {
+            console.log("error login in", err.message);
+            if (!err.status) {
+              setErrMsg("No Server Response");
+            } else if (err.status === 400) {
+              setErrMsg("Missing Username or Password");
+            } else if (err.status === 401) {
+              setErrMsg("Unauthorized");
+            } else if (err.status === 403) {
+              setErrMsg("Forbidden");
+            } else {
+              setErrMsg(err.data?.message);
+              console.error(err.data?.message);
+            }
+          });
+            
+//* add error message later
+
       } else {
         setMessage(
           "Password must be at least 6 characters and contain at least one number."

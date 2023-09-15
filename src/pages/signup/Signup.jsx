@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
+import { TmsContext } from "../../context/TaskBoardContext";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -12,13 +13,16 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [profile, setProfile] = useState("");
+  const [user, setUser] = useState("");
 
   const navigate = useNavigate();
+  const { setUserData } = useContext(TmsContext);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
-      // setUser(codeResponse);
+      setUser(codeResponse);
       if (codeResponse) {
         axios
           .get(
@@ -32,7 +36,7 @@ function Signup() {
           )
           .then((res) => {
             console.log("connect to the backend");
-            // setProfile(res.data);
+            setProfile(res.data);
             let data = {
               username: res.data.name,
               email: res.data.email,
@@ -50,7 +54,8 @@ function Signup() {
               .then((response) => {
                 if (response && response.data) {
                   console.log("RESPONCE: ", response.data.dataValues);
-                  console.log("Form submitted successfully!");
+                  console.log("Form submitted successfully!", response.data);
+                  setUserData(response.data);
                   navigate("/onboarding"); // navigate to onboarding page
                 }
               })
@@ -64,6 +69,9 @@ function Signup() {
       console.log("Login Failed:", error);
     },
   });
+
+  console.log(user);
+  console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,6 +95,7 @@ function Signup() {
             .then((res) => {
               if (res && res.data) {
                 console.log("Form submitted successfully!");
+                setUserData(res.data);
                 navigate("/onboarding"); // navigate to onboarding page
               }
             })
