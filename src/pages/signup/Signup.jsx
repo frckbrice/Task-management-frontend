@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -12,14 +15,82 @@ function Signup() {
 
   const navigate = useNavigate();
 
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log("login goood");
+      // setUser(codeResponse);
+      if (codeResponse) {
+        axios
+          .get(
+            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
+            {
+              headers: {
+                Authorization: `Bearer ${codeResponse.access_token}`,
+                Accept: "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            console.log("connect to the backend");
+            // setProfile(res.data);
+            let data = {
+              username: res.data.name,
+              email: res.data.email,
+              picture: res.data.picture,
+              id: res.data.id,
+            };
+            axios({
+              url: "https://tms-gdb08-0923.onrender.com/auth/register",
+              method: "POST",
+              data: data,
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => {
+                if (response && response.data) {
+                  console.log("Form submitted successfully!");
+                  navigate("/onboarding"); // navigate to onboarding page
+                }
+              })
+              .catch((err) => console.log("error registering a user", err));
+          })
+          .catch((err) => console.log("error fectching user from google", err));
+      }
+    },
+    onError: (error) => {
+      console.log("failed");
+      console.log("Login Failed:", error);
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username && email && password && confirmPassword) {
       if (password.length >= 6 && /\d/.test(password)) {
         if (password === confirmPassword) {
           // add authentication and backend connection here
-          console.log("Form submitted successfully!");
-          navigate("/onboarding"); // navigate to onboarding page
+          let data = {
+            username,
+            email,
+            password,
+          };
+          axios({
+            url: "https://tms-gdb08-0923.onrender.com/auth/register",
+            method: "POST",
+            data: data,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => {
+              if (res && res.data) {
+                console.log("Form submitted successfully!");
+                navigate("/onboarding"); // navigate to onboarding page
+              }
+            })
+            .catch((err) => console.log("error registering user", err));
         } else {
           setMessage("Passwords do not match");
         }
@@ -49,6 +120,11 @@ function Signup() {
           >
             Login
           </button>
+          <div className="cred" id="signInDiv">
+            <button onClick={login} className="signupButton">
+              <FcGoogle className="mr" size={40} /> Signup with Google
+            </button>
+          </div>
         </div>
 
         <form className="signupForm" onSubmit={handleSubmit}>
@@ -62,7 +138,9 @@ function Signup() {
 
           <div className="username cred">
             <label className="formlabel" htmlFor="username">
-              User Name{" "}
+
+              Full Name{" "}
+
             </label>
             <input
               type="text"
