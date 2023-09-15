@@ -13,7 +13,7 @@ function OnBoarding() {
   const [endDate, setEndDate] = useState("");
 
   const navigate = useNavigate();
-  const { token, setProjectname } = useContext(TmsContext);
+  const { token, setProjectname, userData } = useContext(TmsContext);
 
   const handlePrev = () => {
     setCurrentStep(currentStep - 1);
@@ -51,7 +51,7 @@ function OnBoarding() {
     <div className="onBoarding">
       {currentStep === 0 && (
         <div className="welcome-card">
-          <h1>welcome! "daisy"</h1>
+          <h1>welcome! {userData.username}</h1>
           <p>
             We are delighted to have you on board. We built{" "}
             <span>TaskTrec</span> to help you or you and your team stay
