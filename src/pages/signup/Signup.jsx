@@ -15,7 +15,6 @@ function Signup() {
 
   const navigate = useNavigate();
 
-
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
@@ -50,6 +49,7 @@ function Signup() {
             })
               .then((response) => {
                 if (response && response.data) {
+                  console.log("RESPONCE: ", response.data.dataValues);
                   console.log("Form submitted successfully!");
                   navigate("/onboarding"); // navigate to onboarding page
                 }
@@ -138,9 +138,7 @@ function Signup() {
 
           <div className="username cred">
             <label className="formlabel" htmlFor="username">
-
               Full Name{" "}
-
             </label>
             <input
               type="text"
