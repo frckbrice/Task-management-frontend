@@ -42,7 +42,7 @@ function Login() {
                 id: res.data.id,
               };
               axios({
-                url: "http://localhost:5000/auth/register",
+                url: "https://tms-gdb08-0923.onrender.com/auth/register",
                 method: "POST",
                 data: data,
                 headers: {
@@ -56,7 +56,7 @@ function Login() {
                       email: response.data.email,
                     };
                     axios({
-                      url: "http://localhost:5000/auth/login",
+                      url: "https://tms-gdb08-0923.onrender.com/auth/login",
                       method: "POST",
                       data: data,
                       headers: {

@@ -40,7 +40,7 @@ function Signup() {
               id: res.data.id,
             };
             axios({
-              url: "http://localhost:5000/auth/register",
+              url: "https://tms-gdb08-0923.onrender.com/auth/register",
               method: "POST",
               data: data,
               headers: {
@@ -76,7 +76,7 @@ function Signup() {
             password,
           };
           axios({
-            url: "http://localhost:5000/auth/register",
+            url: "https://tms-gdb08-0923.onrender.com/auth/register",
             method: "POST",
             data: data,
             headers: {
