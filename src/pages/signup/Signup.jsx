@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 
@@ -10,7 +10,7 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +40,13 @@ function Signup() {
         <div className="signupImg">
           <text>Already have an Account...!</text>
           <br />
-          <button type="submit" className="logbtn" onClick={()=> {navigate("/login")}}>
+          <button
+            type="submit"
+            className="logbtn"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             Login
           </button>
         </div>
@@ -112,7 +118,11 @@ function Signup() {
             <br />
           </div>
 
-          <button type="submit" className="signupbtn cred" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="signupbtn cred"
+            onClick={handleSubmit}
+          >
             Sign Up
           </button>
         </form>
