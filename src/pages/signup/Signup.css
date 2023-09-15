@@ -88,11 +88,13 @@
 
 .message {
   color: red;
-  font-size: 12px;
-  width: 70%;
-  margin: auto;
+  font-size: 13px;
+  width: 75%;
+  /* margin: auto; */
+
 }
 
+.signupButton,
 .signupbtn {
   background-color: #0707a0;
   color: #fff;
@@ -104,4 +106,15 @@
   border-radius: 5px;
   font-size: 18px;
   cursor: pointer;
+}
+
+.signupButton {
+  display: flex;
+  align-items: center;
+  width: 48%;
+  margin: 0 auto;
+}
+
+.mr {
+  margin-right: 15px;
 }
