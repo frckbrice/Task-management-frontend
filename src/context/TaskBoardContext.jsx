@@ -1,12 +1,14 @@
-import { createContext, useContext } from "react";
+import { createContext, useState } from "react";
 
-// create a context
-const taskBoardContext = createContext();
+export const TmsContext = createContext({});
 
-export default function TaskBoardProvider() {
-  const value = {};
+const ContextProvider = ({ children }) => {
+  const [token, setToken] = useState("");
+  const [projectname, setProjectname] = useState("");
 
-  return <taskBoardContext.Provider value={value}></taskBoardContext.Provider>;
-}
+  const values = { token, setToken, projectname, setProjectname };
 
-export const useTaskBoardContext = () => useContext(taskBoardContext);
+  return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;
+};
+
+export default ContextProvider;

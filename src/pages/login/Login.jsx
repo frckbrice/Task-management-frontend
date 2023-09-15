@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
+import { TmsContext } from "../../context/TaskBoardContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,8 +13,10 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState("");
-  const [profile, setProfile] = useState("");
+  // const [user, setUser] = useState("");
+  // const [profile, setProfile] = useState("");
+
+  const { setToken } = useContext(TmsContext);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
@@ -62,6 +65,7 @@ function Login() {
                     headers: {
                       "Content-Type": "application/json",
                     },
+                    withCredentials: true,
                   })
                     .then((response) => {
                       if (response && response.data) {
@@ -69,6 +73,7 @@ function Login() {
                           "User successfully logged in! cookie: ",
                           response.data
                         );
+                        setToken(response.data);
                         navigate("/dashboard"); // navigate to onboarding page
                       }
                     })
@@ -96,8 +101,8 @@ function Login() {
     },
   });
 
-  console.log(user);
-  console.log(profile);
+  // console.log(user);
+  // console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,7 +118,9 @@ function Login() {
           data: data,
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": "true",
           },
+          withCredentials: true,
         })
           .then((res) => {
             if (res && res.data.status === 200) {
@@ -180,7 +187,7 @@ function Login() {
         </form>
 
         <div className="loginImg">
-          <text>Don't have an Account...?</text>
+          <h3>Don't have an Account...?</h3>
           <br />
           <button
             type="submit"

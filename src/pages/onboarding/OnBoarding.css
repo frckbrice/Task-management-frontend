@@ -140,3 +140,10 @@ label {
 .congratP {
   margin: 20px auto;
 }
+
+.form-input {
+  font-size: 1.25rem;
+  padding: 0.3rem;
+  margin: 10px;
+}
+
