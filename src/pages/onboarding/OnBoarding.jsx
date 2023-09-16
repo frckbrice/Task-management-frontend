@@ -17,25 +17,28 @@ function OnBoarding() {
   const navigate = useNavigate();
   const { token, setProjectname, userData } = useContext(TmsContext);
 
+
   console.log(token);
 
+
+
   const addTask = async (taskData) => {
-    const response = await axios("tasks", {
+    const response = await axios("https://tms-gdb08-0923.onrender.com/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(taskData),
     });
-
+  
     if (!response.ok) {
-      throw new Error("Failed to add task");
+      throw new Error("Failed to create task: " + response.statusText);
     }
-
+  
     const data = await response.json();
     return data;
   };
-
+  
   const handleAddTask = async () => {
     const taskName = document.getElementById('taskinput').value;
     const taskData = { name: taskName };
@@ -47,7 +50,7 @@ function OnBoarding() {
       document.getElementById('taskinput').value = '';
     } catch (error) {
       // Handle error, e.g. display error message to user
-      setError("Can't create task", error.message);
+      setError("Failed to create task");
     }
   };
 
@@ -187,7 +190,7 @@ function OnBoarding() {
           <button className="addtaskBtn" onClick={handleAddTask}>
             Add Task
           </button>
-          {error && <p className="error">{error}</p>}
+          {error && <p className="createtaskErr">{error}</p>}
           <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>
             <button onClick={handleNext}>Next</button>

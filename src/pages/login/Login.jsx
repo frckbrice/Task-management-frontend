@@ -210,7 +210,7 @@ function Login() {
         </form>
 
         <div className="loginImg">
-          <h3>Don't have an Account...?</h3>
+          <h3 className="loginImageText">Don't have an Account...?</h3>
           <br />
           <button
             type="submit"
