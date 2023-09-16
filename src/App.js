@@ -5,6 +5,9 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Signup from "./pages/signup/Signup"
 import Login from "./pages/login/Login"
 import OnBoarding from "./pages/onboarding/OnBoarding";
+import ContextProvider from "./context/TaskBoardContext";
+import Toaster from "react-hot-toast";
+import ErrorPage from "./pages/errorPage/errorPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,20 +26,21 @@ function App() {
     {
       path: "/onboarding",
       element: <OnBoarding />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
+      errorElement: <ErrorPage />,
     },
     {
       path: "/dashboard",
       element: <Dashboard />,
+      errorElement: <ErrorPage />,
     },
   ]);
 
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <ContextProvider>
+        <Toaster position="top-right" reverseOrder={false} />
+        <RouterProvider router={router} />
+      </ContextProvider>
     </div>
   );
 }
