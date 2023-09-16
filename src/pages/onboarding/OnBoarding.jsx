@@ -18,6 +18,10 @@ function OnBoarding() {
   const { token, setProjectname, userData } = useContext(TmsContext);
 
 
+  console.log(token);
+
+
+
   const addTask = async (taskData) => {
     const response = await axios("https://tms-gdb08-0923.onrender.com/tasks", {
       method: "POST",
@@ -62,14 +66,17 @@ function OnBoarding() {
     let data = {
       name: projectName,
       description: projectdescription,
+      startDate,
+      estimateEndDate: endDate,
     };
-
+ if (token) {
+ }
     const response = await axios({
-      url: "https://tms-gdb08-0923.onrender.com/projects",
+      url: "http://localhost:5000/projects",
       method: "POST",
       data: data,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.accessToken}`,
         Accept: "application/json",
       },
     });
@@ -80,6 +87,7 @@ function OnBoarding() {
       console.log(response.data)
     } else {
       toast.error("Failed to create project.");
+      console.log(error?.data?.message)
     }
   };
 
