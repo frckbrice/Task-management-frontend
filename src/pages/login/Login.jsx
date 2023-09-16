@@ -6,6 +6,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Login() {
   const [user, setUser] = useState("");
 
   const { setToken } = useContext(TmsContext);
+  const { setlsData, lsData } = useLocalStorage("token", "");
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
@@ -60,7 +62,7 @@ function Login() {
                     email: response.data.email,
                   };
                   axios({
-                    url: "https://tms-gdb08-0923.onrender.com/auth/login",
+                    url: "http://localhost:5000/auth/login",
                     method: "POST",
                     data: data,
                     headers: {
@@ -76,7 +78,8 @@ function Login() {
                           response.data
                         );
                         setToken(response.data);
-                        navigate("/dashboard"); // navigate to onboarding page
+                        setlsData(response.data);
+                        navigate("/onboarding"); // navigate to onboarding page
                       }
                     })
                     .catch((err) =>
@@ -128,7 +131,7 @@ function Login() {
           .then((res) => {
             if (res && res.data.status === 200) {
               console.log("Login successful!");
-              navigate("/dashboard"); // navigate to onboarding page
+              navigate("/dashb oard"); // navigate to onboarding page
             }
           })
           .catch((err) => {
