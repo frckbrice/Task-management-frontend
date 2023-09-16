@@ -183,7 +183,6 @@ const TaskBoard = () => {
                                         backgroundColor: snapshot.isDragging
                                           ? "#263B4A"
                                           : "#fff",
-
                                         // border: "1px solid #d9d9dd",
                                         ...provided.draggableProps.style,
                                       }}
