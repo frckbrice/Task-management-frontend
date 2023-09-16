@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 // css import
 import "./Dashboard.css";
 
@@ -12,12 +12,27 @@ import ProjectDetialsBar from "../../compnents/organisms/projectDetialsBar/Proje
 import TaskBoard from "../../compnents/organisms/taskBoard/TaskBoard";
 import DashBoardNavBar from "../../compnents/organisms/dashBoardNavBar/DashBoardNavBar";
 
+import { TmsContext } from "../../context/TaskBoardContext";
+
 const Dashboard = () => {
+  const [user, setUser] = useState(null);
+
+  const { userData } = useContext(TmsContext);
+
+  useEffect(() => {
+    setUser(userData.dataValues);
+    localStorage.setItem("user", user);
+  }, [user]);
+
+  // const user = userData.dataValues;
+
+  console.log("this is user data", userData);
+  console.log("user: ", user);
   return (
     <div className="dashboard">
       <DashBoardNavBar>
         <div className="navContent">
-          <NavIterms></NavIterms>
+          <NavIterms profilePicture={!user ? "" : user.picture}></NavIterms>
         </div>
       </DashBoardNavBar>
       {/* <NavBar className="dashNav"></NavBar> */}

@@ -3,7 +3,7 @@ import { IoMdNotifications } from "react-icons/io";
 
 import "./NavIterms.css";
 
-const NavIterms = ({ children }) => {
+const NavIterms = ({ profilePicture, children }) => {
   return (
     <div className="NavIterms">
       <form action="search">
@@ -13,11 +13,7 @@ const NavIterms = ({ children }) => {
         <IoMdNotifications />
         <span className="icon-button__badge">5+</span>
       </button>
-      <img
-        src="https://i.pinimg.com/564x/35/ac/d0/35acd0869d84b07067eea570f8a3edc1.jpg"
-        alt="profile avatar"
-        className="avatar"
-      />
+      <img src={profilePicture} alt="profile avatar" className="avatar" />
       {children}
     </div>
   );
