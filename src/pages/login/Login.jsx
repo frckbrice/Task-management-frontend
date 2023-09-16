@@ -13,9 +13,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
- const [errMsg, setErrMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [profile, setProfile] = useState("");
-   const [user, setUser] = useState("");
+  const [user, setUser] = useState("");
 
   const { setToken } = useContext(TmsContext);
 
@@ -66,8 +66,8 @@ function Login() {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                   credentials: true,
-                   mode: 'cors'
+                    credentials: true,
+                    mode: "cors",
                   })
                     .then((response) => {
                       if (response && response.data) {
@@ -146,9 +146,8 @@ function Login() {
               console.error(err.data?.message);
             }
           });
-            
-//* add error message later
 
+        //* add error message later
       } else {
         setMessage(
           "Password must be at least 6 characters and contain at least one number."
@@ -207,7 +206,7 @@ function Login() {
         </form>
 
         <div className="loginImg">
-          <h3>Don't have an Account...?</h3>
+          <h3 className="loginImageText">Don't have an Account...?</h3>
           <br />
           <button
             type="submit"
