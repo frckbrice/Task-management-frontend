@@ -4,7 +4,7 @@ export const TmsContext = createContext({});
 
 const ContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
-  const [projectname, setProjectname] = useState("");
+  const [projectData, setProjectData] = useState("");
   const [userData, setUserData] = useState("");
     const [email, setEmail] = useState("");
 
@@ -13,8 +13,8 @@ const ContextProvider = ({ children }) => {
   const values = {
     token,
     setToken,
-    projectname,
-    setProjectname,
+    projectData,
+    setProjectData,
     userData,
     setUserData,
     email,
