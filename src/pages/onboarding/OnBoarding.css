@@ -98,6 +98,11 @@ label {
   border: 1px solid #80808063;
   background-color: #04175A;
   margin: 15px auto;
+  color: white;
+}
+
+.createtaskErr {
+  color: #ff3232;
 }
 
 .addtaskBtn {
