@@ -4,6 +4,7 @@ import "./OnBoarding.css";
 import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import toast from "react-hot-toast";
+import { server, conf } from "../../config";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -11,16 +12,14 @@ function OnBoarding() {
   const [projectdescription, setProjectDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [tasks, setTasks] = useState([])
-  const [error, setError] = useState()
+  const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState("");
+  const [projectToken, setProjectToken] = useState("");
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [move, setMove] = useState(true);
 
   const navigate = useNavigate();
-  const { token, setProjectname, userData } = useContext(TmsContext);
-
-
-  console.log(token);
-
-
+  const { token, setProjectData, userData } = useContext(TmsContext);
 
   const addTask = async (taskData) => {
     const response = await axios("https://tms-gdb08-0923.onrender.com/tasks", {
@@ -40,14 +39,14 @@ function OnBoarding() {
   };
   
   const handleAddTask = async () => {
-    const taskName = document.getElementById('taskinput').value;
+    const taskName = document.getElementById("taskinput").value;
     const taskData = { name: taskName };
     try {
       const createdTask = await addTask(taskData);
       // Update state with the created task data
       setTasks([...tasks, createdTask]);
       // Clear the input field
-      document.getElementById('taskinput').value = '';
+      document.getElementById("taskinput").value = "";
     } catch (error) {
       // Handle error, e.g. display error message to user
       setError("Failed to create task");
@@ -59,7 +58,9 @@ function OnBoarding() {
   };
 
   const handleNext = () => {
-    setCurrentStep(currentStep + 1);
+    if (move) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
   const createProject = async () => {
@@ -69,25 +70,52 @@ function OnBoarding() {
       startDate,
       estimateEndDate: endDate,
     };
- if (token) {
- }
-    const response = await axios({
-      url: "http://localhost:5000/projects",
-      method: "POST",
-      data: data,
+
+    if (token) {
+      const response = await server.post("/projects", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+console.log(response);
+      if (response && response.data) {
+        toast.success("project successfully created", response.data.data);
+        setProjectData(response.data.data);
+        setProjectToken(response.data.data.id);
+      } else {
+        toast.error("Failed to create project.");
+        console.log(error?.data?.message);
+        
+      }
+    } else {
+      console.log("no token, cannot proceed");
+      setMove(false);
+    }
+  };
+
+  const handleInvite = async () => {
+    const emailContent = `${conf.clientbaseURL}/${projectToken}`;
+
+    let data = {
+      token: projectToken,
+      emails: `${inviteEmail}`, //need to create a list of invitees email
+      emailContent,
+    };
+
+    const response = await server.post("/invitation", data, {
       headers: {
-        Authorization: `Bearer ${token.accessToken}`,
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     });
 
     if (response && response.data) {
-      toast.success("project successfully created");
-      setProjectname(response.data.name);
-      console.log(response.data)
+      toast.success("invitation successfully sent", response.data);
     } else {
-      toast.error("Failed to create project.");
-      console.log(error?.data?.message)
+      toast.error("Failed to send an invite.");
+      console.log(error?.data?.message);
+      setMove(false);
     }
   };
 
@@ -203,10 +231,19 @@ function OnBoarding() {
           <h2>Invitation</h2>
           <p>Invite your team members, share task and get started</p>
           <p>Search example @name...</p>
-          <card className="cardForm">
-            <input type="name" id="invitemember" placeholder="search" />
-            <button className="inviteBtn">Invite Member(s)</button>
-          </card>
+          <div className="cardForm">
+            <input
+              type="name"
+              id="invitemember"
+              name="invitemember"
+              placeholder="add email address"
+              value={inviteEmail}
+              onChange={(e) => setInviteEmail(e.target.value)}
+            />
+            <button className="inviteBtn" onClick={handleInvite}>
+              Invite Member(s)
+            </button>
+          </div>
           <div className="inviteBtns Btns">
             <button onClick={handlePrev}>Prev</button>
             <button onClick={handleNext}>Next</button>

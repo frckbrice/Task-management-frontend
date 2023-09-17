@@ -118,3 +118,10 @@
 .mr {
   margin-right: 15px;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem;
+}

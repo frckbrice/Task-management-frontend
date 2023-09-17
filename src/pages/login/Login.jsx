@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
@@ -7,37 +7,50 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { conf, server } from "../../config";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function Login() {
   const navigate = useNavigate();
 
+  const userRef = useRef();
+  const errorRef = useRef();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
- const [errMsg, setErrMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const [profile, setProfile] = useState("");
-   const [user, setUser] = useState("");
+  const [user, setUser] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setToken } = useContext(TmsContext);
-  const {setlsData, lsData} = useLocalStorage('token','')
+  const { setlsData } = useLocalStorage("token", "");
 
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
+
+  let content;
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
+      setIsLoading(true);
       setUser(codeResponse);
       if (codeResponse) {
         axios
-          .get(
-            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
-            {
-              headers: {
-                Authorization: `Bearer ${codeResponse.access_token}`,
-                Accept: "application/json",
-              },
-            }
-          )
+          .get(`${conf.googleapis}=${codeResponse.access_token}`, {
+            headers: {
+              Authorization: `Bearer ${codeResponse.access_token}`,
+              Accept: "application/json",
+            },
+          })
           .then((res) => {
-            console.log("connect to the backend : registration");
+            console.log("connection to the backend : registration");
             setProfile(res.data);
             if (res && res.data) {
             }
@@ -47,44 +60,53 @@ function Login() {
               picture: res.data.picture,
               id: res.data.id,
             };
-            axios({
-              url: "https://tms-gdb08-0923.onrender.com/auth/register",
-              method: "POST",
-              data: data,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-              .then((response) => {
-                if (response && response.data) {
-                  console.log(response.data);
+            console.log(data);
+            server
+              .post("/auth/googleRegister", data, {
+                headers: conf.headers,
+              })
+              .then((resp) => {
+                if (resp && resp.data) {
+                  console.log(resp.data);
                   let data = {
-                    email: response.data.email,
+                    email: resp.data,
                   };
-                  axios({
-                    url: "http://localhost:5000/auth/login",
-                    method: "POST",
-                    data: data,
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                   credentials: true,
-                   mode: 'cors'
-                  })
+                  server
+                    .post(
+                      "/auth/googleLogin",
+                      data,
+                      {
+                        headers: conf.headers,
+                      },
+                      { credentials: true, mode: "cors" }
+                    )
                     .then((response) => {
                       if (response && response.data) {
                         console.log(
                           "User successfully logged in! cookie: ",
                           response.data
                         );
-                        setToken(response.data);
+                        setToken(response.data.accessToken);
                         setlsData(response.data);
                         navigate("/onboarding"); // navigate to onboarding page
+                        setIsLoading(false);
                       }
                     })
-                    .catch((err) =>
-                      console.log("error loggin in", err.code, err.message)
-                    );
+                    .catch((err) => {
+                      console.log("error loggin in", err.code, err.message);
+                      if (!err.status) {
+                        setErrMsg("No Server Response");
+                      } else if (err.status === 400) {
+                        setErrMsg("Missing Username or Password");
+                      } else if (err.status === 401) {
+                        setErrMsg("Unauthorized");
+                      } else if (err.status === 403) {
+                        setErrMsg("Forbidden");
+                      } else {
+                        setErrMsg(err.data?.message);
+                        console.error(err.data?.message);
+                      }
+                    });
                 }
               })
               .catch((err) =>
@@ -111,27 +133,33 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (email && password) {
       if (password.length >= 6 && /\d/.test(password)) {
         let data = {
           email,
           password,
         };
-        axios({
-          url: "https://tms-gdb08-0923.onrender.com/auth/login",
-          method: "POST",
-          data: data,
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Credentials": "true",
-          },
-          credentials: true,
-          mode: "cors",
-        })
+        server
+          .post(
+            "/auth/login",
+            data,
+            {
+              headers: conf.headers,
+            },
+            {
+              credentials: true,
+              mode: "cors",
+            }
+          )
           .then((res) => {
-            if (res && res.data.status === 200) {
-              console.log("Login successful!");
-              navigate("/dashboard"); // navigate to onboarding page
+            if (res && res.data) {
+              console.log("Login successful!", res.data);
+              setToken(res.data.accessToken);
+              setlsData(res.data);
+              navigate("/onboarding"); // navigate to onboarding page
+
+              setIsLoading(false);
             }
           })
           .catch((err) => {
@@ -149,9 +177,8 @@ function Login() {
               console.error(err.data?.message);
             }
           });
-            
-//* add error message later
 
+        //* add error message later
       } else {
         setMessage(
           "Password must be at least 6 characters and contain at least one number."
@@ -162,72 +189,90 @@ function Login() {
     }
   };
 
-  return (
-    <div>
-      <NavBar />
-      <div className="formlogin">
-        <form className="loginform" onSubmit={handleSubmit}>
-          <div className="credential">
-            {" "}
-            <h2 className="loginform-h2">Login</h2>
-            <p className="loginform-p">
-              Welcome Back! Continue form where you left.
-            </p>
-          </div>
+  const errClass = errMsg ? "mgs" : "offscreen";
 
-          <div className="email credential">
-            <label className="loginformlabel" htmlFor="email">
-              Email{" "}
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="loginforminput"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+  if (isLoading) {
+    content = (
+      <div className="loding">
+        <PulseLoader color="#333" />
+      </div>
+    );
+  } else {
+    content = (
+      <div>
+        <NavBar />
 
-          <div className="password credential">
-            <label className="loginformlabel" htmlFor="password">
-              Password{" "}
-            </label>
-            <input
-              className="loginforminput"
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <p className="mgs">{message}</p>
+        <div className="formlogin">
+          <p ref={errorRef} className={errClass} aria-live="assertive">
+            {errMsg}
+          </p>
+          <form className="loginform" onSubmit={handleSubmit}>
+            <div className="credential">
+              {" "}
+              <h2 className="loginform-h2">Login</h2>
+              <p className="loginform-p">
+                Welcome Back! Continue form where you left.
+              </p>
+            </div>
+
+            <div className="email credential">
+              <label className="loginformlabel" htmlFor="email">
+                Email{" "}
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="loginforminput"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                ref={userRef}
+                required
+              />
+            </div>
+
+            <div className="password credential">
+              <label className="loginformlabel" htmlFor="password">
+                Password{" "}
+              </label>
+
+              <input
+                className="loginforminput"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <p className="mgs">{message}</p>
+              <br />
+            </div>
+            <button type="submit" className="loginbtn credential">
+              Login
+            </button>
+          </form>
+
+          <div className="loginImg">
+            <h3>Don't have an Account...?</h3>
             <br />
+            <button
+              type="submit"
+              className="signbtn"
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+              Signup
+            </button>
+            <button onClick={login} className="signupButton">
+              <FcGoogle className="mr" size={40} /> login in with Google
+            </button>
           </div>
-          <button type="submit" className="loginbtn credential">
-            Login
-          </button>
-        </form>
-
-        <div className="loginImg">
-          <h3 className="loginImageText">Don't have an Account...?</h3>
-          <br />
-          <button
-            type="submit"
-            className="signbtn"
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            Signup
-          </button>
-          <button onClick={login} className="signupButton">
-            <FcGoogle className="mr" size={40} /> login in with Google
-          </button>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return content;
 }
 
 export default Login;

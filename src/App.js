@@ -38,7 +38,7 @@ function App() {
   return (
     <div className="App">
       <ContextProvider>
-        <Toaster position="top-right" reverseOrder={false} />
+      
         <RouterProvider router={router} />
       </ContextProvider>
     </div>
