@@ -21,6 +21,8 @@ function OnBoarding() {
   const navigate = useNavigate();
   const { token, setProjectData, userData } = useContext(TmsContext);
 
+  console.log("toket: ", token);
+
   const addTask = async (taskData) => {
     const response = await axios("https://tms-gdb08-0923.onrender.com/tasks", {
       method: "POST",
@@ -29,15 +31,15 @@ function OnBoarding() {
       },
       body: JSON.stringify(taskData),
     });
-  
+
     if (!response.ok) {
       throw new Error("Failed to create task: " + response.statusText);
     }
-  
+
     const data = await response.json();
     return data;
   };
-  
+
   const handleAddTask = async () => {
     const taskName = document.getElementById("taskinput").value;
     const taskData = { name: taskName };
@@ -78,7 +80,7 @@ function OnBoarding() {
           Accept: "application/json",
         },
       });
-console.log(response);
+      console.log(response);
       if (response && response.data) {
         toast.success("project successfully created", response.data.data);
         setProjectData(response.data.data);
@@ -86,7 +88,6 @@ console.log(response);
       } else {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
-        
       }
     } else {
       console.log("no token, cannot proceed");

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 
 import "./NavIterms.css";
 
-const NavIterms = ({ profilePicture, children }) => {
+const NavIterms = ({ profilePicture, children, togleProfile}) => {
+
   return (
     <div className="NavIterms">
       <form action="search">
@@ -13,7 +14,12 @@ const NavIterms = ({ profilePicture, children }) => {
         <IoMdNotifications />
         <span className="icon-button__badge">5+</span>
       </button>
-      <img src={profilePicture} alt="profile avatar" className="avatar" />
+      <img
+        src={profilePicture}
+        alt="profile avatar"
+        className="avatar"
+        onClick={togleProfile}
+      />
       {children}
     </div>
   );

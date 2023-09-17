@@ -34,6 +34,8 @@ function Signup() {
     setErrMsg("");
   }, [email, password]);
 
+  console.log("config: ", conf.googleapis);
+
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
@@ -117,7 +119,7 @@ function Signup() {
               if (res && res.data) {
                 console.log("Form submitted successfully!");
                 setUserData(res.data);
-                navigate("/onboarding"); // navigate to onboarding page
+                navigate("/login"); // navigate to onboarding page
                 setIsLoading(false);
               }
             })
