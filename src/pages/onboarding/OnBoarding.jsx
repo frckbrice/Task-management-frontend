@@ -19,12 +19,7 @@ function OnBoarding() {
   const [move, setMove] = useState(true);
 
   const navigate = useNavigate();
-  const { token, setProjectname, userData } = useContext(TmsContext);
-
-
-  console.log(token);
-
-
+  const { token, setProjectData, userData } = useContext(TmsContext);
 
   const addTask = async (taskData) => {
     const response = await axios("https://tms-gdb08-0923.onrender.com/tasks", {
