@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
@@ -6,6 +6,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
+import { conf, server } from "../../config";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -15,25 +17,37 @@ function Signup() {
   const [message, setMessage] = useState("");
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState("");
+   const [isLoading, setIsLoading] = useState(false);
+   const [errMsg, setErrMsg] = useState("");
+
+   const userRef = useRef();
+   const errorRef = useRef();
 
   const navigate = useNavigate();
   const { setUserData } = useContext(TmsContext);
 
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+   useEffect(() => {
+     setErrMsg("");
+   }, [email, password]);
+
   const login = useGoogleLogin({
+    
     onSuccess: (codeResponse) => {
       console.log("login goood");
+      setIsLoading(true);
       setUser(codeResponse);
       if (codeResponse) {
         axios
-          .get(
-            `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`,
-            {
-              headers: {
-                Authorization: `Bearer ${codeResponse.access_token}`,
-                Accept: "application/json",
-              },
-            }
-          )
+          .get(`${conf.googleapis}=${codeResponse.access_token}`, {
+            headers: {
+              Authorization: `Bearer ${codeResponse.access_token}`,
+              Accept: "application/json",
+            },
+          })
           .then((res) => {
             console.log("connect to the backend");
             setProfile(res.data);
@@ -43,23 +57,35 @@ function Signup() {
               picture: res.data.picture,
               id: res.data.id,
             };
-            axios({
-              url: "https://tms-gdb08-0923.onrender.com/auth/register",
-              method: "POST",
-              data: data,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
+            server
+              .post("/auth/googleRegister", data, {
+                headers: conf.headers,
+              })
               .then((response) => {
+                 
                 if (response && response.data) {
                   console.log("RESPONCE: ", response.data.dataValues);
                   console.log("Form submitted successfully!", response.data);
                   setUserData(response.data);
                   navigate("/onboarding"); // navigate to onboarding page
+                  setIsLoading(false);
                 }
               })
-              .catch((err) => console.log("error registering a user", err));
+              .catch((err) =>{ console.log("error registering a user", err)
+            
+              if (!err.status) {
+                setErrMsg("No Server Response");
+              } else if (err.status === 400) {
+                setErrMsg("Missing Username or Password");
+              } else if (err.status === 401) {
+                setErrMsg("Unauthorized");
+              } else if (err.status === 403) {
+                setErrMsg("Forbidden");
+              } else {
+                setErrMsg(err.data?.message);
+                console.error(err.data?.message);
+              }
+            });
           })
           .catch((err) => console.log("error fetching user from google", err));
       }
@@ -75,6 +101,7 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (username && email && password && confirmPassword) {
       if (password.length >= 6 && /\d/.test(password)) {
         if (password === confirmPassword) {
@@ -84,22 +111,35 @@ function Signup() {
             email,
             password,
           };
-          axios({
-            url: "https://tms-gdb08-0923.onrender.com/auth/register",
-            method: "POST",
-            data: data,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
+          server
+            .post("/auth/register", data, {
+              headers: conf.headers,
+            })
             .then((res) => {
+              
               if (res && res.data) {
                 console.log("Form submitted successfully!");
                 setUserData(res.data);
                 navigate("/onboarding"); // navigate to onboarding page
+                setIsLoading(false);
               }
             })
-            .catch((err) => console.log("error registering user", err));
+            .catch((err) => {console.log("error registering user", err)
+          
+           if (!err.status) {
+             setErrMsg("No Server Response");
+           } else if (err.status === 400) {
+             setErrMsg("Missing Username or Password");
+           } else if (err.status === 401) {
+             setErrMsg("Unauthorized");
+           } else if (err.status === 403) {
+             setErrMsg("Forbidden");
+           } else {
+             setErrMsg(err.data?.message);
+             console.error(err.data?.message);
+           }
+            setIsLoading(false);
+          });
         } else {
           setMessage("Passwords do not match");
         }
@@ -112,6 +152,16 @@ function Signup() {
       setMessage("Please fill in all the fields provided above.");
     }
   };
+
+  const errClass = errMsg ? "mgs" : "offscreen";
+
+  if (isLoading) {
+    return (
+      <div className="loding">
+        <PulseLoader color="#333" />
+      </div>
+    );
+  }
 
   return (
     <div className="allForm">
@@ -137,6 +187,9 @@ function Signup() {
         </div>
 
         <form className="signupForm" onSubmit={handleSubmit}>
+          <p ref={errorRef} className={errClass} aria-live="assertive">
+            {errMsg}
+          </p>
           <div className="cred">
             {" "}
             <h2 className="signupform-h2">Sign up</h2>
@@ -156,6 +209,7 @@ function Signup() {
               className="forminput"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              ref={userRef}
               required
             />
           </div>

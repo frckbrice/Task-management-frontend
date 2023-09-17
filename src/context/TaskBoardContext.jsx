@@ -6,9 +6,7 @@ const ContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [projectname, setProjectname] = useState("");
   const [userData, setUserData] = useState("");
-    const [email, setEmail] = useState("");
-
-    console.log(token)
+  const [email, setEmail] = useState("");
 
   const values = {
     token,
@@ -21,11 +19,7 @@ const ContextProvider = ({ children }) => {
     setEmail,
   };
 
-  return (
-    <TmsContext.Provider value={values}>
-      {children}{" "}
-    </TmsContext.Provider>
-  );
+  return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;
 };
 
 export default ContextProvider;
