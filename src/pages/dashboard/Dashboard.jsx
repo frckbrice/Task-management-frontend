@@ -21,18 +21,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     setUser(userData.dataValues);
+    console.log("this is user data", userData);
+
     localStorage.setItem("user", user);
   }, [user]);
 
   // const user = userData.dataValues;
 
-  console.log("this is user data", userData);
   console.log("user: ", user);
   return (
     <div className="dashboard">
       <DashBoardNavBar>
         <div className="navContent">
-          <NavIterms profilePicture={!user ? "" : user.picture}></NavIterms>
+          <NavIterms profilePicture={user.picture}></NavIterms>
         </div>
       </DashBoardNavBar>
       {/* <NavBar className="dashNav"></NavBar> */}
