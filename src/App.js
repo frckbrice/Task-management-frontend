@@ -7,7 +7,8 @@ import Login from "./pages/login/Login";
 import OnBoarding from "./pages/onboarding/OnBoarding";
 import ContextProvider from "./context/TaskBoardContext";
 import Toaster from "react-hot-toast";
-import ErrorPage from "./pages/errorPage/errorPage";
+// import ErrorPage from "./pages/errorPage/errorPage";
+import Page404 from "./pages/404/Page404";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,12 +27,17 @@ function App() {
     {
       path: "/onboarding",
       element: <OnBoarding />,
-      errorElement: <ErrorPage />,
+      errorElement: <Page404 />,
     },
     {
       path: "/dashboard",
       element: <Dashboard />,
-      errorElement: <ErrorPage />,
+      errorElement: <Page404 />,
+    },
+    {
+      path: "*",
+      element: <Page404 />,
+      errorElement: <Page404 />,
     },
   ]);
 
