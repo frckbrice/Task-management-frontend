@@ -6,7 +6,6 @@ import Signup from "./pages/signup/Signup"
 import Login from "./pages/login/Login"
 import OnBoarding from "./pages/onboarding/OnBoarding";
 import ContextProvider from "./context/TaskBoardContext";
-import Toaster from "react-hot-toast";
 import ErrorPage from "./pages/errorPage/errorPage";
 
 function App() {
@@ -38,7 +37,6 @@ function App() {
   return (
     <div className="App">
       <ContextProvider>
-      
         <RouterProvider router={router} />
       </ContextProvider>
     </div>

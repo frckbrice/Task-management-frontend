@@ -54,70 +54,71 @@ function Login() {
             },
           })
           .then((res) => {
-            console.log("connection to the backend : registration");
+            
             setProfile(res.data);
             if (res && res.data) {
+              console.log("connection to the backend : registration");
+              let data = {
+                username: res.data.name,
+                email: res.data.email,
+                picture: res.data.picture,
+                id: res.data.id,
+              };
+              console.log(data);
+              server
+                .post("/auth/googleRegister", data, {
+                  headers: conf.headers,
+                })
+                .then((resp) => {
+                  if (resp && resp.data) {
+                    console.log(resp.data);
+                    let data = {
+                      email: resp.data,
+                    };
+                    server
+                      .post(
+                        "/auth/googleLogin",
+                        data,
+                        {
+                          headers: conf.headers,
+                        },
+                        { credentials: true, mode: "cors" }
+                      )
+                      .then((response) => {
+                        if (response && response.data) {
+                          console.log(
+                            "User successfully logged in! cookie: ",
+                            response.data
+                          );
+                          setToken(response.data.accessToken);
+                          setlsData(response.data);
+                          // navigate to onboarding page
+                          setIsLoading(false);
+                          setMove(true);
+                        }
+                      })
+                      .catch((err) => {
+                        console.log("error loggin in", err.code, err.message);
+                        if (!err.status) {
+                          setErrMsg("No Server Response");
+                        } else if (err.status === 400) {
+                          setErrMsg("Missing some usefull information");
+                        } else if (err.status === 401) {
+                          setErrMsg("Unauthorized");
+                        } else if (err.status === 403) {
+                          setErrMsg("Forbidden");
+                        } else {
+                          setErrMsg(err.data?.message);
+                          console.error(err.data?.message);
+                        }
+                        setMove(false);
+                      });
+                  }
+                })
+                .catch((err) =>
+                  console.log("error registering to db", err.code, err.message)
+                );
             }
-            let data = {
-              username: res.data.name,
-              email: res.data.email,
-              picture: res.data.picture,
-              id: res.data.id,
-            };
-            console.log(data);
-            server
-              .post("/auth/googleRegister", data, {
-                headers: conf.headers,
-              })
-              .then((resp) => {
-                if (resp && resp.data) {
-                  console.log(resp.data);
-                  let data = {
-                    email: resp.data,
-                  };
-                  server
-                    .post(
-                      "/auth/googleLogin",
-                      data,
-                      {
-                        headers: conf.headers,
-                      },
-                      { credentials: true, mode: "cors" }
-                    )
-                    .then((response) => {
-                      if (response && response.data) {
-                        console.log(
-                          "User successfully logged in! cookie: ",
-                          response.data
-                        );
-                        setToken(response.data.accessToken);
-                        setlsData(response.data);
-                        // navigate to onboarding page
-                        setIsLoading(false);
-                        setMove(true);
-                      }
-                    })
-                    .catch((err) => {
-                      console.log("error loggin in", err.code, err.message);
-                      if (!err.status) {
-                        setErrMsg("No Server Response");
-                      } else if (err.status === 400) {
-                        setErrMsg("Missing Username or Password");
-                      } else if (err.status === 401) {
-                        setErrMsg("Unauthorized");
-                      } else if (err.status === 403) {
-                        setErrMsg("Forbidden");
-                      } else {
-                        setErrMsg(err.data?.message);
-                        console.error(err.data?.message);
-                      }
-                      setMove(false);
-                    });
-                }
-              })
-              .catch((err) =>
-                console.log("error registering to db", err.code, err.message)
-              );
           })
           .catch((err) =>
             console.log(
