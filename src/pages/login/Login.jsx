@@ -25,13 +25,15 @@ function Login() {
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [move, setMove] = useState(false);
 
   const { setToken } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
 
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, []);
+  useEffect(() => {
+    // userRef.current.focus();
+    if (move) navigate("/onboarding");
+  }, [move, navigate]);
 
   useEffect(() => {
     setErrMsg("");
@@ -90,8 +92,9 @@ function Login() {
                         );
                         setToken(response.data.accessToken);
                         setlsData(response.data);
-                        navigate("/onboarding"); // navigate to onboarding page
+                        // navigate to onboarding page
                         setIsLoading(false);
+                        setMove(true);
                       }
                     })
                     .catch((err) => {
@@ -108,6 +111,7 @@ function Login() {
                         setErrMsg(err.data?.message);
                         console.error(err.data?.message);
                       }
+                      setMove(false);
                     });
                 }
               })
@@ -160,7 +164,7 @@ function Login() {
               setToken(res.data.accessToken);
               setlsData(res.data);
               navigate("/onboarding"); // navigate to onboarding page
-
+              setMove(true);
               setIsLoading(false);
             }
           })
@@ -178,6 +182,7 @@ function Login() {
               setErrMsg(err.data?.message);
               console.error(err.data?.message);
             }
+            setMove(false);
           });
 
         //* add error message later
