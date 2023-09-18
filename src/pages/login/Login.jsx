@@ -10,6 +10,8 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 
+import Task from "../onboarding/task";
+
 function Login() {
   const navigate = useNavigate();
 
