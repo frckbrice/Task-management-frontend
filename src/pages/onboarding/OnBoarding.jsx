@@ -15,6 +15,7 @@ function OnBoarding() {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
   const [projectToken, setProjectToken] = useState("");
+  const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
   const [move, setMove] = useState(true);
 
@@ -22,7 +23,7 @@ function OnBoarding() {
   const { token, setProjectData, userData } = useContext(TmsContext);
 
   const addTask = async (taskData) => {
-    const response = await axios("https://tms-gdb08-0923.onrender.com/tasks", {
+    const response = await server.post("/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,6 +70,7 @@ function OnBoarding() {
       description: projectdescription,
       startDate,
       estimateEndDate: endDate,
+      teamName
     };
 
     if (token) {
@@ -95,7 +97,9 @@ console.log(response);
   };
 
   const handleInvite = async () => {
-    const emailContent = `${conf.clientbaseURL}/${projectToken}`;
+    // const emailContent = `${conf.server}/${projectToken}`;
+
+    const emailContent = `${conf.serverbaseURL}/`;
 
     let data = {
       token: projectToken,
@@ -189,6 +193,18 @@ console.log(response);
                 name="projectdesc"
                 value={projectdescription}
                 onChange={(e) => setProjectDescription(e.target.value)}
+              />
+            </div>
+            <br />
+            <div className="projectField">
+              <label>Team Name of The Poject</label>
+              <input
+                id="teamName"
+                type="text"
+                className="form-input"
+                name="teamName"
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
               />
             </div>
           </div>
