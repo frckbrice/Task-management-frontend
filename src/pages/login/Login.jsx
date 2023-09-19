@@ -10,6 +10,8 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 
+import Task from "../onboarding/task";
+
 function Login() {
   const navigate = useNavigate();
 
@@ -23,13 +25,15 @@ function Login() {
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [move, setMove] = useState(false);
 
   const { setToken, setUserData } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
 
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, []);
+  useEffect(() => {
+    // userRef.current.focus();
+    if (move) navigate("/onboarding");
+  }, [move, navigate]);
 
   useEffect(() => {
     setErrMsg("");
@@ -91,6 +95,7 @@ function Login() {
                         setlsData(response.data);
                         navigate("/dashboard"); // navigate to onboarding page
                         setIsLoading(false);
+                        setMove(true);
                       }
                     })
                     .catch((err) => {
@@ -107,6 +112,7 @@ function Login() {
                         setErrMsg(err.data?.message);
                         console.error(err.data?.message);
                       }
+                      setMove(false);
                     });
                 }
               })
@@ -177,6 +183,7 @@ function Login() {
               setErrMsg(err.data?.message);
               console.error(err.data?.message);
             }
+            setMove(false);
           });
 
         //* add error message later

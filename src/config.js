@@ -5,7 +5,7 @@ export const client = axios.create({
 });
 
 export const server = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
+  baseURL:  process.env.REACT_APP_BACKEND_ADDRESS,
   // baseURL:'http://localhost:5000',
 });
 

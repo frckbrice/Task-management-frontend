@@ -72,7 +72,7 @@ function OnBoarding() {
       description: projectdescription,
       startDate,
       estimateEndDate: endDate,
-      teamName
+      teamName,
     };
 
     if (token) {
@@ -149,7 +149,7 @@ function OnBoarding() {
       )}
 
       {currentStep === 1 && (
-        <div className="create-project">
+        <d iv className="create-project">
           <h2 className="createH2">Create your first project</h2>
           <p className="createP">
             Input the name of your project and describe the purpose of that
@@ -220,7 +220,7 @@ function OnBoarding() {
               Next
             </button>
           </div>
-        </div>
+        </d>
       )}
 
       {currentStep === 2 && (
