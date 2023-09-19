@@ -80,3 +80,66 @@
   border: 1px solid #d9d9dd;
   margin-top: 5px;
 }
+
+.add-list {
+  background-color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: rgba(25, 3, 89, 0.24) 0px 3px 8px;
+  border: none;
+  position: fixed;
+  background-color: #1b34b5;
+  text-transform: capitalize;
+  color: #fff;
+  right: 0;
+  /* transition: all 0.3s ease-in-out; */
+}
+
+.add-list:hover {
+  cursor: pointer;
+  width: 61px;
+  height: 61px;
+}
+
+.add-list:active {
+  background-color: #0a144a;
+}
+
+.addListForm {
+  z-index: 5;
+  position: absolute;
+  right: 0;
+  margin-right: 5px;
+}
+
+.addForm {
+  width: 100%;
+}
+
+.addForm h4 {
+  color: #393838;
+  text-transform: capitalize;
+}
+
+.addForm input {
+  width: 99%;
+  outline: none;
+  border: 1px solid #d3d3d3;
+  margin-bottom: 5px;
+  font-size: 12px;
+  padding: 2px;
+}
+
+.addForm button {
+  width: 100%;
+  background-color: #1b34b5;
+  color: #fff;
+  border: none;
+  padding: 2px;
+  transition: 0.3s ease-in-out;
+}
+
+.addForm button:hover {
+  cursor: pointer;
+}

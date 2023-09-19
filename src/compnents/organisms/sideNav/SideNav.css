@@ -162,3 +162,40 @@
   border: none;
   padding: 2px;
 }
+
+.addProjectForm {
+  /* background-color: red; */
+  display: flex;
+  gap: 30;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 400;
+  width: 100%;
+}
+
+.addProjectForm input {
+  outline: none;
+  border: 1px solid #d3d3d3;
+  font-size: 12px;
+  padding: 5px;
+}
+
+.addProjectForm textarea {
+  border: 1px solid #1b34b5;
+  /* background-color: green; */
+  width: 100%;
+}
+
+.addTextArea {
+  width: 100%;
+  border: 1px solid #1b34b5;
+  outline: none;
+}
+
+.addProjectForm button {
+  width: 100%;
+  background-color: #1b34b5;
+  padding: 2px;
+  border: none;
+  color: #fff;
+}

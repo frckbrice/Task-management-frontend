@@ -17,11 +17,11 @@ function Signup() {
   const [message, setMessage] = useState("");
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState("");
-   const [isLoading, setIsLoading] = useState(false);
-   const [errMsg, setErrMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
 
-   const userRef = useRef();
-   const errorRef = useRef();
+  const userRef = useRef();
+  const errorRef = useRef();
 
   const navigate = useNavigate();
   const { setUserData } = useContext(TmsContext);
@@ -30,12 +30,13 @@ function Signup() {
     userRef.current.focus();
   }, []);
 
-   useEffect(() => {
-     setErrMsg("");
-   }, [email, password]);
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
+
+  console.log("config: ", conf.googleapis);
 
   const login = useGoogleLogin({
-    
     onSuccess: (codeResponse) => {
       console.log("login goood");
       setIsLoading(true);
@@ -62,7 +63,6 @@ function Signup() {
                 headers: conf.headers,
               })
               .then((response) => {
-                 
                 if (response && response.data) {
                   console.log("Form submitted successfully!", response.data);
                   setUserData(response.data);
@@ -70,21 +70,22 @@ function Signup() {
                   setIsLoading(false);
                 }
               })
-              .catch((err) =>{ console.log("error registering a user", err)
-            
-              if (!err.status) {
-                setErrMsg("No Server Response");
-              } else if (err.status === 400) {
-                setErrMsg("Missing Username or Password");
-              } else if (err.status === 401) {
-                setErrMsg("Unauthorized");
-              } else if (err.status === 403) {
-                setErrMsg("Forbidden");
-              } else {
-                setErrMsg(err.data?.message);
-                console.error(err.data?.message);
-              }
-            });
+              .catch((err) => {
+                console.log("error registering a user", err);
+
+                if (!err.status) {
+                  setErrMsg("No Server Response");
+                } else if (err.status === 400) {
+                  setErrMsg("Missing Username or Password");
+                } else if (err.status === 401) {
+                  setErrMsg("Unauthorized");
+                } else if (err.status === 403) {
+                  setErrMsg("Forbidden");
+                } else {
+                  setErrMsg(err.data?.message);
+                  console.error(err.data?.message);
+                }
+              });
           })
           .catch((err) => console.log("error fetching user from google", err));
       }
@@ -115,30 +116,30 @@ function Signup() {
               headers: conf.headers,
             })
             .then((res) => {
-              
               if (res && res.data) {
                 console.log("Form submitted successfully!");
                 setUserData(res.data);
-                navigate("/onboarding"); // navigate to onboarding page
+                navigate("/login"); // navigate to onboarding page
                 setIsLoading(false);
               }
             })
-            .catch((err) => {console.log("error registering user", err)
-          
-           if (!err.status) {
-             setErrMsg("No Server Response");
-           } else if (err.status === 400) {
-             setErrMsg("Missing Username or Password");
-           } else if (err.status === 401) {
-             setErrMsg("Unauthorized");
-           } else if (err.status === 403) {
-             setErrMsg("Forbidden");
-           } else {
-             setErrMsg(err.data?.message);
-             console.error(err.data?.message);
-           }
-            setIsLoading(false);
-          });
+            .catch((err) => {
+              console.log("error registering user", err);
+
+              if (!err.status) {
+                setErrMsg("No Server Response");
+              } else if (err.status === 400) {
+                setErrMsg("Missing Username or Password");
+              } else if (err.status === 401) {
+                setErrMsg("Unauthorized");
+              } else if (err.status === 403) {
+                setErrMsg("Forbidden");
+              } else {
+                setErrMsg(err.data?.message);
+                console.error(err.data?.message);
+              }
+              setIsLoading(false);
+            });
         } else {
           setMessage("Passwords do not match");
         }

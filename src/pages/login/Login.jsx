@@ -27,7 +27,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [move, setMove] = useState(false);
 
-  const { setToken } = useContext(TmsContext);
+  const { setToken, setUserData } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
 
   useEffect(() => {
@@ -65,6 +65,7 @@ function Login() {
               id: res.data.id,
             };
             console.log(data);
+            setUserData(data);
             server
               .post("/auth/googleRegister", data, {
                 headers: conf.headers,
@@ -92,7 +93,7 @@ function Login() {
                         );
                         setToken(response.data.accessToken);
                         setlsData(response.data);
-                        // navigate to onboarding page
+                        navigate("/dashboard"); // navigate to onboarding page
                         setIsLoading(false);
                         setMove(true);
                       }
@@ -163,8 +164,8 @@ function Login() {
               console.log("Login successful!", res.data);
               setToken(res.data.accessToken);
               setlsData(res.data);
-              navigate("/onboarding"); // navigate to onboarding page
-              setMove(true);
+              navigate("/dashboard"); // navigate to onboarding page
+
               setIsLoading(false);
             }
           })

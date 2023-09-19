@@ -2,8 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import LandingPage from "./pages/landing/LandingPage";
 import Dashboard from "./pages/dashboard/Dashboard";
-import Signup from "./pages/signup/Signup"
-import Login from "./pages/login/Login"
+import Signup from "./pages/signup/Signup";
+import Login from "./pages/login/Login";
 import OnBoarding from "./pages/onboarding/OnBoarding";
 import ContextProvider from "./context/TaskBoardContext";
 import Toaster from "react-hot-toast";
@@ -38,7 +38,6 @@ function App() {
   return (
     <div className="App">
       <ContextProvider>
-      
         <RouterProvider router={router} />
       </ContextProvider>
     </div>
