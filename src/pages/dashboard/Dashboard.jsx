@@ -69,7 +69,10 @@ const Dashboard = () => {
                   <h4>{userData.username}</h4>
                   <p>{userData.email}</p>
                 </div>
-                <button className="logout">logout</button>
+                <div className="actions">
+                  <button className="logout">logout</button>
+                  <button className="logout">edit</button>
+                </div>
               </div>
             </PopupModal>
           </div>

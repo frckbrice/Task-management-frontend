@@ -10,7 +10,7 @@
   height: 70px;
   padding-left: 10px;
   z-index: 1;
-  position: relative;
+  /* position: relative; */
 }
 
 .addMemberBtn {
