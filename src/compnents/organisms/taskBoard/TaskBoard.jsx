@@ -97,6 +97,7 @@ const TaskBoard = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [currentStatus, setCurrentTaskStatus] = useState("");
   const [openTask, setOpenTask] = useState(false);
+  const [openAddList, setOpenAddList] = useState(false);
 
   const togglePopup = (status = "") => {
     setCurrentTaskStatus(status);
@@ -208,6 +209,27 @@ const TaskBoard = () => {
           })}
         </DragDropContext>
         {openTask && <TaskOpen onClick={handleOpentask} />}
+        <button
+          className="add-list"
+          onClick={() => setOpenAddList(!openAddList)}
+        >
+          add list
+        </button>
+        {openAddList && <OverLay action={() => setOpenAddList(!openAddList)} />}
+
+        {openAddList && (
+          <div className="addListForm">
+            {" "}
+            <PopupModal>
+              <div className="addForm">
+                <h4>Add new Task status list</h4>
+                {/* <PopupForm /> */}
+                <input type="text" placeholder="Enter List name" />
+                <button>Add List</button>
+              </div>
+            </PopupModal>{" "}
+          </div>
+        )}
       </div>
     </>
   );
