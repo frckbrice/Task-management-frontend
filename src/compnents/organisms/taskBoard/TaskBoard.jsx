@@ -220,7 +220,7 @@ const TaskBoard = () => {
         {openAddList && (
           <div className="addListForm">
             {" "}
-            <PopupModal>
+            <PopupModal onClick={() => setOpenAddList(!openAddList)}>
               <div className="addForm">
                 <h4>Add new Task status list</h4>
                 {/* <PopupForm /> */}

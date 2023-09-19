@@ -17,7 +17,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 // components import
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
-import PopupForm from "../popupForm/PopupForm";
+// import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
 
 const SideNav = () => {
@@ -51,11 +51,38 @@ const SideNav = () => {
           {isModalOpen && (
             <div className="add-project-popup" ref={ref}>
               <PopupModal title="Add new project" onClick={handleClick}>
-                <PopupForm
-                  inputText="Enter project Name"
-                  textarea="Add project description"
-                  buttonText="Done"
-                />
+                <form className="addProjectForm">
+                  <input type="text" placeholder="enter project name" />
+                  <p>start date</p>
+                  <input
+                    type="date"
+                    id="start_date"
+                    name="start date"
+                    className="date-input"
+                  />
+
+                  <p>start date</p>
+                  <input
+                    type="date"
+                    id="start_date"
+                    name="start date"
+                    className="date-input"
+                  />
+
+                  {/* <label>Description</label> */}
+                  <textarea
+                    id="projectdesc"
+                    className="addTextArea"
+                    placeholder="add description"
+                    name="projectdesc"
+                    rows={60}
+                    culomn
+                    // value={projectdescription}
+                    // onChange={(e) => setProjectDescription(e.target.value)}
+                  />
+
+                  <button>Add Project</button>
+                </form>
               </PopupModal>
             </div>
           )}
