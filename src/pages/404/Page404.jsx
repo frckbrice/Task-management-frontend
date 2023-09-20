@@ -10,11 +10,11 @@ function Page404() {
         <p>Page not found!</p>
       </div>
       <div className="img404">
-        <img src={Img404} alt="404Page" />
+        <img src={Img404} alt="404Page" className="Img404"/>
       </div>
       <div className="link404">
-        <Link to={-1}> Go Back</Link>
-        <Link to="/"> Go Home</Link>
+        <Link to={-1} className="goback"> Go Back</Link>
+        <Link to="/" className="gohome"> Go Home</Link>
       </div>
     </div>
   );
