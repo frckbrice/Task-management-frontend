@@ -160,13 +160,9 @@ function Login() {
             }
           )
           .then((res) => {
-            if (res && res.data) {
-              console.log("Login successful!", res.data);
-              setToken(res.data.accessToken);
-              setlsData(res.data);
-              navigate("/dashboard"); // navigate to onboarding page
-
-              setIsLoading(false);
+            if (res && res.data.status === 200) {
+              console.log("Login successful!");
+              navigate("/dashboard");
             }
           })
           .catch((err) => {
