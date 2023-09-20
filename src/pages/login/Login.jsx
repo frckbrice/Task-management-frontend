@@ -9,8 +9,9 @@ import { TmsContext } from "../../context/TaskBoardContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
+import toast from "react-hot-toast";
 
-import Task from "../onboarding/task";
+// import Task from "../onboarding/task";
 
 function Login() {
   const navigate = useNavigate();
@@ -54,7 +55,6 @@ function Login() {
             },
           })
           .then((res) => {
-            
             setProfile(res.data);
             if (res && res.data) {
               console.log("connection to the backend : registration");
@@ -76,29 +76,30 @@ function Login() {
                       email: resp.data,
                     };
                     server
-                      .post(
-                        "/auth/googleLogin",
-                        data,
-                        {
-                          headers: conf.headers,
-                        },
-                        { credentials: true, mode: "cors" }
-                      )
+                      .post("/auth/googleLogin", data, {
+                        headers: conf.headers,
+                        withCredentials: true,
+                        mode: "cors",
+                      })
                       .then((response) => {
                         if (response && response.data) {
                           console.log(
                             "User successfully logged in! cookie: ",
                             response.data
                           );
+                          toast.success("User successfully logged in");
                           setToken(response.data.accessToken);
                           setlsData(response.data);
                           // navigate to onboarding page
                           setIsLoading(false);
                           setMove(true);
                         }
+                        setEmail("");
+                        setPassword("");
                       })
                       .catch((err) => {
                         console.log("error loggin in", err.code, err.message);
+                        toast.success("Failed to log in");
                         if (!err.status) {
                           setErrMsg("No Server Response");
                         } else if (err.status === 400) {
@@ -168,6 +169,8 @@ function Login() {
               setMove(true);
               setIsLoading(false);
             }
+            setEmail('');
+            setPassword('');
           })
           .catch((err) => {
             console.log("error login in", err.message);

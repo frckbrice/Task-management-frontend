@@ -17,7 +17,7 @@ const Dashboard = () => {
     <div className="dashboard">
       <DashBoardNavBar>
         <div className="navContent">
-          <NavIterms></NavIterms>
+          <NavIterms/>
         </div>
       </DashBoardNavBar>
       {/* <NavBar className="dashNav"></NavBar> */}

@@ -20,3 +20,12 @@ export const conf = {
     "Content-Type": "application/x-www-form-urlencoded",
   },
 };
+
+export const serverInterceptor = axios.create({
+  // baseURL:  process.env.REACT_APP_BACKEND_ADDRESS,
+  baseURL: "http://localhost:5000",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded",
+  },
+  withCredentials: true,
+});

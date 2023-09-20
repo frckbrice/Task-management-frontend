@@ -9,9 +9,9 @@ const PopupModal = ({ title, onClick, children }) => {
   return (
     <div className="popup-modal">
       <div className="modal-top">
-        <p>{title}</p>
+        <p> </p>
         <button onClick={onClick}>
-          <MdOutlineCancel />
+          <MdOutlineCancel className="outlinecancel"/>
         </button>
       </div>
       {children}

@@ -1,11 +1,11 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OnBoarding.css";
-import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import toast from "react-hot-toast";
 import { server, conf } from "../../config";
-import Task from "./task";
+import useServerInterceptor from "../../hooks/useServerInterceptor";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -13,7 +13,7 @@ function OnBoarding() {
   const [projectdescription, setProjectDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
@@ -28,42 +28,54 @@ function OnBoarding() {
   const errorRef = useRef();
 
   const navigate = useNavigate();
+
   const { token, setProjectData, userData, projectData, setTaskdata } =
     useContext(TmsContext);
 
-   const handlePrev = () => {
-     setCurrentStep(currentStep - 1);
-   };
+    const serverInterceptor = useServerInterceptor();
 
-   const handleNext = () => {
-     if (move) {
-       setCurrentStep(currentStep + 1);
-     }
-   };
+  console.log({projectId: projectData.data.id})
 
+  useEffect(() => {
+    setErrMsg("");
+  }, [errMsg]);
+
+  const handlePrev = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleNext = () => {
+    if (move) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  //* add new task
   const addTask = async () => {
     setIsLoading(true);
     const data = {
       name: taskName,
       description: taskDescription,
-      projectId: projectData.id,
+      projectId: projectData.data.id,
     };
     if (token) {
       try {
-        const response = await server.post("/projects", data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        });
-        if (response && response.data) {
+        const response = await serverInterceptor.post("/tasks", data, 
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     Accept: "application/json",
+        //   },
+        // }
+        );
+        if (response && response.data && response.status === (200 || 201)) {
           toast.success("task successfully created");
           setTaskdata(response.data.data);
           setIsLoading(false);
         }
       } catch (err) {
         toast.error("Failed to create a task.");
-         setIsLoading(false);
+        setIsLoading(false);
         console.log(err?.data?.message);
         if (!err.status) {
           setErrMsg("No Server Response");
@@ -85,7 +97,9 @@ function OnBoarding() {
     }
   };
 
+  //*create project
   const createProject = async () => {
+    setIsLoading(true);
     let data = {
       name: projectName,
       description: projectdescription,
@@ -95,58 +109,76 @@ function OnBoarding() {
     };
 
     if (token) {
-      const response = await server.post("/projects", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
+      const response = await serverInterceptor.post(
+        "/projects",
+        data
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     Accept: "application/json",
+        //   },
+        // }
+      );
       console.log(response);
-      if (response && response.data) {
-        toast.success("project successfully created", response.data.data);
-        setProjectData(response.data.data);
-        setProjectToken(response.data.data.id);
+      if (response && response.data && response.status === (200 || 201)) {
+        toast.success("project successfully created", response.data);
+        setProjectData(response.data);
+        // setProjectToken(response.data.data.id);
+        setIsLoading(false);
       } else {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
         setMove(false);
+        setIsLoading(false);
       }
     } else {
       console.log("no token, cannot proceed");
-      // setMove(false);
+      setMove(false);
+      setIsLoading(false);
     }
   };
 
+  //*send invitation
   const handleInvite = async () => {
     // const emailContent = `${conf.server}/${projectToken}`;
-
+    setIsLoading(true);
     const emailContent = `${conf.serverbaseURL}/`;
 
     let data = {
       token: projectToken,
-      emails: `${inviteEmail}`, //need to create a list of invitees email
+      emails: inviteEmail, //need to create a list of invitees email
       emailContent,
     };
 
-    const response = await server.post("/invitation", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-    });
+    const response = await serverInterceptor.post(
+      "/invitation",
+      data
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //     Accept: "application/json",
+      //   },
+      // }
+    );
 
     if (response && response.data) {
+      setIsLoading(false);
       toast.success("invitation successfully sent", response.data);
     } else {
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
       setMove(false);
+      setIsLoading(false);
     }
   };
 
   const errClass = errMsg ? "mgs" : "offscreen";
 
- 
+  if (isLoading) {
+    <div className="loding">
+      <PulseLoader color="#333" />
+    </div>;
+  }
 
   return (
     <div className="onBoarding">
@@ -294,7 +326,7 @@ function OnBoarding() {
             <button onClick={handlePrev}>Prev</button>
             <button
               onClick={() => {
-                handleNext()
+                handleNext();
               }}
             >
               Next
