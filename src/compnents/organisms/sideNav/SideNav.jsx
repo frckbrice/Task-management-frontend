@@ -59,9 +59,9 @@ const SideNav = () => {
             setProjectList(response.data);
           }
         })
-        .catch((err) => console.log("Error getting projects", err));;
+        .catch((err) => console.log("Error getting projects", err));
 
-        //* get project members
+      //* get project members
       //  serverInterceptor
       //    .post("/projects/members", {
       //      headers: {
@@ -78,7 +78,7 @@ const SideNav = () => {
       //    }).catch(err => console.log('Error getting project Members', err));
     };
     fecthData();
-  }, [token]);
+  }, [token, serverInterceptor]);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);

@@ -15,7 +15,7 @@ import DashBoardNavBar from "../../compnents/organisms/dashBoardNavBar/DashBoard
 
 import { TmsContext } from "../../context/TaskBoardContext";
 import OverLay from "../../compnents/atoms/overlay/OverLay";
-import useAuth from "../../hooks/userAuth";
+import userAuth from "../../hooks/userAuth";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +25,7 @@ const Dashboard = () => {
     setOpenProfile(!openProfile);
   };
 
-  const { email, username, picture } = useAuth();
+  const { email, username, picture } = userAuth();
   console.log("this is user data", { email, username, picture });
 
   // useEffect(() => {

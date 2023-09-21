@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { server, conf } from "../../config";
 import useServerInterceptor from "../../hooks/useServerInterceptor";
 import PulseLoader from "react-spinners/PulseLoader";
+import userAuth from '../../hooks/userAuth'
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -14,7 +15,7 @@ function OnBoarding() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   // const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState("");
+ 
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
@@ -27,10 +28,11 @@ function OnBoarding() {
 
   const navigate = useNavigate();
 
-  const { token, setProjectData, userData, projectData, setTaskdata } =
+  const { token, setProjectData, projectData, setTaskdata } =
     useContext(TmsContext);
 
   const location = useLocation();
+  const {username} = userAuth();
 
   const serverInterceptor = useServerInterceptor();
 
@@ -182,7 +184,7 @@ function OnBoarding() {
     <div className="onBoarding">
       {currentStep === 0 && (
         <div className="welcome-card">
-          <h1>welcome! {userData.username}</h1>
+          <h1>welcome! {username}</h1>
           <p>
             We are delighted to have you on board. We built{" "}
             <span>TaskTrec</span> to help you or you and your team stay
