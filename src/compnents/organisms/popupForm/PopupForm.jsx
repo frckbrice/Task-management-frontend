@@ -4,6 +4,7 @@ import "./PopupForm.css";
 import { TmsContext } from "../../../context/TaskBoardContext";
 import { conf, server } from "../../../config";
 import toast from "react-hot-toast";
+import { serverInterceptor } from "../../../config";
 
 const PopupForm = ({ inputText, textarea, onSubmit, buttonText }) => {
   const [emails, setEmails] = useState("");
@@ -22,12 +23,13 @@ const PopupForm = ({ inputText, textarea, onSubmit, buttonText }) => {
     };
 
     try {
-      const response = await server.post("/invitation", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
+       const response = await serverInterceptor.post("/invitation", data, {
+         headers: {
+           Authorization: `Bearer ${token}`,
+           "Access-Control-Allow-Credentials": true,
+           Accept: "application/json",
+         },
+       });
       if (response && response.data) {
         toast.success("invitation successfully sent", response.data);
       }

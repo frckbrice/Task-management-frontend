@@ -1,3 +1,5 @@
+
+
 .errorpage {
   display: flex;
   flex-direction: column;
@@ -5,4 +7,5 @@
   align-items: center;
   margin: 3rem;
   gap: 15px;
+  width: 100%;
 }

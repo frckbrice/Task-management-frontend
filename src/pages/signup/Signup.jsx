@@ -59,7 +59,7 @@ function Signup() {
             server
               .post("/auth/googleRegister", data, {
                 headers: conf.headers,
-                withCredentials: true,
+               
               })
               .then((response) => {
                 if (response && response.data) {

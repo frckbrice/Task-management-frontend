@@ -8,12 +8,11 @@ const useServerInterceptor = () => {
   const { token } = useContext(TmsContext);
 
   useEffect(() => {
-    
     const reqIntercept = serverInterceptor.interceptors.request.use(
       (config) => {
+        console.log("\n in the axios request ", config);
         if (!config.headers["Authorization"]) {
           config.headers["Authorization"] = `Bearer ${token}`;
-          config.headers["Accept"] = "application/json";
         }
         return config;
       },
@@ -21,17 +20,31 @@ const useServerInterceptor = () => {
     );
 
     const resIntercept = serverInterceptor.interceptors.response.use(
+      
       (response) => response,
       async (error) => {
-        const prevReq = error?.config;
-        if (error?.response?.status === 403 || !prevReq?.sent) {
-          prevReq.sent = true;
-          const newToken = await refresh();
-          prevReq.headers["Authorization"] = `Bearer ${newToken}`;
+        console.log("\n in the axios response error ");
+
+        const prevRequest = error?.config;
+
+        console.log("\n before requesting a refresh token");
+        console.log({ prevRequestSENT: prevRequest});
+
+        if (error?.response?.status === 403 && !prevRequest?.sent) {
+
+          console.log("\n we are requesting a refresh token");
          
-          return serverInterceptor(prevReq);
+
+          prevRequest.sent = true;
+          const newToken = await refresh();
+
+          console.log("\n", { newToken: newToken });
+          
+          prevRequest.headers["Authorization"] = `Bearer ${newToken}`;
+console.log("\n after adding the bearer token");
+          return serverInterceptor(prevRequest);
         }
-        return Promise.reject(prevReq);
+        return Promise.reject(prevRequest);
       }
     );
 
@@ -43,6 +56,5 @@ const useServerInterceptor = () => {
 
   return serverInterceptor;
 };
-
 
 export default useServerInterceptor;

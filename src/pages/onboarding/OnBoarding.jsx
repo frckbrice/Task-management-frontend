@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./OnBoarding.css";
 import { TmsContext } from "../../context/TaskBoardContext";
 import toast from "react-hot-toast";
@@ -18,37 +18,38 @@ function OnBoarding() {
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
-  const [move, setMove] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-
-  const userRef = useRef();
-  const errorRef = useRef();
+  const [move, setMove] = useState(true);
 
   const navigate = useNavigate();
 
   const { token, setProjectData, userData, projectData, setTaskdata } =
     useContext(TmsContext);
 
-    const serverInterceptor = useServerInterceptor();
+  const location = useLocation();
 
-  console.log({projectId: projectData.data.id})
+  const serverInterceptor = useServerInterceptor();
+
+  if (projectData) console.log({ projectId: projectData });
 
   useEffect(() => {
     setErrMsg("");
   }, [errMsg]);
 
-  const handlePrev = () => {
-    setCurrentStep(currentStep - 1);
-  };
+  (function () {
+    if (location.pathname.includes("/onboarding") && !token)
+      navigate("/login", { replace: true });
+  })();
 
-  const handleNext = () => {
-    if (move) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
+  const handlePrev = () => setCurrentStep(currentStep - 1);
+
+  function handleNext() {
+    if (move) setCurrentStep(currentStep + 1);
+  }
 
   //* add new task
   const addTask = async () => {
@@ -56,18 +57,17 @@ function OnBoarding() {
     const data = {
       name: taskName,
       description: taskDescription,
-      projectId: projectData.data.id,
+      projectId: projectData?.id,
     };
     if (token) {
       try {
-        const response = await serverInterceptor.post("/tasks", data, 
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //     Accept: "application/json",
-        //   },
-        // }
-        );
+        const response = await serverInterceptor.post("/tasks", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        });
         if (response && response.data && response.status === (200 || 201)) {
           toast.success("task successfully created");
           setTaskdata(response.data.data);
@@ -109,26 +109,22 @@ function OnBoarding() {
     };
 
     if (token) {
-      const response = await serverInterceptor.post(
-        "/projects",
-        data
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //     Accept: "application/json",
-        //   },
-        // }
-      );
+      const response = await serverInterceptor.post("/projects", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      });
       console.log(response);
-      if (response && response.data && response.status === (200 || 201)) {
-        toast.success("project successfully created", response.data);
-        setProjectData(response.data);
-        // setProjectToken(response.data.data.id);
-        setIsLoading(false);
+      if (response && response.status === 201) {
+        toast.success("project successfully created");
+        setProjectData(response.data.data);
+        // setIsLoading(false);
       } else {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
-        setMove(false);
+
         setIsLoading(false);
       }
     } else {
@@ -145,25 +141,22 @@ function OnBoarding() {
     const emailContent = `${conf.serverbaseURL}/`;
 
     let data = {
-      token: projectToken,
+      projectToken: projectData.id,
       emails: inviteEmail, //need to create a list of invitees email
       emailContent,
     };
 
-    const response = await serverInterceptor.post(
-      "/invitation",
-      data
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //     Accept: "application/json",
-      //   },
-      // }
-    );
+    const response = await serverInterceptor.post("/invitation", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Credentials": true,
+        Accept: "application/json",
+      },
+    });
 
-    if (response && response.data) {
+    if (response && response.status === 200) {
       setIsLoading(false);
-      toast.success("invitation successfully sent", response.data);
+      toast.success("invitation successfully sent");
     } else {
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
@@ -264,65 +257,54 @@ function OnBoarding() {
                 onChange={(e) => setTeamName(e.target.value)}
               />
             </div>
+            <div className="onboard-project-btn">
+              <button
+                onClick={() => {
+                  createProject();
+                }}
+              >
+                Create
+              </button>
+            </div>
+            {errMsg && <p className={errClass}>{errMsg}</p>}
           </div>
           <div className="projectBtns Btns">
             <button onClick={handlePrev}>Prev</button>
-            <button
-              onClick={() => {
-                handleNext();
-                createProject();
-              }}
-            >
-              Next
-            </button>
+            <button onClick={handleNext}>Next</button>
           </div>
         </div>
       )}
 
       {currentStep === 2 && (
-        // <>
-        //   <Task />
-
-        // </>
         <div className="create-task">
-          <p ref={errorRef} className={errClass} aria-live="assertive">
-            {errMsg}
-          </p>
           <h2>Create tasks</h2>
           <p>
             Divide Your Project into tasks or assign the project to a member if
             it can be handled by just one person
           </p>
-          <h4>Eg: todo</h4>
-          <div>
-            <label>Task name</label>
-            <input
-              id="taskName"
-              type="text"
-              className="form-input"
-              name="taskName"
-              value={taskName}
-              ref={userRef}
-              onChange={(e) => setTaskName(e.target.value)}
-            />
-          </div>
+          <h4> status: Backlogs</h4>
+
+          <input
+            type="text"
+            id="taskinput"
+            className="forminput"
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+          />{" "}
           <br />
-          <div className="projectField">
-            <label>Task description</label>
-            <textarea
-              id="taskDescription"
-              type="text"
-              className="form-input"
-              name="taskDescription"
-              value={taskDescription}
-              onChange={(e) => setTaskDescription(e.target.value)}
-            />
-          </div>
+          <textarea
+            name="task decription"
+            id=""
+            cols="30"
+            rows="3"
+            value={taskDescription}
+            onChange={(e) => setTaskDescription(e.target.value)}
+          />
           <button className="addtaskBtn" onClick={addTask}>
             Add Task
           </button>
-          {error && <p className="createtaskErr">{error}</p>}
-          <div className="projectBtns Btns">
+          {errMsg && <p className={errClass}>{errMsg}</p>}
+          <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>
             <button
               onClick={() => {
@@ -352,6 +334,7 @@ function OnBoarding() {
             <button className="inviteBtn" onClick={handleInvite}>
               Invite Member(s)
             </button>
+            {errMsg && <p className={errClass}>{errMsg}</p>}
           </div>
           <div className="inviteBtns Btns">
             <button onClick={handlePrev}>Prev</button>

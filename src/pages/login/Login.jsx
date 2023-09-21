@@ -28,8 +28,10 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [move, setMove] = useState(false);
 
-  const { setToken } = useContext(TmsContext);
+  const { setToken, setRefreshToken } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
+
+  
 
   useEffect(() => {
     // userRef.current.focus();
@@ -71,24 +73,36 @@ function Login() {
                 })
                 .then((resp) => {
                   if (resp && resp.data) {
-                    console.log(resp.data);
+                    console.log("registered data: ", resp.data);
+                    const { email } = resp.data;
                     let data = {
-                      email: resp.data,
+                      email,
                     };
                     server
-                      .post("/auth/googleLogin", data, {
-                        headers: conf.headers,
-                        withCredentials: true,
-                        mode: "cors",
-                      })
+                      .post(
+                        "/auth/googleLogin",
+                        data,
+                        {
+                          headers: conf.headers,
+                        },
+                        {
+                          withCredentials: true,
+                          mode: "cors",
+                        }
+                      )
                       .then((response) => {
-                        if (response && response.data) {
+                        if (
+                          response &&
+                          response.data &&
+                          response.status === 200
+                        ) {
                           console.log(
                             "User successfully logged in! cookie: ",
                             response.data
                           );
                           toast.success("User successfully logged in");
                           setToken(response.data.accessToken);
+                          setRefreshToken(response.data.refreshToken);
                           setlsData(response.data);
                           // navigate to onboarding page
                           setIsLoading(false);
@@ -100,6 +114,7 @@ function Login() {
                       .catch((err) => {
                         console.log("error loggin in", err.code, err.message);
                         toast.success("Failed to log in");
+                        setIsLoading(false);
                         if (!err.status) {
                           setErrMsg("No Server Response");
                         } else if (err.status === 400) {
@@ -119,6 +134,7 @@ function Login() {
                 .catch((err) =>
                   console.log("error registering to db", err.code, err.message)
                 );
+              setIsLoading(false);
             }
           })
           .catch((err) =>
@@ -136,8 +152,8 @@ function Login() {
     },
   });
 
-  console.log(user);
-  console.log(profile);
+  // console.log(user);
+  // console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -156,7 +172,7 @@ function Login() {
               headers: conf.headers,
             },
             {
-              credentials: true,
+              withCredentials: true,
               mode: "cors",
             }
           )
@@ -164,13 +180,14 @@ function Login() {
             if (res && res.data) {
               console.log("Login successful!", res.data);
               setToken(res.data.accessToken);
+               setRefreshToken(res.data.refreshToken);
               setlsData(res.data);
               navigate("/onboarding"); // navigate to onboarding page
               setMove(true);
               setIsLoading(false);
             }
-            setEmail('');
-            setPassword('');
+            setEmail("");
+            setPassword("");
           })
           .catch((err) => {
             console.log("error login in", err.message);
@@ -187,6 +204,7 @@ function Login() {
               console.error(err.data?.message);
             }
             setMove(false);
+            setIsLoading(false);
           });
 
         //* add error message later
@@ -203,11 +221,11 @@ function Login() {
   const errClass = errMsg ? "mgs" : "offscreen";
 
   if (isLoading) {
-    content = (
+    return (content = (
       <div className="loding">
         <PulseLoader color="#333" />
       </div>
-    );
+    ));
   } else {
     content = (
       <div>
@@ -287,9 +305,3 @@ function Login() {
 }
 
 export default Login;
-
-/*<div className="cred" id="signInDiv">
-          <button onClick={login} className="signupButton">
-            <FcGoogle className="mr" size={40} /> login in with Google
-          </button>
-        </div>*/
