@@ -4,6 +4,10 @@ import { projectData, members, collaboProjects } from "../../../dummyData";
 
 import avatar from "../../../assets/avatar.jpg";
 
+// libery imports
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
 //css import
 import "./SideNav.css";
 
@@ -19,10 +23,14 @@ import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
 // import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
+
 import { TmsContext } from "../../../context/TaskBoardContext";
 
 import useServerInterceptor from "../../../hooks/useServerInterceptor";
 import toast from "react-hot-toast";
+
+import MemberProfile from "../membersProfile/MemberProfile";
+
 
 const SideNav = () => {
   // create ref
@@ -219,12 +227,14 @@ const SideNav = () => {
             <MdPeopleOutline className="title-icon" />
             <h3>Members</h3>
           </div>
+
           {projectMembers &&
             projectMembers.map((member, index) => (
               <div className="members-list" key={index}>
                 <div className="member-profile">
                   <img
                     src={member.picture || avatar}
+
                     alt="member's avatar"
                     className="member-avatar"
                   />
@@ -232,7 +242,12 @@ const SideNav = () => {
                 </div>
                 <RiArrowDropDownLine />
               </div>
+
             ))}
+
+            </Tippy>
+          ))}
+
         </div>
 
         <div className="collaborations">
