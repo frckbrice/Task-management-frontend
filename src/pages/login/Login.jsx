@@ -31,8 +31,6 @@ function Login() {
   const { setToken, setRefreshToken } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
 
-  
-
   useEffect(() => {
     // userRef.current.focus();
     if (move) navigate("/onboarding");
@@ -46,7 +44,7 @@ function Login() {
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
-      setIsLoading(true);
+      setIsLoading(false);
       setUser(codeResponse);
       if (codeResponse) {
         axios
@@ -112,13 +110,13 @@ function Login() {
                         setPassword("");
                       })
                       .catch((err) => {
-                        console.log("error loggin in", err.code, err.message);
+                        console.log("error loging in", err.code, err.message);
                         toast.success("Failed to log in");
                         setIsLoading(false);
                         if (!err.status) {
                           setErrMsg("No Server Response");
                         } else if (err.status === 400) {
-                          setErrMsg("Missing some usefull information");
+                          setErrMsg("Missing some useful information");
                         } else if (err.status === 401) {
                           setErrMsg("Unauthorized");
                         } else if (err.status === 403) {
@@ -222,7 +220,7 @@ function Login() {
 
   if (isLoading) {
     return (content = (
-      <div className="loding">
+      <div className="loading">
         <PulseLoader color="#333" />
       </div>
     ));
@@ -235,53 +233,63 @@ function Login() {
           <p ref={errorRef} className={errClass} aria-live="assertive">
             {errMsg}
           </p>
-          <form className="loginform" onSubmit={handleSubmit}>
-            <div className="credential">
-              {" "}
-              <h2 className="loginform-h2">Login</h2>
-              <p className="loginform-p">
-                Welcome Back! Continue form where you left.
-              </p>
-            </div>
+          <form className="loginform">
+            <div className="innerform" onSubmit={handleSubmit}>
+              <div className="credential">
+                {" "}
+                <h2 className="loginform-h2">Login</h2>
+                <p className="loginform-p">
+                  Welcome Back! Continue form where you left.
+                </p>
+              </div>
 
-            <div className="email credential">
-              <label className="loginformlabel" htmlFor="email">
-                Email{" "}
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="loginforminput"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                ref={userRef}
-                required
-              />
-            </div>
+              <div className="email credential">
+                <label className="loginformlabel" htmlFor="email">
+                  Email{" "}
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="loginforminput"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  ref={userRef}
+                  required
+                />
+              </div>
 
-            <div className="password credential">
-              <label className="loginformlabel" htmlFor="password">
-                Password{" "}
-              </label>
+              <div className="password credential">
+                <label className="loginformlabel" htmlFor="password">
+                  Password{" "}
+                </label>
 
-              <input
-                className="loginforminput"
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <p className="mgs">{message}</p>
-              <br />
+                <input
+                  className="loginforminput"
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <p className="mgs">{message}</p>
+                <br />
+              </div>
+              <button type="submit" className="loginbtn credential">
+                Login
+              </button>
+              <div className="hrLine">
+                <hr />
+                Or <hr />
+              </div>
+
+              <button onClick={login} className="googleLog">
+                <FcGoogle className="google" size={40} /> Login with Google
+              </button>
             </div>
-            <button type="submit" className="loginbtn credential">
-              Login
-            </button>
           </form>
 
           <div className="loginImg">
-            <h3>Don't have an Account...?</h3>
+            <h3 className="loginImgTxt">Don't have an Account...?</h3>
             <br />
             <button
               type="submit"
@@ -291,9 +299,6 @@ function Login() {
               }}
             >
               Signup
-            </button>
-            <button onClick={login} className="signupButton">
-              <FcGoogle className="mr" size={40} /> login in with Google
             </button>
           </div>
         </div>
