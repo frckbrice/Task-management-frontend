@@ -8,13 +8,19 @@ import { BsPersonAdd } from "react-icons/bs";
 import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
 import PopupForm from "../popupForm/PopupForm";
+import OverLay from "../../atoms/overlay/OverLay";
 // custom hook import
 
 const ProjectDetialsBar = () => {
   const [showPopup, setShowPopup] = useState(false);
 
+  const closePopup = () => {
+    setShowPopup(!showPopup);
+  };
+
   return (
     <div className="bar-container">
+      {showPopup && <OverLay action={closePopup} />}
       <div className="detialsBar">
         <div className="progress-section">
           {/* <div className="progess-icon">
@@ -23,7 +29,7 @@ const ProjectDetialsBar = () => {
           <h3>Web Enterprice</h3>
         </div>
         <div className="addMemberBtn">
-          <DashActionBtn onClick={() => setShowPopup((prev) => !prev)}>
+          <DashActionBtn onClick={closePopup}>
             <span>
               <BsPersonAdd />
             </span>
@@ -33,11 +39,12 @@ const ProjectDetialsBar = () => {
       </div>
       {showPopup && (
         <div className="add-member-popup">
-          <PopupModal
-            title="Add new member"
-            onClick={() => setShowPopup(false)}
-          >
-            <PopupForm inputText = {'add email address'} buttonText={'ADD'} textarea={'add email content'}/>
+          <PopupModal title="Add new member" onClick={closePopup}>
+            <PopupForm
+              inputText={"add email address"}
+              buttonText={"ADD"}
+              textarea={"add email content"}
+            />
           </PopupModal>
         </div>
       )}

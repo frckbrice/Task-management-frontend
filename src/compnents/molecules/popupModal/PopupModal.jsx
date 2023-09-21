@@ -1,7 +1,8 @@
 import React from "react";
 
 // libery imports
-import { MdOutlineCancel } from "react-icons/md";
+// import { MdOutlineCancel } from "react-icons/md";
+import { AiOutlineClose } from "react-icons/ai";
 
 import "./PopupModal.css";
 
@@ -11,7 +12,7 @@ const PopupModal = ({ title, onClick, children }) => {
       <div className="modal-top">
         <p> </p>
         <button onClick={onClick}>
-          <MdOutlineCancel className="outlinecancel"/>
+          <AiOutlineClose className="outlinecancel" />
         </button>
       </div>
       {children}
