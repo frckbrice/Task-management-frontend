@@ -59,7 +59,6 @@ function Signup() {
             server
               .post("/auth/googleRegister", data, {
                 headers: conf.headers,
-               
               })
               .then((response) => {
                 if (response && response.data) {
@@ -68,10 +67,10 @@ function Signup() {
                   navigate("/onboarding"); // navigate to onboarding page
                   setIsLoading(false);
                 }
-                setUsername('');
-                setPassword('');
-                setConfirmPassword('');
-                setEmail('');
+                setUsername("");
+                setPassword("");
+                setConfirmPassword("");
+                setEmail("");
               })
               .catch((err) => {
                 console.log("error registering a user", err);
@@ -175,7 +174,7 @@ function Signup() {
       <NavBar />
       <div className="formBody">
         <div className="signupImg">
-          <text>Already have an Account...!</text>
+          <p className="signImgTxt">Already have an Account...!</p>
           <br />
           <button
             type="submit"
@@ -186,91 +185,98 @@ function Signup() {
           >
             Login
           </button>
-          <div className="cred" id="signInDiv">
-            <button onClick={login} className="signupButton">
-              <FcGoogle className="mr" size={40} /> Signup with Google
-            </button>
-          </div>
         </div>
 
-        <form className="signupForm" onSubmit={handleSubmit}>
-          <p ref={errorRef} className={errClass} aria-live="assertive">
-            {errMsg}
-          </p>
-          <div className="cred">
-            {" "}
-            <h2 className="signupform-h2">Sign up</h2>
-            <p className="signupform-p">
-              Sign up for Tasktrec today and start getting things done!
+        <form className="signupForm">
+          <div className="innerform" onSubmit={handleSubmit}>
+            <p ref={errorRef} className={errClass} aria-live="assertive">
+              {errMsg}
             </p>
-          </div>
+            <div className="cred">
+              {" "}
+              <h2 className="signupform-h2">Sign up</h2>
+              <p className="signupform-p">
+                Sign up for Tasktrec today and start getting things done!
+              </p>
+            </div>
 
-          <div className="username cred">
-            <label className="formlabel" htmlFor="username">
-              Full Name{" "}
-            </label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              className="forminput"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              ref={userRef}
-              required
-            />
-          </div>
+            <div className="username cred">
+              <label className="formlabel" htmlFor="username">
+                Full Name{" "}
+              </label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                className="forminput"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                ref={userRef}
+                required
+              />
+            </div>
 
-          <div className="email cred">
-            <label className="formlabel" htmlFor="email">
-              Email{" "}
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="forminput"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+            <div className="email cred">
+              <label className="formlabel" htmlFor="email">
+                Email{" "}
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="forminput"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-          <div className="password cred">
-            <label className="formlabel" htmlFor="password">
-              Password{" "}
-            </label>
-            <input
-              className="forminput"
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="confirm-password cred">
-            <label className="formlabel" htmlFor="confirmPassword">
-              Confirm Password{" "}
-            </label>
-            <input
-              className="forminput"
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-            <p className="message">{message}</p>
-            <br />
-          </div>
+            <div className="password cred">
+              <label className="formlabel" htmlFor="password">
+                Password{" "}
+              </label>
+              <input
+                className="forminput"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="confirm-password cred">
+              <label className="formlabel" htmlFor="confirmPassword">
+                Confirm Password{" "}
+              </label>
+              <input
+                className="forminput"
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <p className="message">{message}</p>
+              <br />
+            </div>
 
-          <button
-            type="submit"
-            className="signupbtn cred"
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </button>
+            <button
+              type="submit"
+              className="signupbtn cred"
+              onClick={handleSubmit}
+            >
+              Sign Up
+            </button>
+            <div className="hrLine">
+              <hr />
+              Or <hr />
+            </div>
+
+            <div className="cred" id="signInDiv">
+              <button onClick={login} className="googleLog">
+                <FcGoogle className="google" size={40} /> Signup with Google
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
