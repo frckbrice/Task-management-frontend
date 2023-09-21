@@ -129,3 +129,11 @@
   justify-content: space-between;
   gap: 10px;
 }
+
+/* ****************Tippy components styles***************** */
+.tippy {
+  background-color: #fff;
+  border: 1px solid #d3d3d3;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: #000;
+}

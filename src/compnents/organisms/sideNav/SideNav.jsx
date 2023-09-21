@@ -4,6 +4,10 @@ import { projectData, members, collaboProjects } from "../../../dummyData";
 
 // custom hooks
 
+// libery imports
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
 //css import
 import "./SideNav.css";
 
@@ -19,6 +23,7 @@ import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
 // import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
+import MemberProfile from "../membersProfile/MemberProfile";
 
 const SideNav = () => {
   // create ref
@@ -101,17 +106,30 @@ const SideNav = () => {
             <h3>Members</h3>
           </div>
           {members.map((member, index) => (
-            <div className="members-list" key={index}>
-              <div className="member-profile">
-                <img
-                  src="https://i.pinimg.com/564x/13/6a/7d/136a7d742a5408847968c5db2149eba6.jpg"
-                  alt="member's avatar"
-                  className="member-avatar"
+            <Tippy
+              key={index}
+              interactive={true}
+              placement="top-end"
+              className="tippy"
+              content={
+                <MemberProfile
+                  membersName={member.name}
+                  membersEmail={member.email}
                 />
-                <p>{member.name}</p>
+              }
+            >
+              <div className="members-list" key={index}>
+                <div className="member-profile">
+                  <img
+                    src="https://i.pinimg.com/564x/13/6a/7d/136a7d742a5408847968c5db2149eba6.jpg"
+                    alt="member's avatar"
+                    className="member-avatar"
+                  />
+                  <p>{member.name}</p>
+                </div>
+                <RiArrowDropDownLine />
               </div>
-              <RiArrowDropDownLine />
-            </div>
+            </Tippy>
           ))}
         </div>
 

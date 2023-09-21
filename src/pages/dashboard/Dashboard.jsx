@@ -2,6 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 // css import
 import "./Dashboard.css";
 
+// libery imports
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
 // components import
 // import NavBar from "../../compnents/organisms/navBar/NavBar";
 import NavIterms from "./nav_iterms/NavIterms";
