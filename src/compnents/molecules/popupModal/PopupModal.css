@@ -34,5 +34,6 @@
 .outlinecancel {
   width: 20px;
   height: 15px;
-  color: rgb(227, 123, 123);
+  color: red;
+  font-weight: bold;
 }
