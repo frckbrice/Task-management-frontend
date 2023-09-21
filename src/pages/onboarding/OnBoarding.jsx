@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { server, conf } from "../../config";
 import useServerInterceptor from "../../hooks/useServerInterceptor";
 import PulseLoader from "react-spinners/PulseLoader";
+import userAuth from '../../hooks/userAuth'
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -14,7 +15,7 @@ function OnBoarding() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   // const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState("");
+ 
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
@@ -27,10 +28,11 @@ function OnBoarding() {
 
   const navigate = useNavigate();
 
-  const { token, setProjectData, userData, projectData, setTaskdata } =
+  const { token, setProjectData, projectData, setTaskdata } =
     useContext(TmsContext);
 
   const location = useLocation();
+  const {username} = userAuth();
 
   const serverInterceptor = useServerInterceptor();
 
@@ -109,7 +111,8 @@ function OnBoarding() {
     };
 
     if (token) {
-      const response = await serverInterceptor.post("/projects", data, {
+      try {
+         const response = await serverInterceptor.post("/projects", data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Credentials": true,
@@ -121,7 +124,8 @@ function OnBoarding() {
         toast.success("project successfully created");
         setProjectData(response.data.data);
         // setIsLoading(false);
-      } else {
+      } 
+      } catch (error) {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
 
@@ -145,8 +149,8 @@ function OnBoarding() {
       emails: inviteEmail, //need to create a list of invitees email
       emailContent,
     };
-
-    const response = await serverInterceptor.post("/invitation", data, {
+    try {
+      const response = await serverInterceptor.post("/invitation", data, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Credentials": true,
@@ -157,12 +161,15 @@ function OnBoarding() {
     if (response && response.status === 200) {
       setIsLoading(false);
       toast.success("invitation successfully sent");
-    } else {
+    } 
+    } catch (error) {
+      
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
       setMove(false);
       setIsLoading(false);
     }
+    
   };
 
   const errClass = errMsg ? "mgs" : "offscreen";
@@ -177,7 +184,7 @@ function OnBoarding() {
     <div className="onBoarding">
       {currentStep === 0 && (
         <div className="welcome-card">
-          <h1>welcome! {userData.username}</h1>
+          <h1>welcome! {username}</h1>
           <p>
             We are delighted to have you on board. We built{" "}
             <span>TaskTrec</span> to help you or you and your team stay
