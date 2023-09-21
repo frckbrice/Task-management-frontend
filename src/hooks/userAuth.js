@@ -1,14 +1,10 @@
-import { useContext } from "react";
+
 import jwtDecode from 'jwt-decode';
-import { TmsContext } from "../context/TaskBoardContext";
 
 
-const useAuth = () => {
 
-  const {token} = useContext(TmsContext);
- 
-
-  if(token) {
+const userAuth = (token) => {
+   if(token) {
     const decode = jwtDecode(token);
 
     const {username, roles, picture, email} = decode.userInfo
@@ -16,7 +12,7 @@ const useAuth = () => {
   }
 
 
-  return {username: '', roles: ''};
+  return {username: '', roles: '', picture: '', email: ''};
 };
 
-export default useAuth;
+export default userAuth;
