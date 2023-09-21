@@ -4,6 +4,10 @@ import { projectData, members, collaboProjects } from "../../../dummyData";
 
 import avatar from "../../../assets/avatar.jpg";
 
+// libery imports
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
 //css import
 import "./SideNav.css";
 
@@ -23,6 +27,7 @@ import { TmsContext } from "../../../context/TaskBoardContext";
 
 import useServerInterceptor from "../../../hooks/useServerInterceptor";
 import toast from "react-hot-toast";
+import MemberProfile from "../membersProfile/MemberProfile";
 
 const SideNav = () => {
   // create ref
@@ -219,12 +224,23 @@ const SideNav = () => {
             <MdPeopleOutline className="title-icon" />
             <h3>Members</h3>
           </div>
-          {projectMembers &&
-            projectMembers.map((member, index) => (
+          {members.map((member, index) => (
+            <Tippy
+              key={index}
+              interactive={true}
+              placement="top-end"
+              className="tippy"
+              content={
+                <MemberProfile
+                  membersName={member.name}
+                  membersEmail={member.email}
+                />
+              }
+            >
               <div className="members-list" key={index}>
                 <div className="member-profile">
                   <img
-                    src={member.picture || avatar}
+                    src="https://i.pinimg.com/564x/13/6a/7d/136a7d742a5408847968c5db2149eba6.jpg"
                     alt="member's avatar"
                     className="member-avatar"
                   />
@@ -232,7 +248,8 @@ const SideNav = () => {
                 </div>
                 <RiArrowDropDownLine />
               </div>
-            ))}
+            </Tippy>
+          ))}
         </div>
 
         <div className="collaborations">

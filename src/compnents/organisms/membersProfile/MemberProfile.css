@@ -1,0 +1,31 @@
+.membersProfile {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+}
+
+.membersProfile h3 {
+  font-size: 12px;
+}
+
+.membersProfile p {
+  font-size: 12px;
+}
+
+.membersProfile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.membersProfile button {
+  height: 25px;
+  padding: 2px;
+  border: 1px solid #d3d3d3;
+  transition: 0.3s ease-in-out;
+  color: #f6882d;
+}
+
+.membersProfile button:hover {
+  cursor: pointer;
+}
