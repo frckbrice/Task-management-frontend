@@ -37,7 +37,7 @@ const ProjectDetialsBar = () => {
             title="Add new member"
             onClick={() => setShowPopup(false)}
           >
-            <PopupForm />
+            <PopupForm inputText = {'add email address'} buttonText={'ADD'} textarea={'add email content'}/>
           </PopupModal>
         </div>
       )}

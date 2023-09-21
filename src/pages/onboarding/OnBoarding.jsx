@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./OnBoarding.css";
-import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import toast from "react-hot-toast";
 import { server, conf } from "../../config";
+import useServerInterceptor from "../../hooks/useServerInterceptor";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -12,61 +13,93 @@ function OnBoarding() {
   const [projectdescription, setProjectDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  // const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const [move, setMove] = useState(true);
 
   const navigate = useNavigate();
-  const { token, setProjectData, userData } = useContext(TmsContext);
 
-  console.log("toket: ", token);
+  const { token, setProjectData, userData, projectData, setTaskdata } =
+    useContext(TmsContext);
 
-  const addTask = async (taskData) => {
-    const response = await server.post("/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(taskData),
-    });
+  const location = useLocation();
 
-    if (!response.ok) {
-      throw new Error("Failed to create task: " + response.statusText);
+  const serverInterceptor = useServerInterceptor();
+
+  if (projectData) console.log({ projectId: projectData });
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [errMsg]);
+
+  (function () {
+    if (location.pathname.includes("/onboarding") && !token)
+      navigate("/login", { replace: true });
+  })();
+
+  const handlePrev = () => setCurrentStep(currentStep - 1);
+
+  function handleNext() {
+    if (move) setCurrentStep(currentStep + 1);
+  }
+
+  //* add new task
+  const addTask = async () => {
+    setIsLoading(true);
+    const data = {
+      name: taskName,
+      description: taskDescription,
+      projectId: projectData?.id,
+    };
+    if (token) {
+      try {
+        const response = await serverInterceptor.post("/tasks", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        });
+        if (response && response.data && response.status === (200 || 201)) {
+          toast.success("task successfully created");
+          setTaskdata(response.data.data);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        toast.error("Failed to create a task.");
+        setIsLoading(false);
+        console.log(err?.data?.message);
+        if (!err.status) {
+          setErrMsg("No Server Response");
+        } else if (err.status === 400) {
+          setErrMsg("Missing Username or Password");
+        } else if (err.status === 401) {
+          setErrMsg("Unauthorized");
+        } else if (err.status === 403) {
+          setErrMsg("Forbidden");
+        } else {
+          setErrMsg(err.data?.message);
+          console.error(err.data?.message);
+        }
+      }
+    } else {
+      console.log("no token, can not proceed");
+      toast.error("Failed to create a task.");
+      setIsLoading(false);
     }
-
-    const data = await response.json();
-    return data;
   };
 
-  const handleAddTask = async () => {
-    const taskName = document.getElementById("taskinput").value;
-    const taskData = { name: taskName };
-    try {
-      const createdTask = await addTask(taskData);
-      // Update state with the created task data
-      setTasks([...tasks, createdTask]);
-      // Clear the input field
-      document.getElementById("taskinput").value = "";
-    } catch (error) {
-      // Handle error, e.g. display error message to user
-      setError("Failed to create task");
-    }
-  };
-
-  const handlePrev = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const handleNext = () => {
-    if (move) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
+  //*create project
   const createProject = async () => {
+    setIsLoading(true);
     let data = {
       name: projectName,
       description: projectdescription,
@@ -76,53 +109,69 @@ function OnBoarding() {
     };
 
     if (token) {
-      const response = await server.post("/projects", data, {
+      const response = await serverInterceptor.post("/projects", data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
           Accept: "application/json",
         },
       });
       console.log(response);
-      if (response && response.data) {
-        toast.success("project successfully created", response.data.data);
+      if (response && response.status === 201) {
+        toast.success("project successfully created");
         setProjectData(response.data.data);
-        setProjectToken(response.data.data.id);
+        // setIsLoading(false);
       } else {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
+
+        setIsLoading(false);
       }
     } else {
       console.log("no token, cannot proceed");
       setMove(false);
+      setIsLoading(false);
     }
   };
 
+  //*send invitation
   const handleInvite = async () => {
     // const emailContent = `${conf.server}/${projectToken}`;
-
+    setIsLoading(true);
     const emailContent = `${conf.serverbaseURL}/`;
 
     let data = {
-      token: projectToken,
-      emails: `${inviteEmail}`, //need to create a list of invitees email
+      projectToken: projectData.id,
+      emails: inviteEmail, //need to create a list of invitees email
       emailContent,
     };
 
-    const response = await server.post("/invitation", data, {
+    const response = await serverInterceptor.post("/invitation", data, {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Credentials": true,
         Accept: "application/json",
       },
     });
 
-    if (response && response.data) {
-      toast.success("invitation successfully sent", response.data);
+    if (response && response.status === 200) {
+      setIsLoading(false);
+      toast.success("invitation successfully sent");
     } else {
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
       setMove(false);
+      setIsLoading(false);
     }
   };
+
+  const errClass = errMsg ? "mgs" : "offscreen";
+
+  if (isLoading) {
+    <div className="loding">
+      <PulseLoader color="#333" />
+    </div>;
+  }
 
   return (
     <div className="onBoarding">
@@ -208,17 +257,20 @@ function OnBoarding() {
                 onChange={(e) => setTeamName(e.target.value)}
               />
             </div>
+            <div className="onboard-project-btn">
+              <button
+                onClick={() => {
+                  createProject();
+                }}
+              >
+                Create
+              </button>
+            </div>
+            {errMsg && <p className={errClass}>{errMsg}</p>}
           </div>
           <div className="projectBtns Btns">
             <button onClick={handlePrev}>Prev</button>
-            <button
-              onClick={() => {
-                handleNext();
-                createProject();
-              }}
-            >
-              Next
-            </button>
+            <button onClick={handleNext}>Next</button>
           </div>
         </d>
       )}
@@ -230,15 +282,37 @@ function OnBoarding() {
             Divide Your Project into tasks or assign the project to a member if
             it can be handled by just one person
           </p>
-          <h4>Backlogs</h4>
-          <input type="text" id="taskinput" className="forminput" />
-          <button className="addtaskBtn" onClick={handleAddTask}>
+          <h4> status: Backlogs</h4>
+
+          <input
+            type="text"
+            id="taskinput"
+            className="forminput"
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+          />{" "}
+          <br />
+          <textarea
+            name="task decription"
+            id=""
+            cols="30"
+            rows="3"
+            value={taskDescription}
+            onChange={(e) => setTaskDescription(e.target.value)}
+          />
+          <button className="addtaskBtn" onClick={addTask}>
             Add Task
           </button>
-          {error && <p className="createtaskErr">{error}</p>}
+          {errMsg && <p className={errClass}>{errMsg}</p>}
           <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>
-            <button onClick={handleNext}>Next</button>
+            <button
+              onClick={() => {
+                handleNext();
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       )}
@@ -260,6 +334,7 @@ function OnBoarding() {
             <button className="inviteBtn" onClick={handleInvite}>
               Invite Member(s)
             </button>
+            {errMsg && <p className={errClass}>{errMsg}</p>}
           </div>
           <div className="inviteBtns Btns">
             <button onClick={handlePrev}>Prev</button>

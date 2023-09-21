@@ -34,8 +34,6 @@ function Signup() {
     setErrMsg("");
   }, [email, password]);
 
-  console.log("config: ", conf.googleapis);
-
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
@@ -61,6 +59,7 @@ function Signup() {
             server
               .post("/auth/googleRegister", data, {
                 headers: conf.headers,
+               
               })
               .then((response) => {
                 if (response && response.data) {
@@ -69,6 +68,10 @@ function Signup() {
                   navigate("/onboarding"); // navigate to onboarding page
                   setIsLoading(false);
                 }
+                setUsername('');
+                setPassword('');
+                setConfirmPassword('');
+                setEmail('');
               })
               .catch((err) => {
                 console.log("error registering a user", err);
@@ -122,6 +125,10 @@ function Signup() {
                 navigate("/login"); // navigate to onboarding page
                 setIsLoading(false);
               }
+              setUsername("");
+              setPassword("");
+              setConfirmPassword("");
+              setEmail("");
             })
             .catch((err) => {
               console.log("error registering user", err);

@@ -1,0 +1,140 @@
+import toast from "react-hot-toast";
+import { server } from "../../config";
+
+const handleInvites = async (
+  projectToken,
+  inviteEmail,
+  setIsLoading,
+  setMove,
+  token
+) => {
+  // const emailContent = `${conf.server}/${projectToken}`;
+  setIsLoading(true);
+  const emailContent = `${conf.serverbaseURL}/`;
+
+  let data = {
+    token: projectToken,
+    emails: `${inviteEmail}`, //need to create a list of invitees email
+    emailContent,
+  };
+
+  const response = await server.post("/invitation", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+    },
+  });
+
+  if (response && response.data) {
+    setIsLoading(false);
+    toast.success("invitation successfully sent", response.data);
+  } else {
+    toast.error("Failed to send an invite.");
+    console.log(error?.data?.message);
+    setMove(false);
+    setIsLoading(false);
+  }
+};
+
+
+ const createProjects = async (
+  setIsLoading,
+  projectName,
+  projectdescription,
+  startDate,
+  endDate,
+  teamName,
+  token,
+  setProjectData,
+  setProjectToken,
+  setMove
+) => {
+  setIsLoading(true);
+  let data = {
+    name: projectName,
+    description: projectdescription,
+    startDate,
+    estimateEndDate: endDate,
+    teamName,
+  };
+
+  if (token) {
+    const response = await server.post("/projects", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    });
+    console.log(response);
+    if (response && response.data && response.status === (200 || 201)) {
+      toast.success("project successfully created", response.data.data);
+      setProjectData(response.data.data);
+      setProjectToken(response.data.data.id);
+      setIsLoading(false);
+    } else {
+      toast.error("Failed to create project.");
+      console.log(error?.data?.message);
+      setMove(false);
+      setIsLoading(false);
+    }
+  } else {
+    console.log("no token, cannot proceed");
+    setMove(false);
+    setIsLoading(false);
+  }
+};
+
+ const addTasks = async (
+  setIsLoading,
+  taskName,
+  taskDescription,
+  projectId,
+  setTaskdata,
+  token,
+  setErrMsg
+) => {
+  setIsLoading(true);
+  const data = {
+    name: taskName,
+    description: taskDescription,
+    projectId,
+  };
+  if (token) {
+    try {
+      const response = await server.post("/projects", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+      if (response && response.data && response.status === (200 || 201)) {
+        toast.success("task successfully created");
+        setTaskdata(response.data.data);
+        setIsLoading(false);
+      }
+    } catch (err) {
+      toast.error("Failed to create a task.");
+      setIsLoading(false);
+      console.log(err?.data?.message);
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.status === 401) {
+        setErrMsg("Unauthorized");
+      } else if (err.status === 403) {
+        setErrMsg("Forbidden");
+      } else {
+        setErrMsg(err.data?.message);
+        console.error(err.data?.message);
+      }
+    }
+  } else {
+    console.log("no token, can not proceed");
+    toast.error("Failed to create a task.");
+    setIsLoading(false);
+  }
+};
+
+
+export default { createProjects, handleInvites, addTasks };

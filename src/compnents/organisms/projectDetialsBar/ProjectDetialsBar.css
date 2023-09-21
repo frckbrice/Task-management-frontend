@@ -43,6 +43,7 @@
 
 .add-member-popup {
   position: absolute;
-  top: 30px;
+  top: 60px;
   right: 0;
+  font-size: 12px;
 }

@@ -9,8 +9,9 @@ import { TmsContext } from "../../context/TaskBoardContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
+import toast from "react-hot-toast";
 
-import Task from "../onboarding/task";
+// import Task from "../onboarding/task";
 
 function Login() {
   const navigate = useNavigate();
@@ -27,8 +28,10 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [move, setMove] = useState(false);
 
-  const { setToken, setUserData } = useContext(TmsContext);
+  const { setToken, setRefreshToken } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
+
+  
 
   useEffect(() => {
     // userRef.current.focus();
@@ -54,71 +57,85 @@ function Login() {
             },
           })
           .then((res) => {
-            console.log("connection to the backend : registration");
             setProfile(res.data);
             if (res && res.data) {
-            }
-            let data = {
-              username: res.data.name,
-              email: res.data.email,
-              picture: res.data.picture,
-              id: res.data.id,
-            };
-            console.log(data);
-            setUserData(data);
-            server
-              .post("/auth/googleRegister", data, {
-                headers: conf.headers,
-              })
-              .then((resp) => {
-                if (resp && resp.data) {
-                  console.log(resp.data);
-                  let data = {
-                    email: resp.data,
-                  };
-                  server
-                    .post(
-                      "/auth/googleLogin",
-                      data,
-                      {
-                        headers: conf.headers,
-                      },
-                      { credentials: true, mode: "cors" }
-                    )
-                    .then((response) => {
-                      if (response && response.data) {
-                        console.log(
-                          "User successfully logged in! cookie: ",
-                          response.data
-                        );
-                        setToken(response.data.accessToken);
-                        setlsData(response.data);
-                        navigate("/dashboard"); // navigate to onboarding page
+              console.log("connection to the backend : registration");
+              let data = {
+                username: res.data.name,
+                email: res.data.email,
+                picture: res.data.picture,
+                id: res.data.id,
+              };
+              console.log(data);
+              server
+                .post("/auth/googleRegister", data, {
+                  headers: conf.headers,
+                })
+                .then((resp) => {
+                  if (resp && resp.data) {
+                    console.log("registered data: ", resp.data);
+                    const { email } = resp.data;
+                    let data = {
+                      email,
+                    };
+                    server
+                      .post(
+                        "/auth/googleLogin",
+                        data,
+                        {
+                          headers: conf.headers,
+                        },
+                        {
+                          withCredentials: true,
+                          mode: "cors",
+                        }
+                      )
+                      .then((response) => {
+                        if (
+                          response &&
+                          response.data &&
+                          response.status === 200
+                        ) {
+                          console.log(
+                            "User successfully logged in! cookie: ",
+                            response.data
+                          );
+                          toast.success("User successfully logged in");
+                          setToken(response.data.accessToken);
+                          setRefreshToken(response.data.refreshToken);
+                          setlsData(response.data);
+                          // navigate to onboarding page
+                          setIsLoading(false);
+                          setMove(true);
+                        }
+                        setEmail("");
+                        setPassword("");
+                      })
+                      .catch((err) => {
+                        console.log("error loggin in", err.code, err.message);
+                        toast.success("Failed to log in");
                         setIsLoading(false);
-                        setMove(true);
-                      }
-                    })
-                    .catch((err) => {
-                      console.log("error loggin in", err.code, err.message);
-                      if (!err.status) {
-                        setErrMsg("No Server Response");
-                      } else if (err.status === 400) {
-                        setErrMsg("Missing Username or Password");
-                      } else if (err.status === 401) {
-                        setErrMsg("Unauthorized");
-                      } else if (err.status === 403) {
-                        setErrMsg("Forbidden");
-                      } else {
-                        setErrMsg(err.data?.message);
-                        console.error(err.data?.message);
-                      }
-                      setMove(false);
-                    });
-                }
-              })
-              .catch((err) =>
-                console.log("error registering to db", err.code, err.message)
-              );
+                        if (!err.status) {
+                          setErrMsg("No Server Response");
+                        } else if (err.status === 400) {
+                          setErrMsg("Missing some usefull information");
+                        } else if (err.status === 401) {
+                          setErrMsg("Unauthorized");
+                        } else if (err.status === 403) {
+                          setErrMsg("Forbidden");
+                        } else {
+                          setErrMsg(err.data?.message);
+                          console.error(err.data?.message);
+                        }
+                        setMove(false);
+                      });
+                  }
+                })
+                .catch((err) =>
+                  console.log("error registering to db", err.code, err.message)
+                );
+              setIsLoading(false);
+            }
           })
           .catch((err) =>
             console.log(
@@ -135,8 +152,8 @@ function Login() {
     },
   });
 
-  console.log(user);
-  console.log(profile);
+  // console.log(user);
+  // console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -155,15 +172,22 @@ function Login() {
               headers: conf.headers,
             },
             {
-              credentials: true,
+              withCredentials: true,
               mode: "cors",
             }
           )
           .then((res) => {
-            if (res && res.data.status === 200) {
-              console.log("Login successful!");
-              navigate("/dashboard");
+            if (res && res.data) {
+              console.log("Login successful!", res.data);
+              setToken(res.data.accessToken);
+              setRefreshToken(res.data.refreshToken);
+              setlsData(res.data);
+              navigate("/onboarding"); // navigate to onboarding page
+              setMove(true);
+              setIsLoading(false);
             }
+            setEmail("");
+            setPassword("");
           })
           .catch((err) => {
             console.log("error login in", err.message);
@@ -180,6 +204,7 @@ function Login() {
               console.error(err.data?.message);
             }
             setMove(false);
+            setIsLoading(false);
           });
 
         //* add error message later
@@ -196,11 +221,11 @@ function Login() {
   const errClass = errMsg ? "mgs" : "offscreen";
 
   if (isLoading) {
-    content = (
+    return (content = (
       <div className="loding">
         <PulseLoader color="#333" />
       </div>
-    );
+    ));
   } else {
     content = (
       <div>
@@ -280,9 +305,3 @@ function Login() {
 }
 
 export default Login;
-
-/*<div className="cred" id="signInDiv">
-          <button onClick={login} className="signupButton">
-            <FcGoogle className="mr" size={40} /> login in with Google
-          </button>
-        </div>*/
