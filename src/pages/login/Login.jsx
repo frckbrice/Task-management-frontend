@@ -180,7 +180,7 @@ function Login() {
             if (res && res.data) {
               console.log("Login successful!", res.data);
               setToken(res.data.accessToken);
-               setRefreshToken(res.data.refreshToken);
+              setRefreshToken(res.data.refreshToken);
               setlsData(res.data);
               navigate("/onboarding"); // navigate to onboarding page
               setMove(true);

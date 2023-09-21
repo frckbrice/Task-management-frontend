@@ -8,15 +8,15 @@ const ContextProvider = ({ children }) => {
   const [projectData, setProjectData] = useState({});
   const [userData, setUserData] = useState({});
   const [taskdata, setTaskdata] = useState({});
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
 
-    console.log(token)
+  console.log(token);
 
   const values = {
     token,
     setToken,
-    projectData,
-    setProjectData,
+    // projectname,
+    // setProjectname,
     userData,
     setUserData,
     email,
@@ -27,11 +27,7 @@ const ContextProvider = ({ children }) => {
     setRefreshToken,
   };
 
-  return (
-    <TmsContext.Provider value={values}>
-      {children}{" "}
-    </TmsContext.Provider>
-  );
+  return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;
 };
 
 export default ContextProvider;

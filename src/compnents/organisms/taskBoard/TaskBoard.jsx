@@ -97,25 +97,21 @@ const TaskBoard = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [currentStatus, setCurrentTaskStatus] = useState("");
   const [openTask, setOpenTask] = useState(false);
+  const [openAddList, setOpenAddList] = useState(false);
 
   const togglePopup = (status = "") => {
     setCurrentTaskStatus(status);
     setShowAddTask((prev) => !prev);
   };
 
-
   const handleOpentask = () => {
-
-
     setOpenTask(!openTask);
   };
 
   return (
     <>
       {showAddTask && <OverLay action={togglePopup} />}
-
       {openTask && <OverLay action={handleOpentask} />}
-
       <div className="task-board">
         {showAddTask && (
           <div className="add-task">
@@ -187,8 +183,7 @@ const TaskBoard = () => {
                                         minHeight: "50px",
                                         backgroundColor: snapshot.isDragging
                                           ? "#263B4A"
-                                          : "white",
-
+                                          : "#fff",
                                         // border: "1px solid #d9d9dd",
                                         ...provided.draggableProps.style,
                                       }}
@@ -213,9 +208,28 @@ const TaskBoard = () => {
             );
           })}
         </DragDropContext>
-
         {openTask && <TaskOpen onClick={handleOpentask} />}
+        <button
+          className="add-list"
+          onClick={() => setOpenAddList(!openAddList)}
+        >
+          add list
+        </button>
+        {openAddList && <OverLay action={() => setOpenAddList(!openAddList)} />}
 
+        {openAddList && (
+          <div className="addListForm">
+            {" "}
+            <PopupModal onClick={() => setOpenAddList(!openAddList)}>
+              <div className="addForm">
+                <h4>Add new Task status list</h4>
+                {/* <PopupForm /> */}
+                <input type="text" placeholder="Enter List name" />
+                <button>Add List</button>
+              </div>
+            </PopupModal>{" "}
+          </div>
+        )}
       </div>
     </>
   );
