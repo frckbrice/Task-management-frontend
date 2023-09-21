@@ -15,10 +15,10 @@ const ContextProvider = ({ children }) => {
   const values = {
     token,
     setToken,
-    // projectname,
-    // setProjectname,
     userData,
     setUserData,
+    projectData,
+    setProjectData,
     email,
     setEmail,
     taskdata,

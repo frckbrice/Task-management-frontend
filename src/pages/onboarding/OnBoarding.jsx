@@ -109,7 +109,8 @@ function OnBoarding() {
     };
 
     if (token) {
-      const response = await serverInterceptor.post("/projects", data, {
+      try {
+         const response = await serverInterceptor.post("/projects", data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Credentials": true,
@@ -121,7 +122,8 @@ function OnBoarding() {
         toast.success("project successfully created");
         setProjectData(response.data.data);
         // setIsLoading(false);
-      } else {
+      } 
+      } catch (error) {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
 
@@ -145,8 +147,8 @@ function OnBoarding() {
       emails: inviteEmail, //need to create a list of invitees email
       emailContent,
     };
-
-    const response = await serverInterceptor.post("/invitation", data, {
+    try {
+      const response = await serverInterceptor.post("/invitation", data, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Credentials": true,
@@ -157,12 +159,15 @@ function OnBoarding() {
     if (response && response.status === 200) {
       setIsLoading(false);
       toast.success("invitation successfully sent");
-    } else {
+    } 
+    } catch (error) {
+      
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
       setMove(false);
       setIsLoading(false);
     }
+    
   };
 
   const errClass = errMsg ? "mgs" : "offscreen";

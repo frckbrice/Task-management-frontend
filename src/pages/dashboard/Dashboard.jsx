@@ -15,6 +15,7 @@ import DashBoardNavBar from "../../compnents/organisms/dashBoardNavBar/DashBoard
 
 import { TmsContext } from "../../context/TaskBoardContext";
 import OverLay from "../../compnents/atoms/overlay/OverLay";
+import useAuth from "../../hooks/userAuth";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -24,18 +25,18 @@ const Dashboard = () => {
     setOpenProfile(!openProfile);
   };
 
-  const { userData } = useContext(TmsContext);
-  console.log("this is user data", userData);
+  const { email, username, picture } = useAuth();
+  console.log("this is user data", { email, username, picture });
 
-  useEffect(() => {
-    if (!user) {
-      setUser(userData);
-    }
+  // useEffect(() => {
+  //   if (!user) {
+  //     setUser({ email, username, picture });
+  //   }
 
-    localStorage.setItem("user", user);
-  }, [user]);
+  //   localStorage.setItem("user", { email, username, picture });
+  // }, [user]);
 
-  // const user = userData.dataValues;
+  // const user = dataValues;
 
   console.log("user: ", user);
   return (
@@ -45,7 +46,7 @@ const Dashboard = () => {
         <DashBoardNavBar>
           <div className="navContent">
             <NavIterms
-              profilePicture={userData.picture}
+              profilePicture={picture}
               togleProfile={toggleProfile}
             ></NavIterms>
           </div>
@@ -64,10 +65,10 @@ const Dashboard = () => {
           <div className="userProfile">
             <PopupModal onClick={toggleProfile}>
               <div className="profile">
-                <img src={userData.picture} alt="profile avatar" />
+                <img src={picture} alt="profile avatar" />
                 <div className="profileDetai">
-                  <h4>{userData.username}</h4>
-                  <p>{userData.email}</p>
+                  <h4>{username}</h4>
+                  <p>{email}</p>
                 </div>
                 <div className="actions">
                   <button className="logout">logout</button>
