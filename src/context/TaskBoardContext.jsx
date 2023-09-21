@@ -6,7 +6,7 @@ const ContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [projectData, setProjectData] = useState({});
-  // const [userData, setUserData] = useState({});
+  const [selectedProject, setSelectedProject] = useState({});
   const [taskdata, setTaskdata] = useState({});
   const [email, setEmail] = useState("");
 
@@ -15,8 +15,8 @@ const ContextProvider = ({ children }) => {
   const values = {
     token,
     setToken,
-    // userData,
-    // setUserData,
+    selectedProject,
+    setSelectedProject,
     projectData,
     setProjectData,
     email,

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 // dummy data import
 import { projectData, members, collaboProjects } from "../../../dummyData";
 
-import avatar  from '../../../assets/avatar.jpg'
+import avatar from "../../../assets/avatar.jpg";
 
 //css import
 import "./SideNav.css";
@@ -39,7 +39,7 @@ const SideNav = () => {
   const [projectList, setProjectList] = useState([]);
   const [projectMembers, setProjectMembers] = useState([]);
 
-  const { token, setProjectData } = useContext(TmsContext);
+  const { token, setProjectData, setSelectedProject } = useContext(TmsContext);
 
   console.log({ token, setProjectData });
 
@@ -121,6 +121,11 @@ const SideNav = () => {
     }
   };
 
+  //*selecct projct
+  const selectProject = (project) => {
+    setSelectedProject(project);
+  };
+
   return (
     <>
       {isModalOpen && <OverLay action={handleClick} />}
@@ -198,7 +203,11 @@ const SideNav = () => {
 
           {projectList &&
             projectList.map((project, index) => (
-              <div className="list project-list" key={index}>
+              <div
+                className="list project-list"
+                key={index}
+                onClick={() => selectProject(project)}
+              >
                 <p>{project.name}</p>
                 <BsThreeDotsVertical />
               </div>

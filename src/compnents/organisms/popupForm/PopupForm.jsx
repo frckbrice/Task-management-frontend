@@ -10,14 +10,14 @@ const PopupForm = ({ inputText, textarea, onSubmit, buttonText }) => {
   const [emails, setEmails] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
 
-  const { token, projectData } = useContext(TmsContext);
+  const { token, selectedProject } = useContext(TmsContext);
 
   const handleInvite = async (e) => {
     e.preventDefault();
     const emailContent = `${conf.serverbaseURL}/`;
 
     let data = {
-      projectToken: projectData?.id,
+      projectToken: selectedProject?.id,
       emails,
       emailContent,
       emailDescription,
@@ -31,13 +31,11 @@ const PopupForm = ({ inputText, textarea, onSubmit, buttonText }) => {
             Accept: "application/json",
           },
         });
-        if (response && response.data) {
+        if (response && response.data && response.status === (200 || 201)) {
           toast.success("invitation successfully sent", response.data);
         }
       } catch (error) {
-        console.log(error?.data?.message);
-        // setMove(false);
-        // setIsLoading(false);
+        console.log("error sending invitation",   error?.data?.message);
         toast.error("Failed to send an invite.", error?.data?.message);
       }
     } else {
