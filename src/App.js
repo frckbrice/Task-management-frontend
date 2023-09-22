@@ -13,6 +13,10 @@ import PersistLogin from "./compnents/auth/PersistLogin";
 import ErrorPage from "./pages/errorPage/errorPage";
 import RequireAuth from './compnents/auth/RequireAuth'
 import ROLES from "./compnents/auth/RequireAuth";
+import ForgottenPassword from "./pages/forgottenPassword/ForgottenPassword";
+import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
+import ResetPassword from "./pages/resetPassword/ResetPassword";
+import WelcomeMember from "./pages/welcomeMember/WelcomeMember";
 
 function App() {
   const router = createBrowserRouter([
@@ -46,7 +50,23 @@ function App() {
           ],
         },
    
-
+{
+      path: "/forgottenPassword",
+      element: <ForgottenPassword />,
+    },
+    {
+      path: "/verifyEmail",
+      element: <VerifyEmail />,
+    },
+    {
+      path: "/resetPassword",
+      element: <ResetPassword />,
+    },
+    {
+      path: "/welcome",
+      element: <WelcomeMember />,
+    },
+  
     {
       path: "*",
       element: <Page404 />,

@@ -2,6 +2,7 @@
   display: flex;
   gap: 30px;
   justify-content: space-between;
+  width: 300px;
 }
 
 .membersProfile h3 {
@@ -21,9 +22,10 @@
 .membersProfile button {
   height: 25px;
   padding: 2px;
-  border: 1px solid #d3d3d3;
+  border: 1px solid #9f9c9c;
   transition: 0.3s ease-in-out;
-  color: #f6882d;
+  background-color: transparent;
+  color: #525050;
 }
 
 .membersProfile button:hover {

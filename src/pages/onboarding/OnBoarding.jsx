@@ -212,39 +212,43 @@ function OnBoarding() {
             project.
           </p>
           <div className="projectCard">
-            <label>Name</label>
+            {/* <label>Name</label> */}
             <input
+            placeholder="project name"
               type="text"
               id="projectname"
               name="project-name"
               className="form-input"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
-            />{" "}
-            <br />
-            <label>starting date : </label>
-            <input
-              type="date"
-              id="start_date"
-              name="start_date"
-              className="form-input"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
             />
-            <br />
-            <label>estimate ending date : </label>
-            <input
-              type="date"
-              id="end_date"
-              name="end_date"
-              className="form-input"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-            <br />
+            <div className="date">
+              <label>start date</label>
+              <input
+                type="date"
+                id="start_date"
+                name="start_date"
+                className="form-input"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+
+            <div className="date">
+              <label>end date</label>
+              <input
+                type="date"
+                id="end_date"
+                name="end_date"
+                className="form-input"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
             <div className="projectField">
-              <label>Description</label>
+              {/* <label>Description</label> */}
               <textarea
+                placeholder="add project description..."
                 id="projectdesc"
                 className="forminput"
                 name="projectdesc"
@@ -252,10 +256,10 @@ function OnBoarding() {
                 onChange={(e) => setProjectDescription(e.target.value)}
               />
             </div>
-            <br />
             <div className="projectField">
-              <label>Team Name of The Poject</label>
+              {/* <label>Team Name of The Poject</label> */}
               <input
+                placeholder="Enter project team name"
                 id="teamName"
                 type="text"
                 className="form-input"

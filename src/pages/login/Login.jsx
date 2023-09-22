@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -229,7 +229,7 @@ function Login() {
   if (isLoading) {
     return (content = (
       <div className="loading">
-        <PulseLoader color="#333" />
+        <PulseLoader color="#0707a0" size={26} />
       </div>
     ));
   } else {
@@ -285,6 +285,10 @@ function Login() {
               <button type="submit" className="loginbtn credential">
                 Login
               </button>
+              <div>
+                Forgotten password?{" "}
+                <Link to="/forgottenpassword">Reset it</Link>
+              </div>
               <div className="hrLine">
                 <hr />
                 Or <hr />
