@@ -98,13 +98,15 @@ const TaskBoard = () => {
   const [currentStatus, setCurrentTaskStatus] = useState("");
   const [openTask, setOpenTask] = useState(false);
   const [openAddList, setOpenAddList] = useState(false);
+  const [editTask, setEditTask] = useState();
 
   const togglePopup = (status = "") => {
     setCurrentTaskStatus(status);
     setShowAddTask((prev) => !prev);
   };
 
-  const handleOpentask = () => {
+  const handleOpentask = (task) => {
+    setEditTask(task);
     setOpenTask(!openTask);
   };
 
@@ -172,9 +174,9 @@ const TaskBoard = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      onClick={() =>
-                                        setOpenTask((prev) => !prev)
-                                      }
+                                      onClick={() => {
+                                        handleOpentask(task);
+                                      }}
                                       className="card"
                                       style={{
                                         userSelect: "none",
@@ -208,7 +210,13 @@ const TaskBoard = () => {
             );
           })}
         </DragDropContext>
-        {openTask && <TaskOpen onClick={handleOpentask} />}
+        {openTask && (
+          <TaskOpen
+            taskName={editTask.name}
+            description={editTask.description}
+            onClick={handleOpentask}
+          />
+        )}
         <button
           className="add-list"
           onClick={() => setOpenAddList(!openAddList)}

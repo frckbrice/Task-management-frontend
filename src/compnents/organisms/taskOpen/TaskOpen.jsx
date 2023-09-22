@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "./TaskOpen.css";
 // react icons
@@ -12,38 +12,50 @@ import { members } from "../../../dummyData";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
-const TaskOpen = ({ onClick }) => {
+const TaskOpen = ({ onClick, taskName, description }) => {
+  const [onEdit, setOnEdit] = useState(false);
+
+  const handleOnEdit = () => {
+    setOnEdit(!onEdit);
+  };
+
   return (
     <div className="taskOpen">
       <div className="head-text">
-        <h3>To do</h3>
+        <p>Task detials...!</p>
         <button onClick={onClick}>
           <AiOutlineClose />
         </button>
       </div>
-      <div className="content">
-        <h3>Second task</h3>
+      {!onEdit && (
+        <div className="content">
+          <h3>{taskName}</h3>
+          <p>{description}</p>
+        </div>
+      )}
 
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum aliquam
-          iure, consectetur in eligendi tempora iusto ducimus incidunt
-          accusantium voluptates.
-        </p>
-      </div>
+      {onEdit && (
+        <form className="content content-edit">
+          <div className="content-edit-head">
+            <input type="text" defaultValue={taskName} />
+            <button>done</button>
+          </div>
+
+          <textarea name="" id="">
+            {description}
+          </textarea>
+        </form>
+      )}
       <div className="actions">
         <div className="updateBtn">
-          <button>
-            <span>
-              <FiEdit />
-            </span>
-          </button>
+          <button onClick={handleOnEdit}>{!onEdit ? "edit" : "back"}</button>
         </div>
-
         <button className="assign-task">delete</button>
       </div>
       <div className="task-member">
         {members.map((member, i) => (
           <Tippy
+            key={i}
             content={<AsignMember name={member.name} />}
             interactive
             className="tippy"
