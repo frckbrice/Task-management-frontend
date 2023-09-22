@@ -1,0 +1,63 @@
+.verifyForm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate( -50%, -50%);
+  width: 400px;
+  padding: 25px 15px 15px;
+  border: 1px solid #04175a46;;
+	text-align: center;
+}
+
+.logoImag {
+  width: 60px;
+	margin-bottom: 25px;
+}
+
+.verifyTxt {
+  color: #04175A;
+  text-align: center;
+  font-weight: 400;
+  font-size: 32px;
+  font-family: cursive;
+  margin-bottom: 15px;
+}
+
+.verifyLabel {
+  font-size: 16px;
+  text-align: center;
+  margin: 0 auto 20px;
+	width: 80%;
+  color: #737373;
+	
+}
+
+.verifyInput {
+  letter-spacing: 22px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px 20px;
+  width: 160px;
+	color: #04175A;
+  border: 0;
+  outline: 0;
+	text-align: center;
+}
+
+.verifyBtn {
+  padding: 8px 25px;
+  border-radius: 15px;
+	background-color: white;
+  border: 1px solid #04175A;
+  width: 50%;
+  color: #04175A;
+  cursor: pointer;
+	margin: 40px 0 15px;
+}
+
+.errorMsg {
+  color: red;
+  margin: 10px 0 30px;
+  font-size: small;
+}

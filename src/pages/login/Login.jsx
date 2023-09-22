@@ -1,5 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 import NavBar from "../../compnents/organisms/navBar/NavBar";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -44,7 +44,7 @@ function Login() {
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
-      setIsLoading(false);
+      setIsLoading(true);
       setUser(codeResponse);
       if (codeResponse) {
         axios
@@ -103,7 +103,7 @@ function Login() {
                           setRefreshToken(response.data.refreshToken);
                           setlsData(response.data);
                           // navigate to onboarding page
-                          setIsLoading(false);
+                          // setIsLoading(true);
                           setMove(true);
                         }
                         setEmail("");
@@ -111,7 +111,7 @@ function Login() {
                       })
                       .catch((err) => {
                         console.log("error loging in", err.code, err.message);
-                        toast.success("Failed to log in");
+                        toast.error("Failed to log in");
                         setIsLoading(false);
                         if (!err.status) {
                           setErrMsg("No Server Response");
@@ -125,6 +125,7 @@ function Login() {
                           setErrMsg(err.data?.message);
                           console.error(err.data?.message);
                         }
+                        setIsLoading(false);
                         setMove(false);
                       });
                   }
@@ -132,7 +133,7 @@ function Login() {
                 .catch((err) =>
                   console.log("error registering to db", err.code, err.message)
                 );
-              setIsLoading(false);
+              setIsLoading(true);
             }
           })
           .catch((err) =>
@@ -221,7 +222,7 @@ function Login() {
   if (isLoading) {
     return (content = (
       <div className="loading">
-        <PulseLoader color="#333" />
+        <PulseLoader color="#0707a0" size={26} />
       </div>
     ));
   } else {
@@ -277,6 +278,10 @@ function Login() {
               <button type="submit" className="loginbtn credential">
                 Login
               </button>
+              <div>
+                Forgotten password?{" "}
+                <Link to="/forgottenpassword">Reset it</Link>
+              </div>
               <div className="hrLine">
                 <hr />
                 Or <hr />
