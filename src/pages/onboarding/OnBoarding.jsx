@@ -6,16 +6,18 @@ import toast from "react-hot-toast";
 import { server, conf } from "../../config";
 import useServerInterceptor from "../../hooks/useServerInterceptor";
 import PulseLoader from "react-spinners/PulseLoader";
-import userAuth from '../../hooks/userAuth'
+import userAuth from "../../hooks/userAuth";
+import {useStorage} from "../../hooks/useStorage";
 
 function OnBoarding() {
+  console.log("onboarding");
   const [currentStep, setCurrentStep] = useState(0);
   const [projectName, setProjectName] = useState("");
   const [projectdescription, setProjectDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   // const [tasks, setTasks] = useState([]);
- 
+
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
@@ -28,11 +30,11 @@ function OnBoarding() {
 
   const navigate = useNavigate();
 
-  const { token, setProjectData, projectData, setTaskdata } =
-    useContext(TmsContext);
+  const { setProjectData, projectData, setTaskdata } = useContext(TmsContext);
+  const { token } = useStorage("token");
 
   const location = useLocation();
-  const {username} = userAuth();
+  const { username } = userAuth();
 
   const serverInterceptor = useServerInterceptor();
 
@@ -112,19 +114,19 @@ function OnBoarding() {
 
     if (token) {
       try {
-         const response = await serverInterceptor.post("/projects", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Credentials": true,
-          Accept: "application/json",
-        },
-      });
-      console.log(response);
-      if (response && response.status === 201) {
-        toast.success("project successfully created");
-        setProjectData(response.data.data);
-        // setIsLoading(false);
-      } 
+        const response = await serverInterceptor.post("/projects", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        });
+        console.log(response);
+        if (response && response.status === 201) {
+          toast.success("project successfully created");
+          setProjectData(response.data.data);
+          // setIsLoading(false);
+        }
       } catch (error) {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
@@ -142,7 +144,7 @@ function OnBoarding() {
   const handleInvite = async () => {
     // const emailContent = `${conf.server}/${projectToken}`;
     setIsLoading(true);
-    const emailContent = `${conf.serverbaseURL}/`;
+    const emailContent = `${conf.clientbaseURL}/`;
 
     let data = {
       projectToken: projectData.id,
@@ -151,25 +153,23 @@ function OnBoarding() {
     };
     try {
       const response = await serverInterceptor.post("/invitation", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Credentials": true,
-        Accept: "application/json",
-      },
-    });
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      });
 
-    if (response && response.status === 200) {
-      setIsLoading(false);
-      toast.success("invitation successfully sent");
-    } 
+      if (response && response.status === 200) {
+        setIsLoading(false);
+        toast.success("invitation successfully sent");
+      }
     } catch (error) {
-      
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
       setMove(false);
       setIsLoading(false);
     }
-    
   };
 
   const errClass = errMsg ? "mgs" : "offscreen";
@@ -290,7 +290,6 @@ function OnBoarding() {
             it can be handled by just one person
           </p>
           <h4> status: Backlogs</h4>
-
           <input
             type="text"
             id="taskinput"

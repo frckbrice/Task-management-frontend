@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-const usePersist = () => {
+const usePersist = (key) => {
   const [persist, setPersist] = useState(
-    () => JSON.parse(localStorage.getItem("persist")) || false
+    () => JSON.parse(localStorage.getItem(key)) || false
   );
 
   useEffect(() => {

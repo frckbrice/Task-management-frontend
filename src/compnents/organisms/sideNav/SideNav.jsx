@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 // dummy data import
 import { projectData, members, collaboProjects } from "../../../dummyData";
 
@@ -28,6 +28,10 @@ import { TmsContext } from "../../../context/TaskBoardContext";
 import useServerInterceptor from "../../../hooks/useServerInterceptor";
 import toast from "react-hot-toast";
 
+import MemberProfile from "../membersProfile/MemberProfile";
+import { useStorage } from "../../../hooks/useStorage";
+
+
 const SideNav = () => {
   // create ref
   const ref = React.createRef;
@@ -44,13 +48,13 @@ const SideNav = () => {
   const [projectMembers, setProjectMembers] = useState([]);
   
 
-  const { token, setProjectData, setSelectedProject, selectedProject } = useContext(TmsContext);
+  const { setProjectData} = useContext(TmsContext);
+   const {token } = useStorage("token");
+   
 
   console.log({ token, setProjectData });
 
-  const data = {
-    id: selectedProject.id,
-  };
+ 
 
   useEffect(() => {
     const fecthData = () => {
@@ -70,27 +74,10 @@ const SideNav = () => {
         })
         .catch((err) => console.log("Error getting projects", err));
 
-      //* get project members
-       serverInterceptor
-         .post("/projects/members", data, {
-           headers: {
-             Authorization: `Bearer ${token}`,
-             "Access-Control-Allow-Credentials": true,
-             Accept: "application/json",
-           },
-         })
-         .then((response) => {
-           if (response && response.data && response.status === (200 || 201)) {
-             console.log("\n \n all project members:", response.data);
-             setProjectMembers(response.data);
-           }
-         })
-         .catch((err) => console.log("Error getting project Members", err));
+     
     };
     fecthData();
-  }, [token, serverInterceptor, data]);
-
-
+  }, [token, serverInterceptor]);
 
 
   const handleClick = () => {
@@ -134,9 +121,25 @@ const SideNav = () => {
     }
   };
 
-  //*selecct projct
+  //*selecct projct and get members
   const selectProject = (project) => {
-    setSelectedProject(project);
+    // setSelectedProject(project);
+    let data = { id: project.id };
+    serverInterceptor
+      .post("projects/members", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        if (response && response.data && response.status === (200 || 201)) {
+          console.log("\n \n all project members:", response.data);
+          setProjectMembers(response.data);
+        }
+      })
+      .catch((err) => console.log("Error getting project Members", err));
   };
 
   return (
@@ -215,7 +218,7 @@ const SideNav = () => {
           )}
 
           {projectList &&
-            projectList.map((project, index) => (
+            projectList?.map((project, index) => (
               <div
                 className="list project-list"
                 key={index}
@@ -233,7 +236,7 @@ const SideNav = () => {
             <h3>Members</h3>
           </div>
           {projectMembers &&
-            projectMembers.map((member, index) => (
+            projectMembers?.map((member, index) => (
               <div className="members-list" key={index}>
                 <div className="member-profile">
                   <img
@@ -253,7 +256,7 @@ const SideNav = () => {
             <GoProjectSymlink className="title-icon" />
             <h3>Collaborations</h3>
           </div>
-          {collaboProjects.map((project, index) => (
+          {collaboProjects?.map((project, index) => (
             <div className="collaboProject-list" key={index}>
               <p>{project.name}</p>
               <BsThreeDotsVertical />

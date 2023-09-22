@@ -11,6 +11,8 @@ import Toaster from "react-hot-toast";
 import Page404 from "./pages/404/Page404";
 import PersistLogin from "./compnents/auth/PersistLogin";
 import ErrorPage from "./pages/errorPage/errorPage";
+import RequireAuth from './compnents/auth/RequireAuth'
+import ROLES from "./compnents/auth/RequireAuth";
 
 function App() {
   const router = createBrowserRouter([
@@ -29,19 +31,21 @@ function App() {
     {
       element: <PersistLogin />,
 
-      children: [
-        {
-          path: "/onboarding",
-          element: <OnBoarding />,
-          errorElement: <ErrorPage />,
+ 
+          children: [
+            {
+              path: "/onboarding",
+              element: <OnBoarding />,
+              errorElement: <ErrorPage />,
+            },
+            {
+              path: "/dashboard",
+              element: <Dashboard />,
+              errorElement: <ErrorPage />,
+            },
+          ],
         },
-        {
-          path: "/dashboard",
-          element: <Dashboard />,
-          errorElement: <ErrorPage />,
-        },
-      ],
-    },
+   
 
     {
       path: "*",
