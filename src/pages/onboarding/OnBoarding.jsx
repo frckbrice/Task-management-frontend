@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { server, conf } from "../../config";
 import useServerInterceptor from "../../hooks/useServerInterceptor";
 import PulseLoader from "react-spinners/PulseLoader";
-import userAuth from '../../hooks/userAuth'
+import userAuth from "../../hooks/userAuth";
 
 function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -15,7 +15,7 @@ function OnBoarding() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   // const [tasks, setTasks] = useState([]);
- 
+
   const [projectToken, setProjectToken] = useState("");
   const [teamName, setTeamName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
@@ -32,7 +32,7 @@ function OnBoarding() {
     useContext(TmsContext);
 
   const location = useLocation();
-  const {username} = userAuth();
+  const { username } = userAuth();
 
   const serverInterceptor = useServerInterceptor();
 
@@ -112,19 +112,19 @@ function OnBoarding() {
 
     if (token) {
       try {
-         const response = await serverInterceptor.post("/projects", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Credentials": true,
-          Accept: "application/json",
-        },
-      });
-      console.log(response);
-      if (response && response.status === 201) {
-        toast.success("project successfully created");
-        setProjectData(response.data.data);
-        // setIsLoading(false);
-      } 
+        const response = await serverInterceptor.post("/projects", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        });
+        console.log(response);
+        if (response && response.status === 201) {
+          toast.success("project successfully created");
+          setProjectData(response.data.data);
+          // setIsLoading(false);
+        }
       } catch (error) {
         toast.error("Failed to create project.");
         console.log(error?.data?.message);
@@ -151,25 +151,23 @@ function OnBoarding() {
     };
     try {
       const response = await serverInterceptor.post("/invitation", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Credentials": true,
-        Accept: "application/json",
-      },
-    });
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      });
 
-    if (response && response.status === 200) {
-      setIsLoading(false);
-      toast.success("invitation successfully sent");
-    } 
+      if (response && response.status === 200) {
+        setIsLoading(false);
+        toast.success("invitation successfully sent");
+      }
     } catch (error) {
-      
       toast.error("Failed to send an invite.");
       console.log(error?.data?.message);
       setMove(false);
       setIsLoading(false);
     }
-    
   };
 
   const errClass = errMsg ? "mgs" : "offscreen";
@@ -205,46 +203,50 @@ function OnBoarding() {
       )}
 
       {currentStep === 1 && (
-        <d iv className="create-project">
+        <div className="create-project">
           <h2 className="createH2">Create your first project</h2>
           <p className="createP">
             Input the name of your project and describe the purpose of that
             project.
           </p>
           <div className="projectCard">
-            <label>Name</label>
+            {/* <label>Name</label> */}
             <input
+            placeholder="project name"
               type="text"
               id="projectname"
               name="project-name"
               className="form-input"
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
-            />{" "}
-            <br />
-            <label>starting date : </label>
-            <input
-              type="date"
-              id="start_date"
-              name="start_date"
-              className="form-input"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
             />
-            <br />
-            <label>estimate ending date : </label>
-            <input
-              type="date"
-              id="end_date"
-              name="end_date"
-              className="form-input"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-            <br />
+            <div className="date">
+              <label>start date</label>
+              <input
+                type="date"
+                id="start_date"
+                name="start_date"
+                className="form-input"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+
+            <div className="date">
+              <label>end date</label>
+              <input
+                type="date"
+                id="end_date"
+                name="end_date"
+                className="form-input"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
             <div className="projectField">
-              <label>Description</label>
+              {/* <label>Description</label> */}
               <textarea
+                placeholder="add project description..."
                 id="projectdesc"
                 className="forminput"
                 name="projectdesc"
@@ -252,10 +254,10 @@ function OnBoarding() {
                 onChange={(e) => setProjectDescription(e.target.value)}
               />
             </div>
-            <br />
             <div className="projectField">
-              <label>Team Name of The Poject</label>
+              {/* <label>Team Name of The Poject</label> */}
               <input
+                placeholder="Enter project team name"
                 id="teamName"
                 type="text"
                 className="form-input"
@@ -279,7 +281,7 @@ function OnBoarding() {
             <button onClick={handlePrev}>Prev</button>
             <button onClick={handleNext}>Next</button>
           </div>
-        </d>
+        </div>
       )}
 
       {currentStep === 2 && (
@@ -290,7 +292,6 @@ function OnBoarding() {
             it can be handled by just one person
           </p>
           <h4> status: Backlogs</h4>
-
           <input
             type="text"
             id="taskinput"
