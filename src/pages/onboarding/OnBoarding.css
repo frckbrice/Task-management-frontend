@@ -8,26 +8,22 @@
   transform: translate(-50%, -50%);
 }
 
-.onBoarding
-.Btns
-button {
-  background-color: #04175A;
-  color: white;
+.onBoarding .Btns button {
+  border: 1px solid #04175a;
+  color: #04175a;
+  background-color: transparent;
   padding: 5px 15px;
   cursor: pointer;
   border: none;
   width: 110px;
-  border-radius: 10px;
 }
 
-.onBoarding
-.Btn
-button {
-background-color: #f48207;
+.onBoarding .Btn button {
+  background-color: #f48207;
 }
 
 .welcome-card {
-  background-color: #04175A;
+  background-color: #04175a;
   color: white;
   padding: 20px;
   text-align: center;
@@ -35,26 +31,58 @@ background-color: #f48207;
   line-height: 2;
 }
 
-.welcome-card
-span {
+.welcome-card span {
   color: #f48207;
 }
 
 .Btns {
   justify-content: space-between;
   display: flex;
-  padding: 40px 10px 15px;
+  padding: 20px 10px 15px;
 }
 
 .create-project {
-  box-shadow: 1px 1px 1px 1px #0f0f1152;
-  padding: 20px;
-  color: #04175A;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* padding: 20px; */
+  display: flex;
+  width: auto;
+  justify-content: center;
+  flex-direction: column;
+  color: #04175a;
+}
+
+.create-project input {
+  width: 90%;
+  font-size: 12px;
+  outline: none;
+  border: 1px solid #0e0e0e25;
+}
+
+.create-project button {
+  /* display: flex; */
+  margin: auto;
+  background-color: #04175a;
+  color: #fff;
+  width: 97%;
+  padding: 10px 0;
+  border: none;
+  transition: 0.3s ease-in-out;
+}
+
+.create-project button:hover {
+  cursor: pointer;
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .createH2,
 .createP {
-  margin: 5px 0 15px;
+  /* margin: 5px 0 15px; */
   text-align: center;
 }
 
@@ -64,9 +92,8 @@ label {
 }
 
 #projectname {
-  margin: 5px 0 5px 40px;
-  border: 1px solid #80808025;
-  width: 50%;
+  margin-top: 5px;
+  width: 90%;
 }
 
 .projectField {
@@ -75,29 +102,35 @@ label {
 }
 
 #projectdesc {
-  margin: 10px 0 5px 4px;
-  width: 50%;
+  align-self: center;
+  margin: 10px 0 5px 9px;
+  border: 1px solid #0e0e0e25;
+
+  width: 90%;
   height: 60px;
-  border: 1px solid #80808025;
+}
+
+.projectBtns {
+  width: 100%;
 }
 
 .create-task {
   color: white;
-  background-color: #04175A;
+  background-color: #04175a;
   text-align: center;
   padding: 20px;
 }
 
 .create-task p {
   width: 75%;
-  margin:20px auto; 
+  margin: 20px auto;
 }
 
 #taskinput {
   width: 50%;
   border: 1px solid #80808063;
-  background-color: #04175A;
-  margin: 15px auto;
+  background-color: #04175a;
+  /* margin: 15px auto; */
   color: white;
 }
 
@@ -116,7 +149,7 @@ label {
 
 .invitation {
   padding: 20px;
-  color: #04175A;
+  color: #04175a;
   box-shadow: 1px 1px 1px 1px #0f0f1152;
   text-align: center;
 }
@@ -130,14 +163,14 @@ label {
   border: none;
   font-size: smaller;
   padding: 5px 5px;
-  background-color: #04175A;
+  background-color: #04175a;
   color: white;
   cursor: pointer;
 }
 
 .congratulation {
   color: white;
-  background-color: #04175A;
+  background-color: #04175a;
   padding: 25px;
   text-align: center;
 }
@@ -151,7 +184,6 @@ label {
   padding: 0.3rem;
   margin: 10px;
 }
-
 
 .onboard-project-btn {
   width: 100%;
