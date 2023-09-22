@@ -84,3 +84,19 @@
 .assign-task:active {
   box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
+
+.task-member {
+  display: flex;
+}
+
+.assiign-member {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.assiign-member img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}

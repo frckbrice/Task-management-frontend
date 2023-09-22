@@ -42,10 +42,10 @@ function OnBoarding() {
     setErrMsg("");
   }, [errMsg]);
 
-  // (function () {
-  //   if (location.pathname.includes("/onboarding") && !token)
-  //     navigate("/login", { replace: true });
-  // })();
+  (function () {
+    if (location.pathname.includes("/onboarding") && !token)
+      navigate("/login", { replace: true });
+  })();
 
   const handlePrev = () => setCurrentStep(currentStep - 1);
 
