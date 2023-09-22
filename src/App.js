@@ -12,6 +12,7 @@ import Page404 from "./pages/404/Page404";
 import ForgottenPassword from "./pages/forgottenPassword/ForgottenPassword";
 import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
+import WelcomeMember from "./pages/welcomeMember/WelcomeMember";
 
 function App() {
   const router = createBrowserRouter([
@@ -38,6 +39,10 @@ function App() {
     {
       path: "/resetPassword",
       element: <ResetPassword />,
+    },
+    {
+      path: "/welcome",
+      element: <WelcomeMember />,
     },
     {
       path: "/onboarding",
