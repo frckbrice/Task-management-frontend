@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ForgottenPassword.css";
+import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import logo from "../../../src/assets/logo.png";
 import { AiOutlineMail } from "react-icons/ai";
@@ -27,7 +28,7 @@ function ForgottenPassword() {
     setSuccessMsg("");
 
     // Send request to server to initiate password reset
-    fetch("/api/reset-password", {
+    axios("/api/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),

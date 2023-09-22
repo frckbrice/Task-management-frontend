@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./VerifyEmail.css";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../src/assets/logo.png";
 
@@ -23,7 +24,7 @@ function VerifyEmail() {
     setErrorMsg("");
 
     // Send request to server to verify code
-    fetch("/api/verify-code", {
+    axios("/api/verify-code", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code }),
