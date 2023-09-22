@@ -10,6 +10,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 import toast from "react-hot-toast";
+import usePersist from "../../hooks/usePersist";
 
 // import Task from "../onboarding/task";
 
@@ -30,8 +31,7 @@ function Login() {
 
   const { setToken, setRefreshToken } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("token", "");
-
-  
+  const [persist, setPersist] = usePersist();
 
   useEffect(() => {
     // userRef.current.focus();
@@ -47,6 +47,7 @@ function Login() {
     onSuccess: (codeResponse) => {
       console.log("login goood");
       setIsLoading(true);
+      setPersist((prev) => !prev);
       setUser(codeResponse);
       if (codeResponse) {
         axios
@@ -103,7 +104,7 @@ function Login() {
                           toast.success("User successfully logged in");
                           setToken(response.data.accessToken);
                           setRefreshToken(response.data.refreshToken);
-                          setlsData(response.data);
+                          setlsData(response.data.accessToken);
                           // navigate to onboarding page
                           setIsLoading(false);
                           setMove(true);
@@ -181,7 +182,7 @@ function Login() {
               console.log("Login successful!", res.data);
               setToken(res.data.accessToken);
               setRefreshToken(res.data.refreshToken);
-              setlsData(res.data);
+              setlsData(res.data.accessToken);
               navigate("/onboarding"); // navigate to onboarding page
               setMove(true);
               setIsLoading(false);

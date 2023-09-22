@@ -5,8 +5,8 @@ export const client = axios.create({
 });
 
 export const server = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
-  // baseURL: "http://localhost:5000",
+  // baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
+  baseURL: "http://localhost:5001",
   // headers: {
   //   " Access-Control-Allow-Credentials": "true",
   //   "Access-Control-Allow-Origin": "http://localhost:3000",
@@ -25,10 +25,11 @@ export const conf = {
 };
 
 export const serverInterceptor = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
-  // baseURL: "http://localhost:5000",
+  // baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
+  baseURL: "http://localhost:5001",
   headers: {
     Accept: "application/json",
+    "Access-Control-Allow-Origin": "http://localhost:3000",
   },
   withCredentials: true,
 });

@@ -9,6 +9,8 @@ import ContextProvider from "./context/TaskBoardContext";
 import Toaster from "react-hot-toast";
 // import ErrorPage from "./pages/errorPage/errorPage";
 import Page404 from "./pages/404/Page404";
+import PersistLogin from "./compnents/auth/PersistLogin";
+import ErrorPage from "./pages/errorPage/errorPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,15 +27,22 @@ function App() {
       element: <Login />,
     },
     {
-      path: "/onboarding",
-      element: <OnBoarding />,
-      errorElement: <Page404 />,
+      element: <PersistLogin />,
+
+      children: [
+        {
+          path: "/onboarding",
+          element: <OnBoarding />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+          errorElement: <ErrorPage />,
+        },
+      ],
     },
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-      errorElement: <Page404 />,
-    },
+
     {
       path: "*",
       element: <Page404 />,
