@@ -3,6 +3,7 @@ import "./ForgottenPassword.css";
 import PulseLoader from "react-spinners/PulseLoader";
 import logo from "../../../src/assets/logo.png";
 import { AiOutlineMail } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 function ForgottenPassword() {
   const [email, setEmail] = useState("");
@@ -71,7 +72,8 @@ function ForgottenPassword() {
 
         <div>
           <button className="forgottenBtn" type="submit">
-            {isLoading ? <PulseLoader color="#ffffff" size={20} /> : "Submit"}
+            {isLoading ? <PulseLoader color="#ffffff" size={20} /> : "Submit"}{" "}
+            <Link to="/verifyEmail" />
           </button>
         </div>
       </form>
