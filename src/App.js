@@ -9,6 +9,7 @@ import ContextProvider from "./context/TaskBoardContext";
 import Toaster from "react-hot-toast";
 // import ErrorPage from "./pages/errorPage/errorPage";
 import Page404 from "./pages/404/Page404";
+import ForgottenPassword from "./pages/forgottenPassword/ForgottenPassword";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,6 +24,10 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/forgottenPassword",
+      element: <ForgottenPassword />,
     },
     {
       path: "/onboarding",

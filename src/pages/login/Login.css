@@ -118,6 +118,7 @@
   font-size: 12px;
   border: 1px #1c1a1a89 solid;
   display: flex;
+  margin-bottom: 30px;
 }
 
 .google {
@@ -138,8 +139,8 @@ hr {
 }
 
 .loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 3rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
