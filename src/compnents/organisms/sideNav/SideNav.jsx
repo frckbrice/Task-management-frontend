@@ -5,8 +5,8 @@ import { projectData, members, collaboProjects } from "../../../dummyData";
 import avatar from "../../../assets/avatar.jpg";
 
 // libery imports
-// import Tippy from "@tippyjs/react";
-// import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 //css import
 import "./SideNav.css";
@@ -236,7 +236,7 @@ const SideNav = () => {
             <MdPeopleOutline className="title-icon" />
             <h3>Members</h3>
           </div>
-          {/* {
+          {
             projectMembers?.map((member, index) => (
               <div className="members-list" key={index}>
                 <div className="member-profile">
@@ -249,7 +249,7 @@ const SideNav = () => {
                 </div>
                 <RiArrowDropDownLine />
               </div>
-            ))} */}
+            ))}
         </div>
 
         <div className="collaborations">

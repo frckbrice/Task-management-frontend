@@ -62,7 +62,7 @@
   background-color: #ccc;
 }
 
-.avatar {
+.profile-avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -86,7 +86,7 @@
   }
 }
 
-.avatar:hover {
+.profile-avatar:hover {
   -webkit-transition: width 2000ms ease-in-out;
   -moz-transition: width 2000ms ease-in-out;
   -ms-transition: width 2000ms ease-in-out;
@@ -131,9 +131,9 @@
 }
 
 /* ****************Tippy components styles***************** */
-/* .tippy {
+.tippy {
   background-color: #fff;
   border: 1px solid #d3d3d3;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   color: #000;
-} */
+}
