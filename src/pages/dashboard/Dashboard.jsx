@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Dashboard.css";
 
 // libery imports
+// import Tippy from "@tippyjs/react";
+// import "tippy.js/dist/tippy.css";
 
 // components import
 // import NavBar from "../../compnents/organisms/navBar/NavBar";
@@ -18,6 +20,7 @@ import DashBoardNavBar from "../../compnents/organisms/dashBoardNavBar/DashBoard
 import { TmsContext } from "../../context/TaskBoardContext";
 import OverLay from "../../compnents/atoms/overlay/OverLay";
 import userAuth from "../../hooks/userAuth";
+import { conf, server } from "../../config";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -39,6 +42,19 @@ const Dashboard = () => {
   // }, [user]);
 
   // const user = dataValues;
+
+  const logout = async() => {
+    await server.post('/auth/logout', {
+      headers: conf.headers,
+    })
+  };
+
+   const editProfile = async () => {
+    const data = {}
+     await server.patch("/members", data, {
+       headers: conf.headers,
+     });
+   };
 
   console.log("user: ", user);
   return (
@@ -73,8 +89,8 @@ const Dashboard = () => {
                   <p>{email}</p>
                 </div>
                 <div className="actions">
-                  <button className="logout">logout</button>
-                  <button className="logout">edit</button>
+                  <button className="logout" onClick={logout}>logout</button>
+                  <button className="logout" onClick={editProfile}>edit</button>
                 </div>
               </div>
             </PopupModal>

@@ -7,8 +7,10 @@ import { server, conf } from "../../config";
 import useServerInterceptor from "../../hooks/useServerInterceptor";
 import PulseLoader from "react-spinners/PulseLoader";
 import userAuth from "../../hooks/userAuth";
+import {useStorage} from "../../hooks/useStorage";
 
 function OnBoarding() {
+  console.log("onboarding");
   const [currentStep, setCurrentStep] = useState(0);
   const [projectName, setProjectName] = useState("");
   const [projectdescription, setProjectDescription] = useState("");
@@ -28,8 +30,8 @@ function OnBoarding() {
 
   const navigate = useNavigate();
 
-  const { token, setProjectData, projectData, setTaskdata } =
-    useContext(TmsContext);
+  const { setProjectData, projectData, setTaskdata } = useContext(TmsContext);
+  const { token } = useStorage("token");
 
   const location = useLocation();
   const { username } = userAuth();
@@ -142,8 +144,8 @@ function OnBoarding() {
   const handleInvite = async () => {
     // const emailContent = `${conf.server}/${projectToken}`;
     setIsLoading(true);
-    const emailContent = `${conf.serverbaseURL}/`;
-
+    const emailContent = `${conf.clientbaseURL}/`;
+// const emailContent = "localhost:3000/";
     let data = {
       projectToken: projectData.id,
       emails: inviteEmail, //need to create a list of invitees email

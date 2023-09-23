@@ -10,6 +10,8 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 import toast from "react-hot-toast";
+import usePersist from "../../hooks/usePersist";
+import { useStorage } from "../../hooks/useStorage";
 
 // import Task from "../onboarding/task";
 
@@ -28,8 +30,10 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [move, setMove] = useState(false);
 
-  const { setToken, setRefreshToken } = useContext(TmsContext);
-  const { setlsData } = useLocalStorage("token", "");
+  // const { setToken } = useContext(TmsContext);
+  const { setlsData } = useLocalStorage("setRefreshToken", " ");
+    const { setStorToken } = useStorage("token", " ");
+  
 
   useEffect(() => {
     // userRef.current.focus();
@@ -41,118 +45,118 @@ function Login() {
   }, [email, password]);
 
   let content;
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      console.log("login goood");
-      setIsLoading(true);
-      setUser(codeResponse);
-      if (codeResponse) {
-        axios
-          .get(`${conf.googleapis}=${codeResponse.access_token}`, {
-            headers: {
-              Authorization: `Bearer ${codeResponse.access_token}`,
-              Accept: "application/json",
-            },
-          })
-          .then((res) => {
-            setProfile(res.data);
-            if (res && res.data) {
-              console.log("connection to the backend : registration");
-              let data = {
-                username: res.data.name,
-                email: res.data.email,
-                picture: res.data.picture,
-                id: res.data.id,
-              };
-              console.log(data);
-              server
-                .post("/auth/googleRegister", data, {
-                  headers: conf.headers,
-                })
-                .then((resp) => {
-                  if (resp && resp.data) {
-                    console.log("registered data: ", resp.data);
-                    const { email } = resp.data;
-                    let data = {
-                      email,
-                    };
-                    server
-                      .post(
-                        "/auth/googleLogin",
-                        data,
-                        {
-                          headers: conf.headers,
-                        },
-                        {
-                          withCredentials: true,
-                          mode: "cors",
-                        }
-                      )
-                      .then((response) => {
-                        if (
-                          response &&
-                          response.data &&
-                          response.status === 200
-                        ) {
-                          console.log(
-                            "User successfully logged in! cookie: ",
-                            response.data
-                          );
-                          toast.success("User successfully logged in");
-                          setToken(response.data.accessToken);
-                          setRefreshToken(response.data.refreshToken);
-                          setlsData(response.data);
-                          // navigate to onboarding page
-                          // setIsLoading(true);
-                          setMove(true);
-                        }
-                        setEmail("");
-                        setPassword("");
-                      })
-                      .catch((err) => {
-                        console.log("error loging in", err.code, err.message);
-                        toast.error("Failed to log in");
-                        setIsLoading(false);
-                        if (!err.status) {
-                          setErrMsg("No Server Response");
-                        } else if (err.status === 400) {
-                          setErrMsg("Missing some useful information");
-                        } else if (err.status === 401) {
-                          setErrMsg("Unauthorized");
-                        } else if (err.status === 403) {
-                          setErrMsg("Forbidden");
-                        } else {
-                          setErrMsg(err.data?.message);
-                          console.error(err.data?.message);
-                        }
-                        setIsLoading(false);
-                        setMove(false);
-                      });
-                  }
-                })
-                .catch((err) =>
-                  console.log("error registering to db", err.code, err.message)
-                );
-              setIsLoading(true);
-            }
-          })
-          .catch((err) =>
-            console.log(
-              "error fetching user data from google",
-              err.code,
-              err.message
-            )
-          );
-      }
-    },
-    onError: (error) => {
-      console.log("failed");
-      console.log("Login Failed:", error);
-    },
-  });
+ const login = useGoogleLogin({
+   onSuccess: (codeResponse) => {
+     console.log("login goood");
+     setIsLoading(true);
+     setUser(codeResponse);
+     if (codeResponse) {
+       axios
+         .get(`${conf.googleapis}=${codeResponse.access_token}`, {
+           headers: {
+             Authorization: `Bearer ${codeResponse.access_token}`,
+             Accept: "application/json",
+           },
+         })
+         .then((res) => {
+           setProfile(res.data);
+           if (res && res.data) {
+             console.log("connection to the backend : registration");
+             let data = {
+               username: res.data.name,
+               email: res.data.email,
+               picture: res.data.picture,
+               id: res.data.id,
+             };
+             console.log(data);
+             server
+               .post("/auth/googleRegister", data, {
+                 headers: conf.headers,
+               })
+               .then((resp) => {
+                 if (resp && resp.data) {
+                   console.log("registered data: ", resp.data);
+                   const { email } = resp.data;
+                   let data = {
+                     email,
+                   };
+                   server
+                     .post(
+                       "/auth/googleLogin",
+                       data,
+                       {
+                         headers: conf.headers,
+                       },
+                       {
+                         withCredentials: true,
+                         mode: "cors",
+                       }
+                     )
+                     .then((response) => {
+                       if (
+                         response &&
+                         response.data &&
+                         response.status === 200
+                       ) {
+                         setIsLoading(false);
+                         setMove(true);
+                         console.log(
+                           "User successfully logged in! tokens: ",
+                           response.data
+                         );
+                         toast.success("User successfully logged in");
+                         setStorToken(response.data.accessToken);
 
-  // console.log(user);
-  // console.log(profile);
+                         setlsData(response.data.refreshToken);
+                         // navigate to onboarding page
+                       }
+                       setEmail("");
+                       setPassword("");
+                     })
+                     .catch((err) => {
+                       console.log("error loging in", err.code, err.message);
+                       toast.success("Failed to log in");
+                       setMove(false);
+
+                       if (!err.status) {
+                         setErrMsg("No Server Response");
+                       } else if (err.status === 400) {
+                         setErrMsg("Missing some useful information");
+                       } else if (err.status === 401) {
+                         setErrMsg("Unauthorized");
+                       } else if (err.status === 403) {
+                         setErrMsg("Forbidden");
+                       } else {
+                         setErrMsg(err.data?.message);
+                         console.error(err.data?.message);
+                       }
+                     })
+                     .finally(() => setIsLoading(false));
+                 }
+               })
+               .catch((err) =>
+                 console.log("error registering to db", err.code, err.message)
+               )
+               .finally(() => setIsLoading(false));
+           }
+         })
+         .catch((err) =>
+           console.log(
+             "error fetching user data from google",
+             err.code,
+             err.message
+           )
+         );
+     }
+   },
+   onError: (error) => {
+     console.log("failed");
+     console.log("Login Failed:", error);
+   },
+ });
+
+  console.log(user);
+  console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -176,20 +180,24 @@ function Login() {
             }
           )
           .then((res) => {
-            if (res && res.data) {
-              console.log("Login successful!", res.data);
-              setToken(res.data.accessToken);
-              setRefreshToken(res.data.refreshToken);
-              setlsData(res.data);
-              navigate("/onboarding"); // navigate to onboarding page
+            if (res && res.data && res.status === (200 || 201)) {
               setMove(true);
-              setIsLoading(false);
+              console.log("Login successful!", res.data);
+              setStorToken(res.data.accessToken);
+            
+              setlsData(res.data.refreshToken);
+              navigate("/onboarding"); // navigate to onboarding page
+              
+             
             }
             setEmail("");
             setPassword("");
           })
           .catch((err) => {
+             setMove(false);
+            
             console.log("error login in", err.message);
+
             if (!err.status) {
               setErrMsg("No Server Response");
             } else if (err.status === 400) {
@@ -202,9 +210,8 @@ function Login() {
               setErrMsg(err.data?.message);
               console.error(err.data?.message);
             }
-            setMove(false);
-            setIsLoading(false);
-          });
+           
+          }).finally(()=>  setIsLoading(false) );
 
         //* add error message later
       } else {
@@ -231,10 +238,10 @@ function Login() {
         <NavBar />
 
         <div className="formlogin">
-          <p ref={errorRef} className={errClass} aria-live="assertive">
-            {errMsg}
-          </p>
           <form className="loginform">
+            <p ref={errorRef} className={errClass} aria-live="assertive">
+              {errMsg}
+            </p>
             <div className="innerform" onSubmit={handleSubmit}>
               <div className="credential">
                 {" "}

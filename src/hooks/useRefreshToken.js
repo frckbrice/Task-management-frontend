@@ -2,32 +2,47 @@ import { useContext } from "react";
 import { TmsContext } from "../context/TaskBoardContext";
 
 import { server } from "../config";
+import { useLocalStorage } from "./useLocalStorage";
+
+import {useStorage} from "./useStorage";
+
 
 const useRefreshToken = () => {
-  const { setToken, refreshToken } = useContext(TmsContext);
+  const { setIsRefreshSuccess, setIsRefreshError, setErrorMsg } =
+    useContext(TmsContext);
 
-  console.log({ old_refresh: refreshToken });
+  const { lsData } = useLocalStorage("setRefreshToken");
+    const { setStorToken } = useStorage("token", " ");
+
+  console.log(setStorToken);
+
+  const refreshToken = lsData;
 
   const refresh = async () => {
     const response = await server.get(
       "/auth/refresh",
-      
+
       {
         headers: {
-          Authorization: "Bearer " + refreshToken,
+          Authorization: `Bearer ${refreshToken}`,
           Accept: "application/json",
         },
       }
     );
-
     console.log(response);
-
-    setToken((prev) => {
-      console.log(prev);
-      console.log("new token", response?.data?.accessToken);
-      return { ...prev, accessToken: response?.data?.accessToken };
-    });
-    return response.data.accessToken;
+    if (response && response.status === 200) {
+      setStorToken((prev) => {
+        console.log({ old_refresh: prev });
+        console.log("new token", response?.data?.accessToken);
+        return { ...prev, accessToken: response?.data?.accessToken };
+      });
+      setIsRefreshSuccess(true);
+      return response.data.accessToken;
+    } else if (response.statusText !== "OK") {
+      console.log("Error refreshing token");
+      setIsRefreshError(true);
+      setErrorMsg("error refreshing token");
+    }
   };
   return refresh;
 };
