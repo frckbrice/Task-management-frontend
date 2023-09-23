@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "./TaskOpen.css";
 // react icons
 import { AiOutlineClose } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
 
 import { members } from "../../../dummyData";
 
