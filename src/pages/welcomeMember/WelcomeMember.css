@@ -1,0 +1,41 @@
+.welcomePage {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .welcomeTitle {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .welcomeDesc {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .welcomeForm {
+    display: flex;
+    flex-direction: column;
+  }
+  .welcomeLabel {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  .welcomeInput {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  .welcomeBtn {
+    padding: 10px 20px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .welcomeBtn:hover {
+    background-color: #286090;
+  }
