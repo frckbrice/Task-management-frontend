@@ -29,6 +29,8 @@ const ContextProvider = ({ children }) => {
     setIsRefreshSuccess,
     isRefreshError,
     setIsRefreshError,
+    selectedProject,
+    setSelectedProject,
   };
 
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;

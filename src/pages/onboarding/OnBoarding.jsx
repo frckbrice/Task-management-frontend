@@ -145,7 +145,7 @@ function OnBoarding() {
     // const emailContent = `${conf.server}/${projectToken}`;
     setIsLoading(true);
     const emailContent = `${conf.clientbaseURL}/`;
-
+// const emailContent = "localhost:3000/";
     let data = {
       projectToken: projectData.id,
       emails: inviteEmail, //need to create a list of invitees email

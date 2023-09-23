@@ -12,7 +12,9 @@ const useRefreshToken = () => {
     useContext(TmsContext);
 
   const { lsData } = useLocalStorage("setRefreshToken");
-  const { setstorToken } = useStorage("token");
+    const { setStorToken } = useStorage("token", " ");
+
+  console.log(setStorToken);
 
   const refreshToken = lsData;
 
@@ -29,7 +31,7 @@ const useRefreshToken = () => {
     );
     console.log(response);
     if (response && response.status === 200) {
-      setstorToken((prev) => {
+      setStorToken((prev) => {
         console.log({ old_refresh: prev });
         console.log("new token", response?.data?.accessToken);
         return { ...prev, accessToken: response?.data?.accessToken };

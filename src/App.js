@@ -35,22 +35,25 @@ function App() {
     {
       element: <PersistLogin />,
 
- 
-          children: [
-            {
-              path: "/onboarding",
-              element: <OnBoarding />,
-              errorElement: <ErrorPage />,
-            },
-            {
-              path: "/dashboard",
-              element: <Dashboard />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+      children: [
+        {
+          path: "/onboarding",
+          element: <OnBoarding />,
+          errorElement: <ErrorPage />,
         },
-   
-{
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/invitation/:id",
+          element: <WelcomeMember />,
+        },
+      ],
+    },
+
+    {
       path: "/forgottenPassword",
       element: <ForgottenPassword />,
     },
@@ -62,11 +65,7 @@ function App() {
       path: "/resetPassword",
       element: <ResetPassword />,
     },
-    {
-      path: "/welcome",
-      element: <WelcomeMember />,
-    },
-  
+
     {
       path: "*",
       element: <Page404 />,

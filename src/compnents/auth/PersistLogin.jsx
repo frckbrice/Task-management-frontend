@@ -13,7 +13,7 @@ const PersistLogin = (props) => {
   let persist;
   const { isRefreshError, isRefreshSuccess, errorMsg } = useContext(TmsContext);
 
-  const { token } = useStorage("token");
+    const { token } = useStorage("token", " ");
 
   console.log({token})
   const refresh = useRefreshToken();

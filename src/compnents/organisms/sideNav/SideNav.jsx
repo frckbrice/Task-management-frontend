@@ -48,7 +48,8 @@ const SideNav = () => {
   const [projectMembers, setProjectMembers] = useState([]);
   
 
-  const { setProjectData} = useContext(TmsContext);
+  const { setProjectData, setSelectedProject } =
+    useContext(TmsContext);
    const {token } = useStorage("token");
    
 
@@ -123,7 +124,7 @@ const SideNav = () => {
 
   //*selecct projct and get members
   const selectProject = (project) => {
-    // setSelectedProject(project);
+    setSelectedProject(project);
     let data = { id: project.id };
     serverInterceptor
       .post("projects/members", data, {
@@ -134,7 +135,7 @@ const SideNav = () => {
         },
       })
       .then((response) => {
-        if (response && response.data && response.status === (200 || 201)) {
+        if (response && response.data ) {
           console.log("\n \n all project members:", response.data);
           setProjectMembers(response.data);
         }
@@ -217,7 +218,7 @@ const SideNav = () => {
             </div>
           )}
 
-          {projectList &&
+          {
             projectList?.map((project, index) => (
               <div
                 className="list project-list"
@@ -235,7 +236,7 @@ const SideNav = () => {
             <MdPeopleOutline className="title-icon" />
             <h3>Members</h3>
           </div>
-          {projectMembers &&
+          {/* {
             projectMembers?.map((member, index) => (
               <div className="members-list" key={index}>
                 <div className="member-profile">
@@ -248,7 +249,7 @@ const SideNav = () => {
                 </div>
                 <RiArrowDropDownLine />
               </div>
-            ))}
+            ))} */}
         </div>
 
         <div className="collaborations">

@@ -1,8 +1,8 @@
 import React from "react";
 import { IoMdNotifications } from "react-icons/io";
 
-// import Tippy from "@tippyjs/react";
-// import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 import "./NavIterms.css";
 

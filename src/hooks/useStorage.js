@@ -2,14 +2,14 @@ import React from "react";
 
 export function useStorage(key, intialValue) {
   const [token, setStorToken] = React.useState(() => {
-    return JSON.parse(localStorage.getItem(`${key}`)) || intialValue;
+    return localStorage.getItem(key) || intialValue;
   });
 
   const setLocalStoragelsData = React.useCallback(
     (token) => {
       setStorToken(() => {
         if (token) {
-          localStorage.setItem(key, JSON.stringify(token));
+          localStorage.setItem(key, token);
         } else {
           console.log("no token to store in local storage");
           return;
