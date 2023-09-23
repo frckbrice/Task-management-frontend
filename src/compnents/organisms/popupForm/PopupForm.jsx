@@ -2,20 +2,25 @@ import React, { useContext, useState } from "react";
 
 import "./PopupForm.css";
 import { TmsContext } from "../../../context/TaskBoardContext";
-import { conf, server } from "../../../config";
+import { conf } from "../../../config";
 import toast from "react-hot-toast";
 import { serverInterceptor } from "../../../config";
+import { useStorage } from "../../../hooks/useStorage";
 
 const PopupForm = ({ inputText, textarea, onSubmit, buttonText }) => {
   const [emails, setEmails] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
 
-  const { token, selectedProject } = useContext(TmsContext);
+  const {  selectedProject } = useContext(TmsContext);
+  const {token} = useStorage('token');
+
+  console.log({ token });
+  console.log({selectedProject});
 
   const handleInvite = async (e) => {
     e.preventDefault();
-    const emailContent = `${conf.serverbaseURL}/`;
-
+    // const emailContent = `${conf.clientbaseURL}/`;
+const emailContent = "http://localhost:3000/";
     let data = {
       projectToken: selectedProject?.id,
       emails,
@@ -35,8 +40,9 @@ const PopupForm = ({ inputText, textarea, onSubmit, buttonText }) => {
           toast.success("invitation successfully sent", response.data);
         }
       } catch (error) {
-        console.log("error sending invitation",   error?.data?.message);
-        toast.error("Failed to send an invite.", error?.data?.message);
+        // console.log("error sending invitation",   error?.data?.message);
+        console.log("error sending invitation", error);
+        toast.error("Failed to send an invite.");
       }
     } else {
       console.log("no token, cannot proceed");

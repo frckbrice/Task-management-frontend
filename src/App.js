@@ -9,6 +9,10 @@ import ContextProvider from "./context/TaskBoardContext";
 import Toaster from "react-hot-toast";
 // import ErrorPage from "./pages/errorPage/errorPage";
 import Page404 from "./pages/404/Page404";
+import PersistLogin from "./compnents/auth/PersistLogin";
+import ErrorPage from "./pages/errorPage/errorPage";
+import RequireAuth from './compnents/auth/RequireAuth'
+import ROLES from "./compnents/auth/RequireAuth";
 import ForgottenPassword from "./pages/forgottenPassword/ForgottenPassword";
 import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
@@ -29,6 +33,27 @@ function App() {
       element: <Login />,
     },
     {
+      element: <PersistLogin />,
+
+      children: [
+        {
+          path: "/onboarding",
+          element: <OnBoarding />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/invitation/:id",
+          element: <WelcomeMember />,
+        },
+      ],
+    },
+
+    {
       path: "/forgottenPassword",
       element: <ForgottenPassword />,
     },
@@ -40,20 +65,7 @@ function App() {
       path: "/resetPassword",
       element: <ResetPassword />,
     },
-    {
-      path: "/welcome",
-      element: <WelcomeMember />,
-    },
-    {
-      path: "/onboarding",
-      element: <OnBoarding />,
-      errorElement: <Page404 />,
-    },
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-      errorElement: <Page404 />,
-    },
+
     {
       path: "*",
       element: <Page404 />,

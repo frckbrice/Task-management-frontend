@@ -24,7 +24,7 @@ function Signup() {
   const errorRef = useRef();
 
   const navigate = useNavigate();
-  const { setUserData } = useContext(TmsContext);
+  // const { setUserData } = useContext(TmsContext);
 
   useEffect(() => {
     userRef.current.focus();
@@ -63,7 +63,7 @@ function Signup() {
               .then((response) => {
                 if (response && response.data) {
                   console.log("Form submitted successfully!", response.data);
-                  setUserData(response.data);
+                  // setUserData(response.data);
                   navigate("/onboarding"); // navigate to onboarding page
                   setIsLoading(false);
                 }
@@ -83,11 +83,14 @@ function Signup() {
                   setErrMsg("Unauthorized");
                 } else if (err.status === 403) {
                   setErrMsg("Forbidden");
+                } if (err.status === 409) {
+                  setErrMsg("Already register");
                 } else {
                   setErrMsg(err.data?.message);
                   console.error(err.data?.message);
                 }
-              });
+              })
+              .finally(() => setIsLoading(false));;
           })
           .catch((err) => console.log("error fetching user from google", err));
       }
@@ -120,9 +123,9 @@ function Signup() {
             .then((res) => {
               if (res && res.data) {
                 console.log("Form submitted successfully!");
-                setUserData(res.data);
+                // setUserData(res.data);
                 navigate("/login"); // navigate to onboarding page
-                setIsLoading(false);
+                
               }
               setUsername("");
               setPassword("");
@@ -144,8 +147,8 @@ function Signup() {
                 setErrMsg(err.data?.message);
                 console.error(err.data?.message);
               }
-              setIsLoading(false);
-            });
+            })
+            .finally(() => setIsLoading(false));
         } else {
           setMessage("Passwords do not match");
         }
@@ -188,10 +191,10 @@ function Signup() {
         </div>
 
         <form className="signupForm">
+          <p ref={errorRef} className={errClass} aria-live="assertive">
+            {errMsg}
+          </p>
           <div className="innerform" onSubmit={handleSubmit}>
-            <p ref={errorRef} className={errClass} aria-live="assertive">
-              {errMsg}
-            </p>
             <div className="cred">
               {" "}
               <h2 className="signupform-h2">Sign up</h2>

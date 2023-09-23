@@ -1,30 +1,36 @@
 import { createContext, useState } from "react";
 
+
 export const TmsContext = createContext({});
 
 const ContextProvider = ({ children }) => {
-  const [token, setToken] = useState("");
-  const [refreshToken, setRefreshToken] = useState("");
+  // const [token, setToken] = useState("");
+
   const [projectData, setProjectData] = useState({});
   const [selectedProject, setSelectedProject] = useState({});
   const [taskdata, setTaskdata] = useState({});
   const [email, setEmail] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isRefreshSuccess, setIsRefreshSuccess] = useState(true);
+  const [isRefreshError, setIsRefreshError] = useState(false);
+  
 
-  console.log(token);
-
+  
   const values = {
-    token,
-    setToken,
-    selectedProject,
-    setSelectedProject,
+    errorMsg,
+    setErrorMsg,
     projectData,
     setProjectData,
     email,
     setEmail,
     taskdata,
     setTaskdata,
-    refreshToken,
-    setRefreshToken,
+    isRefreshSuccess,
+    setIsRefreshSuccess,
+    isRefreshError,
+    setIsRefreshError,
+    selectedProject,
+    setSelectedProject,
   };
 
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;

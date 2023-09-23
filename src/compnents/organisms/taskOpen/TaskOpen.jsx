@@ -21,9 +21,7 @@ const TaskOpen = ({ onClick, taskName, description }) => {
     <div className="taskOpen">
       <div className="head-text">
         <p>Task detials...!</p>
-        <button onClick={onClick}>
-          <AiOutlineClose />
-        </button>
+        <button onClick={onClick}>{/* <AiOutlineClose /> */}</button>
       </div>
       {!onEdit && (
         <div className="content">
@@ -64,7 +62,6 @@ const TaskOpen = ({ onClick, taskName, description }) => {
                 src="https://i.pinimg.com/564x/13/6a/7d/136a7d742a5408847968c5db2149eba6.jpg"
                 alt=""
               />
-              {/* <p>{member.name}</p> */}
             </div>
           </Tippy>
         ))}

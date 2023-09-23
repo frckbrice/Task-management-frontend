@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 // dummy data import
 import { projectData, members, collaboProjects } from "../../../dummyData";
 
@@ -29,6 +29,7 @@ import useServerInterceptor from "../../../hooks/useServerInterceptor";
 import toast from "react-hot-toast";
 
 import MemberProfile from "../membersProfile/MemberProfile";
+import { useStorage } from "../../../hooks/useStorage";
 
 
 const SideNav = () => {
@@ -45,10 +46,16 @@ const SideNav = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [projectList, setProjectList] = useState([]);
   const [projectMembers, setProjectMembers] = useState([]);
+  
 
-  const { token, setProjectData, setSelectedProject } = useContext(TmsContext);
+  const { setProjectData, setSelectedProject } =
+    useContext(TmsContext);
+   const {token } = useStorage("token");
+   
 
   console.log({ token, setProjectData });
+
+ 
 
   useEffect(() => {
     const fecthData = () => {
@@ -68,24 +75,11 @@ const SideNav = () => {
         })
         .catch((err) => console.log("Error getting projects", err));
 
-      //* get project members
-      //  serverInterceptor
-      //    .post("/projects/members", {
-      //      headers: {
-      //        Authorization: `Bearer ${token}`,
-      //        "Access-Control-Allow-Credentials": true,
-      //        Accept: "application/json",
-      //      },
-      //    })
-      //    .then((response) => {
-      //      if (response && response.data && response.status === (200 || 201)) {
-      //        console.log("\n \n all project members:", response.data);
-      //        setProjectMembers(response.data);
-      //      }
-      //    }).catch(err => console.log('Error getting project Members', err));
+     
     };
     fecthData();
   }, [token, serverInterceptor]);
+
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -128,9 +122,25 @@ const SideNav = () => {
     }
   };
 
-  //*selecct projct
+  //*selecct projct and get members
   const selectProject = (project) => {
     setSelectedProject(project);
+    let data = { id: project.id };
+    serverInterceptor
+      .post("projects/members", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        if (response && response.data ) {
+          console.log("\n \n all project members:", response.data);
+          setProjectMembers(response.data);
+        }
+      })
+      .catch((err) => console.log("Error getting project Members", err));
   };
 
   return (
@@ -208,8 +218,8 @@ const SideNav = () => {
             </div>
           )}
 
-          {projectList &&
-            projectList.map((project, index) => (
+          {
+            projectList?.map((project, index) => (
               <div
                 className="list project-list"
                 key={index}
@@ -226,23 +236,12 @@ const SideNav = () => {
             <MdPeopleOutline className="title-icon" />
             <h3>Members</h3>
           </div>
-          {members.map((member, index) => (
-            <Tippy
-              key={index}
-              interactive={true}
-              placement="top-end"
-              className="tippy"
-              content={
-                <MemberProfile
-                  membersName={member.name}
-                  membersEmail={member.email}
-                />
-              }
-            >
+          {
+            projectMembers?.map((member, index) => (
               <div className="members-list" key={index}>
                 <div className="member-profile">
                   <img
-                    src="https://i.pinimg.com/564x/13/6a/7d/136a7d742a5408847968c5db2149eba6.jpg"
+                    src={member.picture || avatar}
                     alt="member's avatar"
                     className="member-avatar"
                   />
@@ -250,8 +249,7 @@ const SideNav = () => {
                 </div>
                 <RiArrowDropDownLine />
               </div>
-            </Tippy>
-          ))}
+            ))}
         </div>
 
         <div className="collaborations">
@@ -259,7 +257,7 @@ const SideNav = () => {
             <GoProjectSymlink className="title-icon" />
             <h3>Collaborations</h3>
           </div>
-          {collaboProjects.map((project, index) => (
+          {collaboProjects?.map((project, index) => (
             <div className="collaboProject-list" key={index}>
               <p>{project.name}</p>
               <BsThreeDotsVertical />
