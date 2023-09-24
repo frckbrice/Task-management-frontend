@@ -17,6 +17,7 @@ const TaskOpen = ({ onClick, taskName, description }) => {
     setOnEdit(!onEdit);
   };
 
+
   return (
     <div className="taskOpen">
       <div className="head-text">
