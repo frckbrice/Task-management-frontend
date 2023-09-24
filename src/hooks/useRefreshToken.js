@@ -4,15 +4,14 @@ import { TmsContext } from "../context/TaskBoardContext";
 import { server } from "../config";
 import { useLocalStorage } from "./useLocalStorage";
 
-import {useStorage} from "./useStorage";
-
+import { useStorage } from "./useStorage";
 
 const useRefreshToken = () => {
   const { setIsRefreshSuccess, setIsRefreshError, setErrorMsg } =
     useContext(TmsContext);
 
   const { lsData } = useLocalStorage("setRefreshToken");
-    const { setStorToken } = useStorage("token", " ");
+  const { setStorToken } = useStorage("token", " ");
 
   console.log(setStorToken);
 
@@ -31,11 +30,7 @@ const useRefreshToken = () => {
     );
     console.log(response);
     if (response && response.status === 200) {
-      setStorToken((prev) => {
-        console.log({ old_refresh: prev });
-        console.log("new token", response?.data?.accessToken);
-        return { ...prev, accessToken: response?.data?.accessToken };
-      });
+      setStorToken(response?.data?.accessToken);
       setIsRefreshSuccess(true);
       return response.data.accessToken;
     } else if (response.statusText !== "OK") {
