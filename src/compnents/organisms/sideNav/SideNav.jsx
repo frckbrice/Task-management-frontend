@@ -11,8 +11,8 @@ import useDebounce from "../../../hooks/useDebounce";
 import avatar from "../../../assets/avatar.jpg";
 
 // libery imports
-// import Tippy from "@tippyjs/react";
-// import "tippy.js/dist/tippy.css";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 //css import
 import "./SideNav.css";

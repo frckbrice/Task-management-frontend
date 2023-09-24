@@ -1,8 +1,8 @@
 import React from "react";
 import { IoMdNotifications } from "react-icons/io";
 
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+// import Tippy from "@tippyjs/react";
+// import "tippy.js/dist/tippy.css";
 
 import "./NavIterms.css";
 
@@ -23,7 +23,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
         <img
           src={profilePicture}
           alt="profile avatar"
-          className="avatar"
+          className="profile-avatar"
           onClick={togleProfile}
         />
       </div>
