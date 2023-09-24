@@ -1,6 +1,12 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-// dummy data import
-import { projectData, members, collaboProjects } from "../../../dummyData";
+import React, {
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+
+} from "react";
+
+import useDebounce from "../../../hooks/useDebounce";
 
 import avatar from "../../../assets/avatar.jpg";
 
@@ -30,7 +36,7 @@ import toast from "react-hot-toast";
 
 import MemberProfile from "../membersProfile/MemberProfile";
 import { useStorage } from "../../../hooks/useStorage";
-
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 const SideNav = () => {
   // create ref
@@ -43,22 +49,23 @@ const SideNav = () => {
   const [projectdescription, setProjectDescription] = useState("");
   const [projectName, setProjectName] = useState("");
   const [teamName, setTeamName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [newdata, setNewdata] = useState(false);
   const [projectList, setProjectList] = useState([]);
   const [projectMembers, setProjectMembers] = useState([]);
-  
+  const [collaborations, setCollaborations] = useState([]);
+  const [disabled, setDisabled] = useState(false);
 
-  const { setProjectData, setSelectedProject } =
-    useContext(TmsContext);
-   const {token } = useStorage("token");
-   
+  const { lsData, setlsData } = useLocalStorage("collaborations");
+
+  const { setProjectData, setSelectedProject } = useContext(TmsContext);
+  const { token } = useStorage("token");
 
   console.log({ token, setProjectData });
 
- 
+  // console.log("collaborations", collaborations);
 
   useEffect(() => {
-    const fecthData = () => {
+    const fetchProjects = () => {
       serverInterceptor
         .get("/projects", {
           headers: {
@@ -74,12 +81,29 @@ const SideNav = () => {
           }
         })
         .catch((err) => console.log("Error getting projects", err));
-
-     
     };
-    fecthData();
-  }, [token, serverInterceptor]);
 
+    fetchProjects();
+  }, [newdata]);
+
+  useEffect(() => {
+    serverInterceptor
+      .get("/projects/collaborations", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        if (response && response.data && response.data.length) {
+          console.log("\n \n all collaborations:", response.data);
+          setlsData(response.data);
+          setCollaborations(lsData);
+        }
+      })
+      .catch((err) => console.log("Error getting projects", err));
+  }, []);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -109,7 +133,7 @@ const SideNav = () => {
         if (response && response.status === 201) {
           toast.success("project successfully created");
           setProjectData(response.data.data);
-          // setIsLoading(false);
+          setNewdata(true);
         }
       } catch (error) {
         toast.error("Failed to create project.");
@@ -122,8 +146,12 @@ const SideNav = () => {
     }
   };
 
+const debouncedClick = useDebounce(createProject, 500);
+
+  console.log({ projectMembers });
   //*selecct projct and get members
   const selectProject = (project) => {
+     setDisabled(true);
     setSelectedProject(project);
     let data = { id: project.id };
     serverInterceptor
@@ -135,9 +163,9 @@ const SideNav = () => {
         },
       })
       .then((response) => {
-        if (response && response.data ) {
+        if (response && response.data) {
           console.log("\n \n all project members:", response.data);
-          setProjectMembers(response.data);
+          setProjectMembers(response.data.projectMembers);
         }
       })
       .catch((err) => console.log("Error getting project Members", err));
@@ -164,7 +192,7 @@ const SideNav = () => {
           {isModalOpen && (
             <div className="add-project-popup" ref={ref}>
               <PopupModal title="Add new project" onClick={handleClick}>
-                <form className="addProjectForm" onSubmit={createProject}>
+                <form className="addProjectForm" onSubmit={debouncedClick}>
                   <p>Project Name</p>
                   <input
                     type="text"
@@ -218,17 +246,17 @@ const SideNav = () => {
             </div>
           )}
 
-          {
-            projectList?.map((project, index) => (
-              <div
-                className="list project-list"
-                key={index}
-                onClick={() => selectProject(project)}
-              >
-                <p>{project.name}</p>
-                <BsThreeDotsVertical />
-              </div>
-            ))}
+          {projectList?.map((project, index) => (
+            <div
+              className="list project-list"
+              key={index}
+              disabled={disabled}
+              onClick={() => selectProject(project)}
+            >
+              <p>{project.name}</p>
+              <BsThreeDotsVertical />
+            </div>
+          ))}
         </div>
 
         <div className="members">
@@ -236,20 +264,19 @@ const SideNav = () => {
             <MdPeopleOutline className="title-icon" />
             <h3>Members</h3>
           </div>
-          {/* {
-            projectMembers?.map((member, index) => (
-              <div className="members-list" key={index}>
-                <div className="member-profile">
-                  <img
-                    src={member.picture || avatar}
-                    alt="member's avatar"
-                    className="member-avatar"
-                  />
-                  <p>{member.name}</p>
-                </div>
-                <RiArrowDropDownLine />
+          {projectMembers?.map((member, index) => (
+            <div className="members-list" key={index}>
+              <div className="member-profile">
+                <img
+                  src={member.picture || avatar}
+                  alt=""
+                  // className="member-avatar"
+                />
+                <p>{member.username}</p>
               </div>
-            ))} */}
+              <RiArrowDropDownLine />
+            </div>
+          ))}
         </div>
 
         <div className="collaborations">
@@ -257,7 +284,7 @@ const SideNav = () => {
             <GoProjectSymlink className="title-icon" />
             <h3>Collaborations</h3>
           </div>
-          {collaboProjects?.map((project, index) => (
+          {collaborations?.map((project, index) => (
             <div className="collaboProject-list" key={index}>
               <p>{project.name}</p>
               <BsThreeDotsVertical />

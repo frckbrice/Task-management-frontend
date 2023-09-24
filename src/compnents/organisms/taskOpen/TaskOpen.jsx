@@ -41,7 +41,7 @@ const TaskOpen = ({ onClick }) => {
 
         <button className="assign-task">delete</button>
       </div>
-      {/* <div className="task-member">
+      <div className="task-member">
         {members.map((member, i) => (
           <Tippy
             content={<AsignMember name={member.name} />}
@@ -58,7 +58,7 @@ const TaskOpen = ({ onClick }) => {
             </div>
           </Tippy>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };
