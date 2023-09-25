@@ -140,7 +140,7 @@ const SideNav = () => {
     }
   };
 
-  // const debouncedClick = useDebounce(createProject, 500);
+  const debouncedClick = useDebounce(createProject, 500);
 
   console.log({ projectMembers });
   //*selecct projct and get members
