@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 
 // libery imports
@@ -10,6 +10,10 @@ import PopupModal from "../../molecules/popupModal/PopupModal";
 import PopupForm from "../popupForm/PopupForm";
 import TaskOpen from "../taskOpen/TaskOpen";
 import OverLay from "../../atoms/overlay/OverLay";
+import toast from "react-hot-toast";
+import { serverInterceptor } from "../../../config";
+import { useStorage } from "../../../hooks/useStorage";
+import { TmsContext } from "../../../context/TaskBoardContext";
 
 const taskformBackend = [
   { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
@@ -29,14 +33,14 @@ const list = {
     task_status: "In Progress",
     tasks: [],
   },
-  [uuid()]: {
-    task_status: "Ready for Review",
-    tasks: [],
-  },
-  [uuid()]: {
-    task_status: "Completed",
-    tasks: [],
-  },
+  // [uuid()]: {
+  //   task_status: "Ready for Review",
+  //   tasks: [],
+  // },
+  // [uuid()]: {
+  //   task_status: "Completed",
+  //   tasks: [],
+  // },
 };
 
 // handle drag and drop changes
@@ -94,14 +98,57 @@ const onDragEnd = (result, columns, setColumns) => {
 
 const TaskBoard = () => {
   const [columns, setColumns] = useState(list);
+  const [taskList, setTaskList] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
-  const [currentStatus, setCurrentTaskStatus] = useState("");
+  const [currentStatusId, setCurrentTaskStatusId] = useState("");
   const [openTask, setOpenTask] = useState(false);
   const [openAddList, setOpenAddList] = useState(false);
   const [editTask, setEditTask] = useState();
+  const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [listName, setListName] = useState("");
 
-  const togglePopup = (status = "") => {
-    setCurrentTaskStatus(status);
+  const { selectedProject } = useContext(TmsContext);
+
+  const { token } = useStorage("token");
+
+  const [disabled, setDisabled] = useState(false);
+
+console.log('token', token);
+console.log("project data", selectedProject);
+
+  useEffect(() => {
+    setDisabled(false);
+    setErrMsg('');
+  }, []);
+
+  useEffect(() => {
+    const fetchProjects = () => {
+      let data = { id: selectedProject?.id };
+      serverInterceptor
+        .post("projectStatus/ofproject", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        })
+        .then((response) => {
+          if (response && response.data) {
+            console.log("\n \n all project members:", response.data);
+
+            setColumns(new Set(response.data.formatedStatuses));
+          }
+        })
+        .catch((err) => console.log("Error getting project Members", err));
+    };
+
+    fetchProjects();
+  }, [selectedProject?.id, token]);
+
+  const togglePopup = (id, column) => {
+    setCurrentTaskStatusId(id);
     setShowAddTask((prev) => !prev);
   };
 
@@ -110,6 +157,114 @@ const TaskBoard = () => {
     setOpenTask(!openTask);
   };
 
+  const onchangeName = useCallback((e) => {
+    setTaskName(e.target.value);
+  }, []);
+
+  const onchangeDescription = useCallback((e) => {
+    setTaskDescription(e.target.value);
+  }, []);
+
+  const addTask = useCallback(
+    async (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: taskName,
+        description: taskDescription,
+        projectStatusId: currentStatusId,
+      };
+      if (token) {
+        try {
+          const response = await serverInterceptor.post("/tasks", data, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Access-Control-Allow-Credentials": true,
+              Accept: "application/json",
+            },
+          });
+          if (response && response.data && response.status === (200 || 201)) {
+            toast.success("task successfully created");
+          }
+        } catch (err) {
+          toast.error("Failed to create a task.");
+
+          console.log(err?.data?.message);
+          if (!err.status) {
+            setErrMsg("No Server Response");
+          } else if (err.status === 400) {
+            setErrMsg("Missing Username or Password");
+          } else if (err.status === 401) {
+            setErrMsg("Unauthorized");
+          } else if (err.status === 403) {
+            setErrMsg("Forbidden");
+          } else {
+            setErrMsg(err.data?.message);
+            console.error(err.data?.message);
+          }
+        }
+      } else {
+        console.log("no token, can not proceed");
+        toast.error("Failed to create a task.");
+        setErrMsg("Need to log in first");
+      }
+    },
+    [taskDescription, token, taskName, currentStatusId]
+  );
+
+  const addNewTaskList = async () => {
+    const data = {
+      projectId: selectedProject?.id,
+      designation: listName,
+    };
+    if (token) {
+      try {
+        const response = await serverInterceptor.post("/projectStatus", data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        });
+           console.log("project status", response.data);
+        if (response && response.data) {
+          toast.success("new column successfully created");
+          console.log('project status', response.data)
+          setColumns({
+            ...columns,
+            [response.data.status.id]: {
+              task_status: listName,
+              tasks: [],
+            },
+          });
+        }
+      } catch (err) {
+        toast.error("Failed to create a task.");
+
+        console.log(err);
+        if (!err.status) {
+          setErrMsg("No Server Response");
+        } else if (err.status === 400) {
+          setErrMsg("Missing Username or Password");
+        } else if (err.status === 401) {
+          setErrMsg("Unauthorized");
+        } else if (err.status === 403) {
+          setErrMsg("Forbidden");
+        } else if (err.status === 409) {
+          setErrMsg("Already exist");
+        } else {
+          setErrMsg(err.data?.message);
+          console.error(err.data?.message);
+        }
+      }
+    } else {
+      console.log("no token, can not proceed");
+      setErrMsg("Need to log in first");
+      toast.error("Failed to create a task.");
+    }
+  };
+  const errClass = errMsg ? "mgs" : "offscreen";
+
   return (
     <>
       {showAddTask && <OverLay action={togglePopup} />}
@@ -117,14 +272,21 @@ const TaskBoard = () => {
       <div className="task-board">
         {showAddTask && (
           <div className="add-task">
-            <PopupModal
-              onClick={togglePopup}
-              title={`Add new ${currentStatus} task `}
-            >
+            <PopupModal onClick={togglePopup} title={`Add new task `}>
               <PopupForm
                 inputText="Enter task name"
+                value={taskName}
+                onchangeName={onchangeName}
+                id="taskName"
+                description={taskDescription}
+                idDescription="taskDescription"
                 textarea="Add task description..."
                 buttonText="Add Task"
+                onchangeDescription={onchangeDescription}
+                onSubmit={addTask}
+                disabled={disabled}
+                errClass={errClass}
+                errMsg={errMsg}
               />
             </PopupModal>
           </div>
@@ -139,7 +301,7 @@ const TaskBoard = () => {
                   <h3>{column.task_status}</h3>
                   <button
                     className="add-list-btn"
-                    onClick={() => togglePopup(column.task_status)}
+                    onClick={() => togglePopup(id, column)}
                   >
                     Add Task
                   </button>
@@ -230,10 +392,18 @@ const TaskBoard = () => {
             {" "}
             <PopupModal onClick={() => setOpenAddList(!openAddList)}>
               <div className="addForm">
+                <p className={errClass} aria-live="assertive">
+                  {errMsg}
+                </p>
                 <h4>Add new Task status list</h4>
                 {/* <PopupForm /> */}
-                <input type="text" placeholder="Enter List name" />
-                <button>Add List</button>
+                <input
+                  type="text"
+                  placeholder="Enter List name"
+                  value={listName}
+                  onChange={(e) => setListName(e.target.value)}
+                />
+                <button onClick={addNewTaskList}>Add List</button>
               </div>
             </PopupModal>{" "}
           </div>

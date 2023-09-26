@@ -65,13 +65,17 @@ function OnBoarding() {
     };
     if (token) {
       try {
-        const response = await serverInterceptor.post("/tasks", data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Access-Control-Allow-Credentials": true,
-            Accept: "application/json",
-          },
-        });
+        const response = await serverInterceptor.post(
+          "/tasks/onboarding",
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Access-Control-Allow-Credentials": true,
+              Accept: "application/json",
+            },
+          }
+        );
         if (response && response.data && response.status === (200 || 201)) {
           toast.success("task successfully created");
           setTaskdata(response.data.data);
@@ -127,10 +131,21 @@ function OnBoarding() {
           setProjectData(response.data.data);
           // setIsLoading(false);
         }
-      } catch (error) {
+      } catch (err) {
         toast.error("Failed to create project.");
-        console.log(error?.data?.message);
-
+        console.log(err?.data?.message);
+ if (!err.status) {
+   setErrMsg("No Server Response");
+ } else if (err.status === 400) {
+   setErrMsg("Missing Username or Password");
+ } else if (err.status === 401) {
+   setErrMsg("Unauthorized");
+ } else if (err.status === 403) {
+   setErrMsg("Forbidden");
+ } else {
+   setErrMsg(err.data?.message);
+   console.error(err.data?.message);
+ }
         setIsLoading(false);
       }
     } else {
@@ -164,11 +179,23 @@ function OnBoarding() {
         setIsLoading(false);
         toast.success("invitation successfully sent");
       }
-    } catch (error) {
+    } catch (err) {
       toast.error("Failed to send an invite.");
-      console.log(error?.data?.message);
+      console.log(err?.data?.message);
       setMove(false);
       setIsLoading(false);
+       if (!err.status) {
+         setErrMsg("No Server Response");
+       } else if (err.status === 400) {
+         setErrMsg("Missing Username or Password");
+       } else if (err.status === 401) {
+         setErrMsg("Unauthorized");
+       } else if (err.status === 403) {
+         setErrMsg("Forbidden");
+       } else {
+         setErrMsg(err.data?.message);
+         console.error(err.data?.message);
+       }
     }
   };
 

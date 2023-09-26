@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 
 import "./TaskOpen.css";
 // react icons
@@ -20,7 +20,7 @@ const TaskOpen = ({ onClick, taskName, description }) => {
   return (
     <div className="taskOpen">
       <div className="head-text">
-        <p>Task detials...!</p>
+        <p>Task details...!</p>
         <button onClick={onClick}>{/* <AiOutlineClose /> */}</button>
       </div>
       {!onEdit && (
@@ -80,4 +80,4 @@ const AsignMember = ({ name }) => {
   );
 };
 
-export default TaskOpen;
+export default memo(TaskOpen);
