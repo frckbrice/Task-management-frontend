@@ -32,8 +32,7 @@ function Login() {
 
   // const { setToken } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("setRefreshToken", " ");
-    const { setStorToken } = useStorage("token", " ");
-  
+  const { setStorToken } = useStorage("token", " ");
 
   useEffect(() => {
     // userRef.current.focus();
@@ -45,115 +44,116 @@ function Login() {
   }, [email, password]);
 
   let content;
- const login = useGoogleLogin({
-   onSuccess: (codeResponse) => {
-     console.log("login goood");
-     setIsLoading(true);
-     setUser(codeResponse);
-     if (codeResponse) {
-       axios
-         .get(`${conf.googleapis}=${codeResponse.access_token}`, {
-           headers: {
-             Authorization: `Bearer ${codeResponse.access_token}`,
-             Accept: "application/json",
-           },
-         })
-         .then((res) => {
-           setProfile(res.data);
-           if (res && res.data) {
-             console.log("connection to the backend : registration");
-             let data = {
-               username: res.data.name,
-               email: res.data.email,
-               picture: res.data.picture,
-               id: res.data.id,
-             };
-             console.log(data);
-             server
-               .post("/auth/googleRegister", data, {
-                 headers: conf.headers,
-               })
-               .then((resp) => {
-                 if (resp && resp.data) {
-                   console.log("registered data: ", resp.data);
-                   const { email } = resp.data;
-                   let data = {
-                     email,
-                   };
-                   server
-                     .post(
-                       "/auth/googleLogin",
-                       data,
-                       {
-                         headers: conf.headers,
-                       },
-                       {
-                         withCredentials: true,
-                         mode: "cors",
-                       }
-                     )
-                     .then((response) => {
-                       if (
-                         response &&
-                         response.data &&
-                         response.status === 200
-                       ) {
-                         setIsLoading(false);
-                         setMove(true);
-                         console.log(
-                           "User successfully logged in! tokens: ",
-                           response.data
-                         );
-                         toast.success("User successfully logged in");
-                         setStorToken(response.data.accessToken);
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log("login goood");
+      setIsLoading(true);
+      setUser(codeResponse);
+      if (codeResponse) {
+        axios
+          .get(`${conf.googleapis}=${codeResponse.access_token}`, {
+            headers: {
+              Authorization: `Bearer ${codeResponse.access_token}`,
+              Accept: "application/json",
+            },
+          })
+          .then((res) => {
+            setProfile(res.data);
+            if (res && res.data) {
+              console.log("connection to the backend : registration");
+              let data = {
+                username: res.data.name,
+                email: res.data.email,
+                picture: res.data.picture,
+                id: res.data.id,
+              };
+              console.log(data);
+              server
+                .post("/auth/googleRegister", data, {
+                  headers: conf.headers,
+                })
+                .then((resp) => {
+                  if (resp && resp.data) {
+                    console.log("registered data: ", resp.data);
+                    const { email } = resp.data;
+                    let data = {
+                      email,
+                    };
+                    server
+                      .post(
+                        "/auth/googleLogin",
+                        data,
+                        {
+                          headers: conf.headers,
+                        },
+                        {
+                          withCredentials: true,
+                          mode: "cors",
+                        }
+                      )
+                      .then((response) => {
+                        if (
+                          response &&
+                          response.data &&
+                          response.status === 200
+                        ) {
+                          setIsLoading(false);
+                          setMove(true);
+                          console.log(
+                            "User successfully logged in! tokens: ",
+                            response.data
+                          );
+                          toast.success("User successfully logged in");
+                          setStorToken(response.data.accessToken);
 
-                         setlsData(response.data.refreshToken);
-                         // navigate to onboarding page
-                       }
-                       setEmail("");
-                       setPassword("");
-                     })
-                     .catch((err) => {
-                       console.log("error loging in", err.code, err.message);
-                       toast.success("Failed to log in");
-                       setMove(false);
+                          setlsData(response.data.refreshToken);
+                          navigate("/onboarding");
+                          // navigate to onboarding page
+                        }
+                        setEmail("");
+                        setPassword("");
+                      })
+                      .catch((err) => {
+                        console.log("error loging in", err.code, err.message);
+                        toast.success("Failed to log in");
+                        setMove(false);
 
-                       if (!err.status) {
-                         setErrMsg("No Server Response");
-                       } else if (err.status === 400) {
-                         setErrMsg("Missing some useful information");
-                       } else if (err.status === 401) {
-                         setErrMsg("Unauthorized");
-                       } else if (err.status === 403) {
-                         setErrMsg("Forbidden");
-                       } else {
-                         setErrMsg(err.data?.message);
-                         console.error(err.data?.message);
-                       }
-                     })
-                     .finally(() => setIsLoading(false));
-                 }
-               })
-               .catch((err) =>
-                 console.log("error registering to db", err.code, err.message)
-               )
-               .finally(() => setIsLoading(false));
-           }
-         })
-         .catch((err) =>
-           console.log(
-             "error fetching user data from google",
-             err.code,
-             err.message
-           )
-         );
-     }
-   },
-   onError: (error) => {
-     console.log("failed");
-     console.log("Login Failed:", error);
-   },
- });
+                        if (!err.status) {
+                          setErrMsg("No Server Response");
+                        } else if (err.status === 400) {
+                          setErrMsg("Missing some useful information");
+                        } else if (err.status === 401) {
+                          setErrMsg("Unauthorized");
+                        } else if (err.status === 403) {
+                          setErrMsg("Forbidden");
+                        } else {
+                          setErrMsg(err.data?.message);
+                          console.error(err.data?.message);
+                        }
+                      })
+                      .finally(() => setIsLoading(false));
+                  }
+                })
+                .catch((err) =>
+                  console.log("error registering to db", err.code, err.message)
+                )
+                .finally(() => setIsLoading(false));
+            }
+          })
+          .catch((err) =>
+            console.log(
+              "error fetching user data from google",
+              err.code,
+              err.message
+            )
+          );
+      }
+    },
+    onError: (error) => {
+      console.log("failed");
+      console.log("Login Failed:", error);
+    },
+  });
 
   console.log(user);
   console.log(profile);
@@ -184,18 +184,16 @@ function Login() {
               setMove(true);
               console.log("Login successful!", res.data);
               setStorToken(res.data.accessToken);
-            
+
               setlsData(res.data.refreshToken);
               navigate("/onboarding"); // navigate to onboarding page
-              
-             
             }
             setEmail("");
             setPassword("");
           })
           .catch((err) => {
-             setMove(false);
-            
+            setMove(false);
+
             console.log("error login in", err.message);
 
             if (!err.status) {
@@ -210,8 +208,8 @@ function Login() {
               setErrMsg(err.data?.message);
               console.error(err.data?.message);
             }
-           
-          }).finally(()=>  setIsLoading(false) );
+          })
+          .finally(() => setIsLoading(false));
 
         //* add error message later
       } else {
