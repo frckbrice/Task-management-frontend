@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-
-} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import useDebounce from "../../../hooks/useDebounce";
 
@@ -111,7 +105,7 @@ const SideNav = () => {
   };
 
   const createProject = async (e) => {
-    e.preventDefault();
+    // e.preventDefualt();
     let data = {
       name: projectName,
       description: projectdescription,
@@ -146,12 +140,12 @@ const SideNav = () => {
     }
   };
 
-const debouncedClick = useDebounce(createProject, 500);
+  const debouncedClick = useDebounce(createProject, 500);
 
   console.log({ projectMembers });
   //*selecct projct and get members
   const selectProject = (project) => {
-     setDisabled(true);
+    setDisabled(true);
     setSelectedProject(project);
     let data = { id: project.id };
     serverInterceptor
