@@ -136,12 +136,15 @@ console.log("project data", selectedProject);
         })
         .then((response) => {
           if (response && response.data) {
-            console.log("\n \n all project members:", response.data);
-
-            setColumns(new Set(response.data.formatedStatuses));
+            console.log(
+              "\n \n all project status:",
+              new Set(response.data.formatedStatuses)
+            );
+              const columnsStatus = new Set(response.data.formatedStatuses);
+            setColumns(columnsStatus);
           }
         })
-        .catch((err) => console.log("Error getting project Members", err));
+        .catch((err) => console.log("Error getting project status", err));
     };
 
     fetchProjects();

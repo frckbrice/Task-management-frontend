@@ -40,7 +40,7 @@
   border-radius: 50%;
 }
 
-.icon-button__badge {
+.icon-button span .icon-button__badge {
   position: absolute;
   top: -8px;
   right: -8px;
@@ -112,7 +112,7 @@
 .profile img {
   height: 40%;
   width: 40%;
-  /* object-fit: fill; */
+  object-fit: fill;
 }
 
 .logout {
@@ -136,4 +136,70 @@
   border: 1px solid #d3d3d3;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   color: #000;
+}
+
+/* *******notification section****** */
+.notifications {
+  width: 20vw;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 12;
+}
+
+.updateCards {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.notification-card {
+  border: 1px solid #d3d3d3d3;
+  padding: 2px;
+}
+
+.notifications p {
+  font-size: 12px;
+  color: #4f4e4e;
+}
+
+.notiBTN {
+  display: flex;
+  gap: 5px;
+}
+
+.notiBTN:nth-child(1) {
+  color: #1b34b5;
+}
+
+.notiBTN button {
+  /* border: 1px solid gray;
+  border-radius: 20px; */
+  background-color: transparent;
+  border: none;
+  padding: 2px 5px;
+  transition: 0.3s ease-in-out;
+}
+
+.notiBTN button:hover {
+  cursor: pointer;
+  color: #1b34b5;
+}
+
+.accept {
+  color: #1b34b5;
+}
+
+.decline {
+  color: rgb(207, 109, 73);
+}
+
+.noti-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.noti-header h3 {
+  font-size: 12px;
+  color: #555555;
 }

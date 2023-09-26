@@ -10,7 +10,7 @@ const PopupModal = ({ title, onClick, children }) => {
   return (
     <div className="popup-modal">
       <div className="modal-top">
-        <p> </p>
+        <p>{title} </p>
         <button onClick={onClick}>
           <AiOutlineClose className="outlinecancel" />
         </button>

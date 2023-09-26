@@ -43,61 +43,64 @@ const Dashboard = () => {
 
   // const user = dataValues;
 
-  const logout = async() => {
-    await server.post('/auth/logout', {
+  const logout = async () => {
+    await server.post("/auth/logout", {
       headers: conf.headers,
-    })
+    });
   };
 
-   const editProfile = async () => {
-    const data = {}
-     await server.patch("/members", data, {
-       headers: conf.headers,
-     });
-   };
+  const editProfile = async () => {
+    const data = {};
+    await server.patch("/members", data, {
+      headers: conf.headers,
+    });
+  };
 
   console.log("user: ", user);
   return (
-    <>
+    <div className="dashboard">
       {openProfile && <OverLay action={toggleProfile} />}
-      <div className="dashboard">
-        <DashBoardNavBar>
-          <div className="navContent">
-            <NavIterms
-              profilePicture={picture}
-              togleProfile={toggleProfile}
-            ></NavIterms>
-          </div>
-        </DashBoardNavBar>
-        {/* <NavBar className="dashNav"></NavBar> */}
-        <div className="workSpace">
-          <div className="sideNav-section">
-            <SideNav />
-          </div>
-          <div className="main-section">
-            <ProjectDetialsBar />
-            <TaskBoard />
-          </div>
+
+      <DashBoardNavBar>
+        <div className="navContent">
+          <NavIterms
+            profilePicture={picture}
+            togleProfile={toggleProfile}
+          ></NavIterms>
         </div>
-        {openProfile && (
-          <div className="userProfile">
-            <PopupModal onClick={toggleProfile}>
-              <div className="profile">
-                <img src={picture} alt="profile avatar" />
-                <div className="profileDetai">
-                  <h4>{username}</h4>
-                  <p>{email}</p>
-                </div>
-                <div className="actions">
-                  <button className="logout" onClick={logout}>logout</button>
-                  <button className="logout" onClick={editProfile}>edit</button>
-                </div>
-              </div>
-            </PopupModal>
-          </div>
-        )}
+      </DashBoardNavBar>
+      {/* <NavBar className="dashNav"></NavBar> */}
+      <div className="workSpace">
+        <div className="sideNav-section">
+          <SideNav />
+        </div>
+        <div className="main-section">
+          <ProjectDetialsBar />
+          <TaskBoard />
+        </div>
       </div>
-    </>
+      {openProfile && (
+        <div className="userProfile">
+          <PopupModal onClick={toggleProfile}>
+            <div className="profile">
+              <img src={picture} alt="profile avatar" />
+              <div className="profileDetai">
+                <h4>{username}</h4>
+                <p>{email}</p>
+              </div>
+              <div className="actions">
+                <button className="logout" onClick={logout}>
+                  logout
+                </button>
+                <button className="logout" onClick={editProfile}>
+                  edit
+                </button>
+              </div>
+            </div>
+          </PopupModal>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -85,10 +85,10 @@ ul li a {
   #righttxtbtn {
     /* display: flex; */
     flex-direction: column;
-    margin-top: 41vh;
-    /* width: 80vw; */
-    margin-left: -135%;
-    padding: 30px;
+    margin-top: 55vh;
+    /* width: 280px; */
+    margin-left: -110%;
+    padding: 20px 100px 40px 100px;
     display: none;
     line-height: 2.5;
     /* border-radius: 20px; */

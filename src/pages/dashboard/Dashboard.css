@@ -1,16 +1,20 @@
 .dashboard {
   background-color: #f3f2f0;
   height: fit-content;
+  width: 100%;
 }
 
 .workSpace {
   /* padding: 0 2%; */
   /* display: flex;
+  */
   width: 100%;
-  justify-content: space-between; */
+  /* justify-content: space-between;  */
+
+  height: 100vh;
 
   display: grid;
-  grid-template-columns: 228px 80vw;
+  grid-template-columns: 228px auto;
   /* gap: 10px; */
 }
 

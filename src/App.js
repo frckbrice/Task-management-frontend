@@ -74,11 +74,11 @@ function App() {
   ]);
 
   return (
-    <div className="App">
+    <>
       <ContextProvider>
         <RouterProvider router={router} />
       </ContextProvider>
-    </div>
+    </>
   );
 }
 

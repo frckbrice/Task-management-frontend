@@ -7,7 +7,7 @@ import { server, conf } from "../../config";
 import useServerInterceptor from "../../hooks/useServerInterceptor";
 import PulseLoader from "react-spinners/PulseLoader";
 import userAuth from "../../hooks/userAuth";
-import {useStorage} from "../../hooks/useStorage";
+import { useStorage } from "../../hooks/useStorage";
 
 function OnBoarding() {
   console.log("onboarding");
@@ -46,7 +46,7 @@ function OnBoarding() {
 
   (function () {
     if (location.pathname.includes("/onboarding") && !token)
-      navigate("/login", { replace: true });
+      navigate("/dashboard", { replace: true });
   })();
 
   const handlePrev = () => setCurrentStep(currentStep - 1);
@@ -160,7 +160,7 @@ function OnBoarding() {
     // const emailContent = `${conf.server}/${projectToken}`;
     setIsLoading(true);
     const emailContent = `${conf.clientbaseURL}/`;
-// const emailContent = "localhost:3000/";
+    // const emailContent = "localhost:3000/";
     let data = {
       projectToken: projectData.id,
       emails: inviteEmail, //need to create a list of invitees email
@@ -241,7 +241,7 @@ function OnBoarding() {
           <div className="projectCard">
             {/* <label>Name</label> */}
             <input
-            placeholder="project name"
+              placeholder="project name"
               type="text"
               id="projectname"
               name="project-name"
@@ -328,18 +328,18 @@ function OnBoarding() {
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
           />{" "}
+          <button className="addtaskBtn" onClick={addTask}>
+            Add Task
+          </button>
           <br />
           <textarea
             name="task decription"
-            id=""
             cols="30"
+            id="taskfield"
             rows="3"
             value={taskDescription}
             onChange={(e) => setTaskDescription(e.target.value)}
           />
-          <button className="addtaskBtn" onClick={addTask}>
-            Add Task
-          </button>
           {errMsg && <p className={errClass}>{errMsg}</p>}
           <div className="Btn Btns">
             <button onClick={handlePrev}>Prev</button>

@@ -42,9 +42,9 @@
 }
 
 .create-project {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  /* padding: 20px; */
+  box-shadow: #32325d40 0px 2px 5px -1px,
+    #0000004d 0px 1px 3px -1px;
+  padding: 20px 0 0 0;
   display: flex;
   width: auto;
   justify-content: center;
@@ -105,7 +105,6 @@ label {
   align-self: center;
   margin: 10px 0 5px 9px;
   border: 1px solid #0e0e0e25;
-
   width: 90%;
   height: 60px;
 }
@@ -126,12 +125,17 @@ label {
   margin: 20px auto;
 }
 
-#taskinput {
+#taskinput,
+#taskfield {
   width: 50%;
   border: 1px solid #80808063;
   background-color: #04175a;
   /* margin: 15px auto; */
   color: white;
+}
+
+#taskfield {
+width: 70%;
 }
 
 .createtaskErr {
@@ -155,6 +159,7 @@ label {
 }
 
 #invitemember {
+  margin-top: 25px;
   padding: 5px 13px;
   border: 1px solid #80808063;
 }
@@ -188,4 +193,10 @@ label {
 .onboard-project-btn {
   width: 100%;
   margin: 1rem auto;
+}
+
+@media screen and (max-width: 768px) {
+  .onBoarding {
+    width: 90%;
+  }
 }
