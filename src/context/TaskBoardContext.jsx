@@ -1,6 +1,5 @@
 import { createContext, useState } from "react";
 
-
 export const TmsContext = createContext({});
 
 const ContextProvider = ({ children }) => {
@@ -13,9 +12,10 @@ const ContextProvider = ({ children }) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [isRefreshSuccess, setIsRefreshSuccess] = useState(true);
   const [isRefreshError, setIsRefreshError] = useState(false);
-  
-console.log("project data", projectData);
-  
+  const [memberofProject, setMembersofProject] = useState([]);
+
+  console.log("project data", projectData);
+
   const values = {
     errorMsg,
     setErrorMsg,
@@ -33,6 +33,8 @@ console.log("project data", projectData);
     setSelectedProject,
     projectStatus,
     setProjectStatus,
+    memberofProject,
+    setMembersofProject,
   };
 
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;
