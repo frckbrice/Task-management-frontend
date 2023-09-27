@@ -1,21 +1,28 @@
-import React, { useState, memo, useEffect } from "react";
+import React, { useState, memo, useEffect, useContext } from "react";
 
 import "./TaskOpen.css";
 // react icons
 import { AiOutlineClose } from "react-icons/ai";
 
-import { members } from "../../../dummyData";
-
+import avatar from "../../../assets/avatar.jpg";
 // libery imports
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { TmsContext } from "../../../context/TaskBoardContext";
+import { useStorage } from "../../../hooks/useStorage";
+import { serverInterceptor } from "../../../config";
+import toast from "react-hot-toast";
 
-const TaskOpen = ({ onClick, taskName, description, editTask }) => {
+const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
   const [onEdit, setOnEdit] = useState(false);
 
   const handleOnEdit = () => {
     setOnEdit(!onEdit);
   };
+
+  const { memberofProject } = useContext(TmsContext);
+
+  console.log("memberofProject", memberofProject);
 
   let editName, editDescription;
   const handleSubmit = (e) => {
@@ -25,13 +32,10 @@ const TaskOpen = ({ onClick, taskName, description, editTask }) => {
     const data = Object.fromEntries(formData.entries());
     editName = data.taskName;
     editDescription = data.description;
-    console.log("taskname: ", data.taskName);
-    console.log("description", data.description);
-  };
-
-  useEffect(() => {
+    // console.log("taskname: ", data.taskName);
+    // console.log("description", data.description);
     editTask(editDescription, editName);
-  }, [editDescription, editTask, editName]);
+  };
 
   return (
     <div className="taskOpen">
@@ -67,18 +71,19 @@ const TaskOpen = ({ onClick, taskName, description, editTask }) => {
         <button className="assign-task">delete</button>
       </div>
       <div className="task-member">
-        {members.map((member, i) => (
+        {memberofProject?.map((member, index) => (
           <Tippy
-            key={i}
-            content={<AsignMember name={member.name} />}
+            key={index}
+            content={<AsignMember name={member.username} task={task} />}
             interactive
             className="tippy"
             placement="top-start"
           >
-            <div className="assiign-member" key={i}>
+            <div className="assiign-member" key={index}>
               <img
-                src="https://i.pinimg.com/564x/13/6a/7d/136a7d742a5408847968c5db2149eba6.jpg"
+                src={member.picture || avatar}
                 alt=""
+                // className="member-avatar"
               />
             </div>
           </Tippy>
@@ -88,10 +93,37 @@ const TaskOpen = ({ onClick, taskName, description, editTask }) => {
   );
 };
 
-const AsignMember = ({ name }) => {
+const AsignMember = ({ name, task }) => {
+  const { token } = useStorage("token");
+
+  const assignTaskTo = async() => {
+    const data = {
+      username: name,
+      taskId: task.id,
+    };
+    if (token) {
+      const response = await serverInterceptor.post(
+        "tasks/assignToMember",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+        }
+      );
+
+       if (response && response.data && response.data.assigment) {
+         toast.success("task successfully assigned ");
+         console.log("task updated", response?.data?.assigment);
+       }
+    }
+  };
+
   return (
     <div>
-      <button>
+      <button onClick={assignTaskTo}>
         assign task to <span>{name}</span>
       </button>
     </div>

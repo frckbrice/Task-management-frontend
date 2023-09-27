@@ -109,6 +109,7 @@ const TaskBoard = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [listName, setListName] = useState("");
+  const [rendered, setRendered] = useState(false);
 
   const { selectedProject } = useContext(TmsContext);
 
@@ -116,13 +117,13 @@ const TaskBoard = () => {
 
   const [disabled, setDisabled] = useState(false);
 
-  console.log("token", token);
-  console.log("project data", selectedProject);
+  // console.log("token", token);
+  // console.log("project data", selectedProject);
 
   useEffect(() => {
     setDisabled(false);
     setErrMsg("");
-  }, []);
+  }, [rendered]);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -325,7 +326,7 @@ const TaskBoard = () => {
           if (response && response.data) {
             toast.success("task successfully updated");
             console.log("task updated", response?.data?.updatedTask);
-            setTaskList((prev) => [...prev, response?.data?.updatedTask]);
+            setRendered(true);
           
             // setColumns();
 
@@ -476,6 +477,7 @@ const TaskBoard = () => {
             description={editTask.description}
             onClick={handleOpentask}
             editTask={updateTask}
+            task={editTask}
           />
         )}
         <button
