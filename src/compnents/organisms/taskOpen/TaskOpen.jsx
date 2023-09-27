@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
   const [onEdit, setOnEdit] = useState(false);
 
+ const { token } = useStorage("token");
   const handleOnEdit = () => {
     setOnEdit(!onEdit);
   };
@@ -35,13 +36,46 @@ const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
     // console.log("taskname: ", data.taskName);
     // console.log("description", data.description);
     editTask(editDescription, editName);
+  };  
+  
+  
+  const id = task.id;
+ console.log("id: ", id);
+
+
+  const deleteTask = async() => {
+    const data = {
+      id,
+    }
+
+  
+     if (token) {
+       try {
+         const response = await serverInterceptor.delete("/tasks", {
+           headers: {
+             Authorization: `Bearer ${token}`,
+             "Access-Control-Allow-Credentials": true,
+             Accept: "application/json",
+           },
+           data,
+         });
+
+         if (response && response.data && response.data.assigment) {
+           toast.success("task successfully deleted ");
+           console.log("task updated", response?.data?.message);
+         }
+       } catch (error) {
+        console.log('Error deleting task: ' + error.message); 
+         toast.error('Error deleting the task');
+       }
+    }
   };
 
   return (
     <div className="taskOpen">
       <div className="head-text">
-        <p>Task details...!</p>
-        <button onClick={onClick}>{/* <AiOutlineClose /> */}</button>
+        <h4>Task details...!</h4>
+        <button onClick={onClick}> <AiOutlineClose style={{color: 'red'}}/> </button>
       </div>
       {!onEdit && (
         <div className="content">
@@ -68,7 +102,7 @@ const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
         <div className="updateBtn">
           <button onClick={handleOnEdit}>{!onEdit ? "edit" : "back"}</button>
         </div>
-        <button className="assign-task">delete</button>
+        <button className="assign-task" onClick={deleteTask}>delete</button>
       </div>
       <div className="task-member">
         {memberofProject?.map((member, index) => (

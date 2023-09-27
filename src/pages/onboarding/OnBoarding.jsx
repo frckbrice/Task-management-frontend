@@ -126,7 +126,7 @@ function OnBoarding() {
           },
         });
         console.log(response);
-        if (response && response.status === 201) {
+        if (response && response.data.data) {
           toast.success("project successfully created");
           setProjectData(response.data.data);
           // setIsLoading(false);

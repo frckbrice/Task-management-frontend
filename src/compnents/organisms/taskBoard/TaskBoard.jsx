@@ -23,7 +23,7 @@ const taskformBackend = [
 const list = {
   [uuid()]: {
     task_status: "Backlogs",
-    tasks: taskformBackend,
+    tasks: [],
   },
   [uuid()]: {
     task_status: "To do",
