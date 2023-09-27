@@ -4,6 +4,13 @@ import { v4 as uuid } from "uuid";
 // libery imports
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
+// icon imports
+import { MdNavigateNext } from "react-icons/md";
+import { GrFormPrevious } from "react-icons/gr";
+
 import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
 import PopupModal from "../../molecules/popupModal/PopupModal";
@@ -141,14 +148,13 @@ const TaskBoard = () => {
               "\n \n all project status:",
               new Set(response.data.formatedStatuses)
             );
-            const columnsStatus = response?.data?.formatedStatuses?.reverse().reduce(
-              (obj, status) => {
+            const columnsStatus = response?.data?.formatedStatuses
+              ?.reverse()
+              .reduce((obj, status) => {
                 const key = Object.keys(status)[0];
                 obj[key] = status[key];
                 return obj;
-              },
-              {}
-            );
+              }, {});
             setColumns(columnsStatus);
           }
         })
@@ -197,7 +203,7 @@ const TaskBoard = () => {
           if (response && response.data) {
             toast.success("task successfully created");
             console.log("task created", response?.data?.task);
-           
+
             const column = columns[currentStatusId];
             setColumns({
               ...columns,
@@ -207,7 +213,7 @@ const TaskBoard = () => {
                 tasks: [...column.tasks, response?.data?.task],
               },
             });
-             setTaskList([...column.tasks, response?.data?.task]);
+            setTaskList([...column.tasks, response?.data?.task]);
             setTaskDescription("");
             setTaskName("");
           }
@@ -326,7 +332,7 @@ const TaskBoard = () => {
             toast.success("task successfully updated");
             console.log("task updated", response?.data?.updatedTask);
             setTaskList((prev) => [...prev, response?.data?.updatedTask]);
-          
+
             // setColumns();
 
             setTaskDescription("");
@@ -396,7 +402,26 @@ const TaskBoard = () => {
             return (
               <div className="columns" key={id}>
                 <div className="list-hearder">
-                  <h3>{column.task_status}</h3>
+                  <div className="list-options">
+                    <h3>{column.task_status}</h3>
+                    <div className="list-action">
+                      <Tippy content="move list" className="tippy-button">
+                        <button>
+                          <span>
+                            <GrFormPrevious />
+                          </span>
+                        </button>
+                      </Tippy>
+                      <Tippy content="move list" className="tippy-button">
+                        <button>
+                          <span>
+                            <MdNavigateNext />
+                          </span>
+                        </button>
+                      </Tippy>
+                    </div>
+                  </div>
+
                   <button
                     className="add-list-btn"
                     onClick={() => togglePopup(id)}
