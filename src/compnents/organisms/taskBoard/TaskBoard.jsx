@@ -102,8 +102,9 @@ const TaskBoard = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [currentStatusId, setCurrentTaskStatusId] = useState("");
   const [openTask, setOpenTask] = useState(false);
+  const [taskcompleted, setTaskcompleted] = useState(false);
   const [openAddList, setOpenAddList] = useState(false);
-  const [editTask, setEditTask] = useState();
+  const [editTask, setEditTask] = useState({});
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -115,12 +116,12 @@ const TaskBoard = () => {
 
   const [disabled, setDisabled] = useState(false);
 
-console.log('token', token);
-console.log("project data", selectedProject);
+  console.log("token", token);
+  console.log("project data", selectedProject);
 
   useEffect(() => {
     setDisabled(false);
-    setErrMsg('');
+    setErrMsg("");
   }, []);
 
   useEffect(() => {
@@ -140,7 +141,14 @@ console.log("project data", selectedProject);
               "\n \n all project status:",
               new Set(response.data.formatedStatuses)
             );
-              const columnsStatus = new Set(response.data.formatedStatuses);
+            const columnsStatus = response?.data?.formatedStatuses?.reverse().reduce(
+              (obj, status) => {
+                const key = Object.keys(status)[0];
+                obj[key] = status[key];
+                return obj;
+              },
+              {}
+            );
             setColumns(columnsStatus);
           }
         })
@@ -150,7 +158,7 @@ console.log("project data", selectedProject);
     fetchProjects();
   }, [selectedProject?.id, token]);
 
-  const togglePopup = (id, column) => {
+  const togglePopup = (id) => {
     setCurrentTaskStatusId(id);
     setShowAddTask((prev) => !prev);
   };
@@ -186,8 +194,22 @@ console.log("project data", selectedProject);
               Accept: "application/json",
             },
           });
-          if (response && response.data && response.status === (200 || 201)) {
+          if (response && response.data) {
             toast.success("task successfully created");
+            console.log("task created", response?.data?.task);
+           
+            const column = columns[currentStatusId];
+            setColumns({
+              ...columns,
+              [currentStatusId]: {
+                ...column,
+
+                tasks: [...column.tasks, response?.data?.task],
+              },
+            });
+             setTaskList([...column.tasks, response?.data?.task]);
+            setTaskDescription("");
+            setTaskName("");
           }
         } catch (err) {
           toast.error("Failed to create a task.");
@@ -201,6 +223,8 @@ console.log("project data", selectedProject);
             setErrMsg("Unauthorized");
           } else if (err.status === 403) {
             setErrMsg("Forbidden");
+          } else if (err.status === 409) {
+            setErrMsg("Duplicates");
           } else {
             setErrMsg(err.data?.message);
             console.error(err.data?.message);
@@ -212,7 +236,7 @@ console.log("project data", selectedProject);
         setErrMsg("Need to log in first");
       }
     },
-    [taskDescription, token, taskName, currentStatusId]
+    [taskDescription, token, taskName, currentStatusId, columns]
   );
 
   const addNewTaskList = async () => {
@@ -229,10 +253,10 @@ console.log("project data", selectedProject);
             Accept: "application/json",
           },
         });
-           console.log("project status", response.data);
+        console.log("project status", response.data);
         if (response && response.data) {
           toast.success("new column successfully created");
-          console.log('project status', response.data)
+          console.log("project status", response.data);
           setColumns({
             ...columns,
             [response.data.status.id]: {
@@ -240,6 +264,8 @@ console.log("project data", selectedProject);
               tasks: [],
             },
           });
+
+          setListName("");
         }
       } catch (err) {
         toast.error("Failed to create a task.");
@@ -266,6 +292,75 @@ console.log("project data", selectedProject);
       toast.error("Failed to create a task.");
     }
   };
+
+  // to get the last column. we suppose the last column is the ending task process
+  // const values = Object.values(columns);
+  // const lastColumn = values.pop();
+
+  // console.log('column', columns)
+
+  const updateTask = useCallback(
+    async (editDescription, editName) => {
+      // console.log("currentStatusId", currentStatusId);
+      // if (columns[currentStatusId]?.task_status === lastColumn.task_status) {
+      //   setTaskcompleted(true);
+      // }
+
+      const data = {
+        id: editTask.id,
+        name: editName,
+        description: editDescription,
+        // projectStatusId: currentStatusId,
+        completed: taskcompleted,
+      };
+      if (token) {
+        try {
+          const response = await serverInterceptor.patch("/tasks", data, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Access-Control-Allow-Credentials": true,
+              Accept: "application/json",
+            },
+          });
+          if (response && response.data) {
+            toast.success("task successfully updated");
+            console.log("task updated", response?.data?.updatedTask);
+            setTaskList((prev) => [...prev, response?.data?.updatedTask]);
+          
+            // setColumns();
+
+            setTaskDescription("");
+            setTaskName("");
+          }
+        } catch (err) {
+          toast.error("Failed to create a task.");
+
+          console.log(err);
+          if (!err.status) {
+            setErrMsg("No Server Response");
+          } else if (err.status === 400) {
+            setErrMsg("Missing Username or Password");
+          } else if (err.status === 401) {
+            setErrMsg("Unauthorized");
+          } else if (err.status === 403) {
+            setErrMsg("Forbidden");
+          } else if (err.status === 409) {
+            setErrMsg("Duplicates");
+          } else {
+            setErrMsg(err.data?.message);
+            console.error(err.data?.message);
+          }
+        }
+      } else {
+        console.log("no token, can not proceed");
+        toast.error("Failed to create a task.");
+        setErrMsg("Need to log in first");
+      }
+      setErrMsg("");
+    },
+    [token, editTask.id, taskcompleted]
+  );
+
   const errClass = errMsg ? "mgs" : "offscreen";
 
   return (
@@ -304,7 +399,7 @@ console.log("project data", selectedProject);
                   <h3>{column.task_status}</h3>
                   <button
                     className="add-list-btn"
-                    onClick={() => togglePopup(id, column)}
+                    onClick={() => togglePopup(id)}
                   >
                     Add Task
                   </button>
@@ -380,6 +475,7 @@ console.log("project data", selectedProject);
             taskName={editTask.name}
             description={editTask.description}
             onClick={handleOpentask}
+            editTask={updateTask}
           />
         )}
         <button
