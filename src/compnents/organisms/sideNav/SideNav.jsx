@@ -31,6 +31,7 @@ import toast from "react-hot-toast";
 import MemberProfile from "../membersProfile/MemberProfile";
 import { useStorage } from "../../../hooks/useStorage";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
+import { members } from "../../../dummyData";
 
 const SideNav = () => {
   // create ref
@@ -51,10 +52,11 @@ const SideNav = () => {
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
 
-  const { setProjectData, setSelectedProject } = useContext(TmsContext);
+  const { setProjectData, setSelectedProject, setMembersofProject } =
+    useContext(TmsContext);
   const { token } = useStorage("token");
 
-  console.log({ token, setProjectData });
+  // console.log({ token, setProjectData });
 
   // console.log("collaborations", collaborations);
   useEffect(() => {
@@ -165,6 +167,7 @@ const SideNav = () => {
         if (response && response.data) {
           console.log("\n \n all project members:", response.data);
           setProjectMembers(response.data.projectMembers);
+          setMembersofProject(response.data.projectMembers);
         }
       })
       .catch((err) => console.log("Error getting project Members", err));
