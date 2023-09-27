@@ -97,7 +97,6 @@ function Login() {
                           response.data &&
                           response.status === 200
                         ) {
-                          setIsLoading(false);
                           setMove(true);
                           console.log(
                             "User successfully logged in! tokens: ",
@@ -108,6 +107,7 @@ function Login() {
 
                           setlsData(response.data.refreshToken);
                           navigate("/onboarding");
+                          setIsLoading(false);
                           // navigate to onboarding page
                         }
                         setEmail("");
@@ -184,9 +184,9 @@ function Login() {
               setMove(true);
               console.log("Login successful!", res.data);
               setStorToken(res.data.accessToken);
-
               setlsData(res.data.refreshToken);
               navigate("/onboarding"); // navigate to onboarding page
+              setIsLoading(false);
             }
             setEmail("");
             setPassword("");
