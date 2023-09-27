@@ -77,7 +77,7 @@ function Login() {
                     console.log("registered data: ", resp.data);
                     const { email } = resp.data;
                     let data = {
-                      email,
+                      email: resp.data,
                     };
                     server
                       .post(
@@ -115,7 +115,7 @@ function Login() {
                       })
                       .catch((err) => {
                         console.log("error loging in", err.code, err.message);
-                        toast.success("Failed to log in");
+                        toast.error("Failed to log in");
                         setMove(false);
 
                         if (!err.status) {
@@ -155,8 +155,8 @@ function Login() {
     },
   });
 
-  console.log(user);
-  console.log(profile);
+  // console.log(user);
+  // console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();

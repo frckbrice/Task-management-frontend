@@ -134,18 +134,18 @@ function OnBoarding() {
       } catch (err) {
         toast.error("Failed to create project.");
         console.log(err?.data?.message);
- if (!err.status) {
-   setErrMsg("No Server Response");
- } else if (err.status === 400) {
-   setErrMsg("Missing Username or Password");
- } else if (err.status === 401) {
-   setErrMsg("Unauthorized");
- } else if (err.status === 403) {
-   setErrMsg("Forbidden");
- } else {
-   setErrMsg(err.data?.message);
-   console.error(err.data?.message);
- }
+        if (!err.status) {
+          setErrMsg("No Server Response");
+        } else if (err.status === 400) {
+          setErrMsg("Missing Username or Password");
+        } else if (err.status === 401) {
+          setErrMsg("Unauthorized");
+        } else if (err.status === 403) {
+          setErrMsg("Forbidden");
+        } else {
+          setErrMsg(err.data?.message);
+          console.error(err.data?.message);
+        }
         setIsLoading(false);
       }
     } else {
@@ -184,18 +184,18 @@ function OnBoarding() {
       console.log(err?.data?.message);
       setMove(false);
       setIsLoading(false);
-       if (!err.status) {
-         setErrMsg("No Server Response");
-       } else if (err.status === 400) {
-         setErrMsg("Missing Username or Password");
-       } else if (err.status === 401) {
-         setErrMsg("Unauthorized");
-       } else if (err.status === 403) {
-         setErrMsg("Forbidden");
-       } else {
-         setErrMsg(err.data?.message);
-         console.error(err.data?.message);
-       }
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.status === 401) {
+        setErrMsg("Unauthorized");
+      } else if (err.status === 403) {
+        setErrMsg("Forbidden");
+      } else {
+        setErrMsg(err.data?.message);
+        console.error(err.data?.message);
+      }
     }
   };
 
