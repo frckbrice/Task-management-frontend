@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo, useEffect } from "react";
 
 import "./TaskOpen.css";
 // react icons
@@ -10,18 +10,33 @@ import { members } from "../../../dummyData";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
-const TaskOpen = ({ onClick, taskName, description }) => {
+const TaskOpen = ({ onClick, taskName, description, editTask }) => {
   const [onEdit, setOnEdit] = useState(false);
 
   const handleOnEdit = () => {
     setOnEdit(!onEdit);
   };
 
+  let editName, editDescription;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    editName = data.taskName;
+    editDescription = data.description;
+    console.log("taskname: ", data.taskName);
+    console.log("description", data.description);
+  };
+
+  useEffect(() => {
+    editTask(editDescription, editName);
+  }, [editDescription, editTask, editName]);
 
   return (
     <div className="taskOpen">
       <div className="head-text">
-        <p>Task detials...!</p>
+        <p>Task details...!</p>
         <button onClick={onClick}>{/* <AiOutlineClose /> */}</button>
       </div>
       {!onEdit && (
@@ -32,15 +47,17 @@ const TaskOpen = ({ onClick, taskName, description }) => {
       )}
 
       {onEdit && (
-        <form className="content content-edit">
+        <form className="content content-edit" onSubmit={handleSubmit}>
           <div className="content-edit-head">
-            <input type="text" defaultValue={taskName} />
+            <input type="text" defaultValue={taskName} name="taskName" />
             <button>done</button>
           </div>
 
-          <textarea name="" id="">
-            {description}
-          </textarea>
+          <textarea
+            name="description"
+            id=""
+            defaultValue={description}
+          ></textarea>
         </form>
       )}
       <div className="actions">
@@ -81,4 +98,4 @@ const AsignMember = ({ name }) => {
   );
 };
 
-export default TaskOpen;
+export default memo(TaskOpen);

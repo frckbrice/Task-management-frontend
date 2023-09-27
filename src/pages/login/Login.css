@@ -14,7 +14,7 @@
   background: linear-gradient(#0101b3f3, #0101b3f0), url("../../assets/signupImg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 65vh;
+  height: 75vh;
   width: 40%;
   text-align: center;
   color: white;
@@ -143,4 +143,27 @@ hr {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 768px) {
+
+  .formlogin {
+   width: 98%;
+  }
+
+  .loginImg {
+    display: none;
+  }
+
+  .loginform {
+    width: 100%;
+    background-color: #413e3e0a;
+  }
+
+  .innerform {
+    padding: 0 0 0 10%;
+    width: 100%;
+    
+  }
+
 }

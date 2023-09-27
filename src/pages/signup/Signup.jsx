@@ -166,8 +166,8 @@ function Signup() {
 
   if (isLoading) {
     return (
-      <div className="loding">
-        <PulseLoader color="#333" />
+      <div className="loading">
+        <PulseLoader color="#0707a0" size={26} />
       </div>
     );
   }
