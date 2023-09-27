@@ -8,13 +8,13 @@ const ContextProvider = ({ children }) => {
 
   const [projectData, setProjectData] = useState({});
   const [selectedProject, setSelectedProject] = useState({});
-  const [taskdata, setTaskdata] = useState({});
+  const [projectStatus, setProjectStatus] = useState({});
   const [email, setEmail] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isRefreshSuccess, setIsRefreshSuccess] = useState(true);
   const [isRefreshError, setIsRefreshError] = useState(false);
   
-
+console.log("project data", projectData);
   
   const values = {
     errorMsg,
@@ -23,14 +23,16 @@ const ContextProvider = ({ children }) => {
     setProjectData,
     email,
     setEmail,
-    taskdata,
-    setTaskdata,
+    // taskdata,
+    // setTaskdata,
     isRefreshSuccess,
     setIsRefreshSuccess,
     isRefreshError,
     setIsRefreshError,
     selectedProject,
     setSelectedProject,
+    projectStatus,
+    setProjectStatus,
   };
 
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;

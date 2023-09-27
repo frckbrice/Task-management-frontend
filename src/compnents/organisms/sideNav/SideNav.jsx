@@ -57,6 +57,9 @@ const SideNav = () => {
   console.log({ token, setProjectData });
 
   // console.log("collaborations", collaborations);
+  useEffect(() => {
+    setDisabled(false);
+  },[])
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -97,7 +100,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting projects", err));
-  }, []);
+  }, [token]);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -105,7 +108,8 @@ const SideNav = () => {
   };
 
   const createProject = async (e) => {
-    // e.preventDefualt();
+    setDisabled(true)
+    e.preventDefault();
     let data = {
       name: projectName,
       description: projectdescription,
@@ -140,13 +144,14 @@ const SideNav = () => {
     }
   };
 
-  const debouncedClick = useDebounce(createProject, 500);
+// const debouncedClick = useDebounce(createProject, 500);
 
   console.log({ projectMembers });
   //*selecct projct and get members
   const selectProject = (project) => {
-    setDisabled(true);
+     //send select project to context for sharing
     setSelectedProject(project);
+
     let data = { id: project.id };
     serverInterceptor
       .post("projects/members", data, {
@@ -186,7 +191,7 @@ const SideNav = () => {
           {isModalOpen && (
             <div className="add-project-popup" ref={ref}>
               <PopupModal title="Add new project" onClick={handleClick}>
-                <form className="addProjectForm" onSubmit={debouncedClick}>
+                <form className="addProjectForm" onSubmit={createProject}>
                   <p>Project Name</p>
                   <input
                     type="text"
@@ -219,7 +224,7 @@ const SideNav = () => {
                     placeholder="add description"
                     name="projectdesc"
                     // rows={60}
-                    culomn
+                    // culomn
                     value={projectdescription}
                     onChange={(e) => setProjectDescription(e.target.value)}
                     cols={30}
@@ -234,7 +239,7 @@ const SideNav = () => {
                     onChange={(e) => setTeamName(e.target.value)}
                   />{" "}
                   {/* <label>Description</label> */}
-                  <button>Add Project</button>
+                  <button disabled={disabled}>Add Project</button>
                 </form>
               </PopupModal>
             </div>
@@ -244,7 +249,6 @@ const SideNav = () => {
             <div
               className="list project-list"
               key={index}
-              disabled={disabled}
               onClick={() => selectProject(project)}
             >
               <p>{project.name}</p>
