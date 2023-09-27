@@ -155,7 +155,7 @@
 
 .notification-card {
   border: 1px solid #d3d3d3d3;
-  padding: 2px;
+  padding: 5px;
 }
 
 .notifications p {
@@ -202,4 +202,10 @@
 .noti-header h3 {
   font-size: 12px;
   color: #555555;
+}
+
+@media screen and (max-width: 770px) {
+  .NavIterms input {
+    display: none;
+  }
 }

@@ -14,6 +14,7 @@ import DashActionBtn from "../../atoms/dashActionBtn/DashActionBtn";
 import PopupModal from "../../molecules/popupModal/PopupModal";
 import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
+import ProgressBar from "../progressBar/ProgressBar";
 // custom hook import
 
 const ProjectDetialsBar = () => {
@@ -100,10 +101,8 @@ const ProjectDetialsBar = () => {
       {showPopup && <OverLay action={closePopup} />}
       <div className="detialsBar">
         <div className="progress-section">
-          {/* <div className="progess-icon">
-            <GoProjectSymlink />
-          </div> */}
           <h3>Web Enterprice</h3>
+          <ProgressBar />
         </div>
         <div className="addMemberBtn">
           <DashActionBtn onClick={closePopup}>
