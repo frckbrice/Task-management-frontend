@@ -1,12 +1,13 @@
 .bar-container {
   position: relative;
-  width: 100%;
+  display: flex;
 }
 
 .detialsBar {
   background-color: #fff;
   display: flex;
   justify-content: space-between;
+  width: 80vw;
   height: 70px;
   padding-left: 10px;
   z-index: 1;
@@ -37,6 +38,7 @@
 
 .progress-section {
   display: flex;
+  flex-direction: column;
   height: auto;
   margin: auto 0;
 }
