@@ -22,19 +22,25 @@ import { serverInterceptor } from "../../../config";
 import { useStorage } from "../../../hooks/useStorage";
 import { TmsContext } from "../../../context/TaskBoardContext";
 
+// project progress context import
+import { ProgressContext } from "../../../context/ProgressContext";
+
 const taskformBackend = [
-  { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
-  { id: uuid(), name: "second task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "1st task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "2nd task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "3rd task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "4th task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "5th task", description: faker.lorem.paragraph(2) },
 ];
 
 const list = {
   [uuid()]: {
     task_status: "Backlogs",
-    tasks: [],
+    tasks: taskformBackend,
   },
   [uuid()]: {
     task_status: "To do",
-    tasks: taskformBackend,
+    tasks: [],
   },
   [uuid()]: {
     task_status: "In Progress",
@@ -119,6 +125,8 @@ const TaskBoard = () => {
   const [rendered, setRendered] = useState(false);
 
   const { selectedProject } = useContext(TmsContext);
+
+  const { setProgress } = useContext(ProgressContext);
 
   const { token } = useStorage("token");
 
@@ -421,6 +429,29 @@ const TaskBoard = () => {
     }, {});
     setColumns(result);
   };
+
+  // handle task completed count
+  const completedPecentage = () => {
+    let totalTask = 0;
+    const columnValue = Object.values(columns);
+    // console.log("columnValue", columnValue);
+    columnValue.forEach((column) => {
+      totalTask += column["tasks"].length;
+      return totalTask;
+    });
+    const completedTask = columnValue.find(
+      (column) => column["task_status"] === "Completed"
+    );
+
+    const percentage = (completedTask["tasks"].length / totalTask) * 100;
+    // update progress bar
+    setProgress(percentage);
+    console.clear();
+    console.log("totalTask: ", totalTask);
+    console.log("completed: ", completedTask["tasks"].length);
+    console.log("percentage: ", percentage);
+  };
+  completedPecentage();
 
   return (
     <>

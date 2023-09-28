@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./ProgressBar.css";
+// project progress context import
+import { ProgressContext } from "../../../context/ProgressContext";
 
 const ProgressBar = () => {
-  const [progress, setProgress] = useState(75);
+  const { progress } = useContext(ProgressContext);
 
   const getColor = () => {
     if (progress < 40) {
