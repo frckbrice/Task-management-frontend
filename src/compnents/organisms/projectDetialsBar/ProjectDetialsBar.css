@@ -1,12 +1,13 @@
 .bar-container {
   position: relative;
-  width: 100%;
+  display: flex;
 }
 
 .detialsBar {
   background-color: #fff;
   display: flex;
   justify-content: space-between;
+  width: 80vw;
   height: 70px;
   padding-left: 10px;
   z-index: 1;
@@ -37,14 +38,15 @@
 
 .progress-section {
   display: flex;
+  flex-direction: column;
   height: auto;
   margin: auto 0;
 }
 
 .add-member-popup {
   position: absolute;
-  top: 60px;
-  right: 0;
+  top: 0;
+  left: -300;
   font-size: 12px;
   z-index: 10;
 }

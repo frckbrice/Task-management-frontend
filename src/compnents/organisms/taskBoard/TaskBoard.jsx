@@ -4,6 +4,13 @@ import { v4 as uuid } from "uuid";
 // libery imports
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+
+// icon imports
+import { MdNavigateNext } from "react-icons/md";
+import { GrFormPrevious } from "react-icons/gr";
+
 import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
 import PopupModal from "../../molecules/popupModal/PopupModal";
@@ -27,7 +34,7 @@ const list = {
   },
   [uuid()]: {
     task_status: "To do",
-    tasks: [],
+    tasks: taskformBackend,
   },
   [uuid()]: {
     task_status: "In Progress",
@@ -37,10 +44,10 @@ const list = {
   //   task_status: "Ready for Review",
   //   tasks: [],
   // },
-  // [uuid()]: {
-  //   task_status: "Completed",
-  //   tasks: [],
-  // },
+  [uuid()]: {
+    task_status: "Completed",
+    tasks: [],
+  },
 };
 
 // handle drag and drop changes
@@ -142,14 +149,13 @@ const TaskBoard = () => {
               "\n \n all project status:",
               new Set(response.data.formatedStatuses)
             );
-            const columnsStatus = response?.data?.formatedStatuses?.reverse().reduce(
-              (obj, status) => {
+            const columnsStatus = response?.data?.formatedStatuses
+              ?.reverse()
+              .reduce((obj, status) => {
                 const key = Object.keys(status)[0];
                 obj[key] = status[key];
                 return obj;
-              },
-              {}
-            );
+              }, {});
             setColumns(columnsStatus);
           }
         })
@@ -198,7 +204,7 @@ const TaskBoard = () => {
           if (response && response.data) {
             toast.success("task successfully created");
             console.log("task created", response?.data?.task);
-           
+
             const column = columns[currentStatusId];
             setColumns({
               ...columns,
@@ -208,7 +214,7 @@ const TaskBoard = () => {
                 tasks: [...column.tasks, response?.data?.task],
               },
             });
-             setTaskList([...column.tasks, response?.data?.task]);
+            setTaskList([...column.tasks, response?.data?.task]);
             setTaskDescription("");
             setTaskName("");
           }
@@ -327,7 +333,7 @@ const TaskBoard = () => {
             toast.success("task successfully updated");
             console.log("task updated", response?.data?.updatedTask);
             setRendered(true);
-          
+
             // setColumns();
 
             setTaskDescription("");
@@ -364,6 +370,58 @@ const TaskBoard = () => {
 
   const errClass = errMsg ? "mgs" : "offscreen";
 
+  // handle list movement/ change list position
+  // handel move task forward
+  const handleMoveNext = (id) => {
+    console.clear();
+    const columnKeys = Object.keys(columns);
+
+    const originalIndex = columnKeys.findIndex((item) => item === id);
+    const nextIndex = originalIndex + 1;
+
+    if (nextIndex > columnKeys.length - 1) return;
+
+    const tempVal = columnKeys[originalIndex];
+
+    columnKeys[originalIndex] = columnKeys[nextIndex];
+
+    columnKeys[nextIndex] = tempVal;
+
+    const result = columnKeys.reduce((acc, current) => {
+      return {
+        ...acc,
+        [current]: columns[current],
+      };
+    }, {});
+    setColumns(result);
+    // console.log("columns: ", columns);
+
+    // console.log("result: ", result);
+  };
+
+  // hande move task previous
+  const handelMovePrev = (id) => {
+    const columnKeys = Object.keys(columns);
+    const originalIndex = columnKeys.findIndex((item) => item === id);
+    const nextIndex = originalIndex - 1;
+
+    if (nextIndex < 0) return;
+
+    const tempVal = columnKeys[originalIndex];
+
+    columnKeys[originalIndex] = columnKeys[nextIndex];
+
+    columnKeys[nextIndex] = tempVal;
+
+    const result = columnKeys.reduce((acc, current) => {
+      return {
+        ...acc,
+        [current]: columns[current],
+      };
+    }, {});
+    setColumns(result);
+  };
+
   return (
     <>
       {showAddTask && <OverLay action={togglePopup} />}
@@ -397,7 +455,26 @@ const TaskBoard = () => {
             return (
               <div className="columns" key={id}>
                 <div className="list-hearder">
-                  <h3>{column.task_status}</h3>
+                  <div className="list-options">
+                    <h3>{column.task_status}</h3>
+                    <div className="list-action">
+                      <Tippy content="move left" className="tippy-button">
+                        <button onClick={() => handelMovePrev(id)}>
+                          <span>
+                            <GrFormPrevious />
+                          </span>
+                        </button>
+                      </Tippy>
+                      <Tippy content="move right" className="tippy-button">
+                        <button onClick={() => handleMoveNext(id)}>
+                          <span>
+                            <MdNavigateNext />
+                          </span>
+                        </button>
+                      </Tippy>
+                    </div>
+                  </div>
+
                   <button
                     className="add-list-btn"
                     onClick={() => togglePopup(id)}

@@ -61,7 +61,7 @@ const SideNav = () => {
   // console.log("collaborations", collaborations);
   useEffect(() => {
     setDisabled(false);
-  },[])
+  }, []);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -110,7 +110,7 @@ const SideNav = () => {
   };
 
   const createProject = async (e) => {
-    setDisabled(true)
+    setDisabled(true);
     e.preventDefault();
     let data = {
       name: projectName,
@@ -146,12 +146,12 @@ const SideNav = () => {
     }
   };
 
-// const debouncedClick = useDebounce(createProject, 500);
+  // const debouncedClick = useDebounce(createProject, 500);
 
   console.log({ projectMembers });
   //*selecct projct and get members
   const selectProject = (project) => {
-     //send select project to context for sharing
+    //send select project to context for sharing
     setSelectedProject(project);
 
     let data = { id: project.id };

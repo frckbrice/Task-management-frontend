@@ -4,6 +4,7 @@ import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import logo from "../../../src/assets/logo.png";
 import { AiOutlineMail } from "react-icons/ai";
+import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 function ForgottenPassword() {
@@ -50,6 +51,10 @@ function ForgottenPassword() {
 
   return (
     <div className="forgottenForm">
+      <Link to="/login" className="backButton">
+        <IoMdArrowBack size={30} />
+      </Link>
+      <br />
       {isLogoLoaded && <img alt="logo" src={logo} className="logoImg" />}
       <h2 className="forgottenTxt">Password Reset</h2>
       <form className="forgottenEmail" onSubmit={handleSubmit}>

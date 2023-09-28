@@ -78,7 +78,7 @@ function Login() {
                     console.log("registered data: ", resp.data);
                     const { email } = resp.data;
                     let data = {
-                      email,
+                      email: resp.data,
                     };
                     server
                       .post(
@@ -98,7 +98,6 @@ function Login() {
                           response.data &&
                           response.status === 200
                         ) {
-                          setIsLoading(false);
                           setMove(true);
                           console.log(
                             "User successfully logged in! tokens: ",
@@ -109,6 +108,7 @@ function Login() {
 
                           setlsData(response.data.refreshToken);
                           navigate("/onboarding");
+                          setIsLoading(false);
                           // navigate to onboarding page
                         }
                         setEmail("");
@@ -116,7 +116,7 @@ function Login() {
                       })
                       .catch((err) => {
                         console.log("error loging in", err.code, err.message);
-                        toast.success("Failed to log in");
+                        toast.error("Failed to log in");
                         setMove(false);
 
                         if (!err.status) {
@@ -156,8 +156,8 @@ function Login() {
     },
   });
 
-  console.log(user);
-  console.log(profile);
+  // console.log(user);
+  // console.log(profile);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -185,9 +185,9 @@ function Login() {
               setMove(true);
               console.log("Login successful!", res.data);
               setStorToken(res.data.accessToken);
-
               setlsData(res.data.refreshToken);
               navigate("/onboarding"); // navigate to onboarding page
+              setIsLoading(false);
             }
             setEmail("");
             setPassword("");
