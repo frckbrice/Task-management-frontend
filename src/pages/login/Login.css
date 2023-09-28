@@ -1,21 +1,15 @@
 .formlogin {
   display: flex;
-  text-align: center;
   width: 90%;
-  padding: 20px 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  justify-content: center;
+  margin: 1% 5%;
+  background-color: #413e3e0a;
 }
 
 .loginImg {
   background: linear-gradient(#0101b3f3, #0101b3f0), url("../../assets/signupImg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 80vh;
-  width: 40%;
+  width: 50%;
   text-align: center;
   color: white;
   position: relative;
@@ -24,7 +18,7 @@
 
 .signbtn,
 .loginImgTxt {
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 600;
   position: absolute;
   top: 50%;
@@ -36,7 +30,7 @@
 .signbtn {
   background-color: transparent;
   border: 1px solid #ffffffa1;
-  padding: 5px 26px;
+  padding: 5px 36px;
   font-size: smaller;
   color: white;
   margin-top: 55px;
@@ -44,8 +38,8 @@
 }
 
 .loginform {
-  width: 40%;
-  background-color: #413e3e0a;
+  width: 50%;
+  padding: 60px 0 40px 0;
 }
 
 .innerform {
@@ -53,8 +47,7 @@
 }
 
 .loginform-h2 {
-  padding-top: 100px;
-  font-size: 26px;
+  font-size: 2rem;
 }
 
 .loginform-h2,
@@ -63,14 +56,14 @@
 }
 
 .loginform-p {
-  font-size: 12px;
+  font-size: 0.9rem;
   margin: 5px 0 20px;
   color: grey;
 }
 
 .loginformlabel {
   display: block;
-  font-size: 14px;
+  font-size: 0.9rem;
   text-align: left;
   font-weight: bold;
 }
@@ -84,10 +77,9 @@
 }
 
 .credential {
-  justify-content: left;
+  /* justify-content: left; */
   text-align: left;
 }
-
 
 .mgs {
   color: red;
@@ -122,7 +114,7 @@
 }
 
 .google {
-  margin-right: 80px;
+  margin-right: 65px;
 }
 
 .hrLine {
@@ -147,23 +139,16 @@ hr {
 
 @media screen and (max-width: 768px) {
 
-  .formlogin {
-   width: 98%;
-  }
-
   .loginImg {
     display: none;
   }
 
-  .loginform {
-    width: 100%;
-    background-color: #413e3e0a;
+  .formlogin {
+   width: 86%;
   }
 
-  .innerform {
-    padding: 0 0 0 10%;
+  .loginform {
     width: 100%;
-    
   }
 
 }
