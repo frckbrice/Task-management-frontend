@@ -30,11 +30,11 @@ const taskformBackend = [
 const list = {
   [uuid()]: {
     task_status: "Backlogs",
-    tasks: taskformBackend,
+    tasks: [],
   },
   [uuid()]: {
     task_status: "To do",
-    tasks: [],
+    tasks: taskformBackend,
   },
   [uuid()]: {
     task_status: "In Progress",
@@ -44,10 +44,10 @@ const list = {
   //   task_status: "Ready for Review",
   //   tasks: [],
   // },
-  // [uuid()]: {
-  //   task_status: "Completed",
-  //   tasks: [],
-  // },
+  [uuid()]: {
+    task_status: "Completed",
+    tasks: [],
+  },
 };
 
 // handle drag and drop changes
@@ -333,7 +333,7 @@ const TaskBoard = () => {
             toast.success("task successfully updated");
             console.log("task updated", response?.data?.updatedTask);
             setRendered(true);
-          
+
             // setColumns();
 
             setTaskDescription("");
@@ -369,6 +369,58 @@ const TaskBoard = () => {
   );
 
   const errClass = errMsg ? "mgs" : "offscreen";
+
+  // handle list movement/ change list position
+  // handel move task forward
+  const handleMoveNext = (id) => {
+    console.clear();
+    const columnKeys = Object.keys(columns);
+
+    const originalIndex = columnKeys.findIndex((item) => item === id);
+    const nextIndex = originalIndex + 1;
+
+    if (nextIndex > columnKeys.length - 1) return;
+
+    const tempVal = columnKeys[originalIndex];
+
+    columnKeys[originalIndex] = columnKeys[nextIndex];
+
+    columnKeys[nextIndex] = tempVal;
+
+    const result = columnKeys.reduce((acc, current) => {
+      return {
+        ...acc,
+        [current]: columns[current],
+      };
+    }, {});
+    setColumns(result);
+    // console.log("columns: ", columns);
+
+    // console.log("result: ", result);
+  };
+
+  // hande move task previous
+  const handelMovePrev = (id) => {
+    const columnKeys = Object.keys(columns);
+    const originalIndex = columnKeys.findIndex((item) => item === id);
+    const nextIndex = originalIndex - 1;
+
+    if (nextIndex < 0) return;
+
+    const tempVal = columnKeys[originalIndex];
+
+    columnKeys[originalIndex] = columnKeys[nextIndex];
+
+    columnKeys[nextIndex] = tempVal;
+
+    const result = columnKeys.reduce((acc, current) => {
+      return {
+        ...acc,
+        [current]: columns[current],
+      };
+    }, {});
+    setColumns(result);
+  };
 
   return (
     <>
@@ -406,15 +458,15 @@ const TaskBoard = () => {
                   <div className="list-options">
                     <h3>{column.task_status}</h3>
                     <div className="list-action">
-                      <Tippy content="move list" className="tippy-button">
-                        <button>
+                      <Tippy content="move left" className="tippy-button">
+                        <button onClick={() => handelMovePrev(id)}>
                           <span>
                             <GrFormPrevious />
                           </span>
                         </button>
                       </Tippy>
-                      <Tippy content="move list" className="tippy-button">
-                        <button>
+                      <Tippy content="move right" className="tippy-button">
+                        <button onClick={() => handleMoveNext(id)}>
                           <span>
                             <MdNavigateNext />
                           </span>
