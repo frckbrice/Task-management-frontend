@@ -32,6 +32,7 @@ import MemberProfile from "../membersProfile/MemberProfile";
 import { useStorage } from "../../../hooks/useStorage";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { members } from "../../../dummyData";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const SideNav = () => {
   // create ref
@@ -49,10 +50,11 @@ const SideNav = () => {
   const [projectMembers, setProjectMembers] = useState([]);
   const [collaborations, setCollaborations] = useState([]);
   const [disabled, setDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
 
-  const { setProjectData, setSelectedProject, setMembersofProject } =
+  const { setProjectData, setSelectedProject, setMembersofProject, isLoad } =
     useContext(TmsContext);
   const { token } = useStorage("token");
 
@@ -61,7 +63,7 @@ const SideNav = () => {
   // console.log("collaborations", collaborations);
   useEffect(() => {
     setDisabled(false);
-  }, []);
+  }, [isLoad]);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -83,7 +85,7 @@ const SideNav = () => {
     };
 
     fetchProjects();
-  }, [newdata]);
+  }, [newdata, serverInterceptor, token]);
 
   useEffect(() => {
     serverInterceptor
@@ -102,7 +104,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting projects", err));
-  }, [token]);
+  }, [token, serverInterceptor,lsData, setlsData]);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -111,6 +113,7 @@ const SideNav = () => {
 
   const createProject = async (e) => {
     setDisabled(true);
+    setIsLoading(true);
     e.preventDefault();
     let data = {
       name: projectName,
@@ -133,16 +136,19 @@ const SideNav = () => {
         if (response && response.status === 201) {
           toast.success("project successfully created");
           setProjectData(response.data.data);
+          setProjectList((prev) => [...prev, response.data.data]);
           setNewdata(true);
+          setIsLoading(false);
         }
       } catch (error) {
         toast.error("Failed to create project.");
         console.log(error);
+        setIsLoading(false);
       }
     } else {
       console.log("no token, cannot proceed");
       toast.error("Login before creating project");
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -193,6 +199,7 @@ const SideNav = () => {
 
           {isModalOpen && (
             <div className="add-project-popup" ref={ref}>
+              {isLoading && <PulseLoader color="#0707a0" size={15} />}
               <PopupModal title="Add new project" onClick={handleClick}>
                 <form className="addProjectForm" onSubmit={createProject}>
                   <p>Project Name</p>

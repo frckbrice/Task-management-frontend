@@ -30,7 +30,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [move, setMove] = useState(false);
 
-  // const { setToken } = useContext(TmsContext);
+  const { setProfilePict } = useContext(TmsContext);
   const { setlsData } = useLocalStorage("setRefreshToken", " ");
   const { setStorToken } = useStorage("token", " ");
 
@@ -68,6 +68,7 @@ function Login() {
                 id: res.data.id,
               };
               console.log(data);
+              setProfilePict(res.data.picture);
               server
                 .post("/auth/googleRegister", data, {
                   headers: conf.headers,

@@ -5,6 +5,7 @@ import "./Dashboard.css";
 // libery imports
 // import Tippy from "@tippyjs/react";
 // import "tippy.js/dist/tippy.css";
+import avatar from "../../assets/avatar.jpg";
 
 // components import
 // import NavBar from "../../compnents/organisms/navBar/NavBar";
@@ -21,16 +22,27 @@ import { TmsContext } from "../../context/TaskBoardContext";
 import OverLay from "../../compnents/atoms/overlay/OverLay";
 import userAuth from "../../hooks/userAuth";
 import { conf, server } from "../../config";
+import { useStorage } from "../../hooks/useStorage";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
 
+  const { token } = useStorage("token");
+
+  const { profilePict, setProfilePict } = useContext(TmsContext);
+
+  const { email, username, picture } = userAuth(token);
+  if (picture) setProfilePict(picture);
+
   const toggleProfile = () => {
     setOpenProfile(!openProfile);
   };
 
-  const { email, username, picture } = userAuth();
+  const {setStorToken} = useStorage('token',' ');
+  const { setlsData } = useLocalStorage("refreshToken", " ");
+
   console.log("this is user data", { email, username, picture });
 
   // useEffect(() => {
@@ -44,9 +56,14 @@ const Dashboard = () => {
   // const user = dataValues;
 
   const logout = async () => {
-    await server.post("/auth/logout", {
+    const resp = await server.post("/auth/logout", {
       headers: conf.headers,
     });
+
+    if(resp && resp?.data?.accessToken) {
+      setStorToken(resp?.data?.accessToken);
+      setlsData(resp?.data?.refreshToken);
+    }
   };
 
   const editProfile = async () => {
@@ -64,7 +81,7 @@ const Dashboard = () => {
       <DashBoardNavBar>
         <div className="navContent">
           <NavIterms
-            profilePicture={picture}
+            profilePicture={profilePict || avatar}
             togleProfile={toggleProfile}
           ></NavIterms>
         </div>
@@ -92,7 +109,7 @@ const Dashboard = () => {
                 <button className="logout" onClick={logout}>
                   logout
                 </button>
-                <button className="logout" onClick={editProfile}>
+                <button className="" onClick={editProfile}>
                   edit
                 </button>
               </div>

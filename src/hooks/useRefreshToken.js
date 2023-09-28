@@ -13,7 +13,7 @@ const useRefreshToken = () => {
   const { lsData } = useLocalStorage("setRefreshToken");
   const { setStorToken } = useStorage("token", " ");
 
-  console.log(setStorToken);
+  // console.log(setStorToken);
 
   const refreshToken = lsData;
 

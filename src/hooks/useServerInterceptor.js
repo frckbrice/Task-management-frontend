@@ -1,11 +1,11 @@
 import { serverInterceptor } from "../config";
-import { TmsContext } from "../context/TaskBoardContext";
 import useRefreshToken from "./useRefreshToken";
-import { useContext, useEffect } from "react";
+import {useEffect } from "react";
+import { useStorage } from "./useStorage";
 
 const useServerInterceptor = () => {
   const refresh = useRefreshToken();
-  const { token } = useContext(TmsContext);
+  const { token } = useStorage('token');
 
   useEffect(() => {
     const reqIntercept = serverInterceptor.interceptors.request.use(

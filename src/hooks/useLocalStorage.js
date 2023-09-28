@@ -18,7 +18,7 @@ export function useLocalStorage(key, intialValue) {
         return lsData;
       });
     },
-    [key]
+    [key] 
   );
 
   React.useEffect(() => {
