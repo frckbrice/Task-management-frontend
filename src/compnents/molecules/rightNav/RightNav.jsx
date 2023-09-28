@@ -14,6 +14,15 @@ function RightNav() {
 
   return (
     <div className="rightNav">
+      
+      <div id="mobile">
+        <i
+          id="bar"
+          className={clicked ? "fa fa-times" : "fa fa-bars"}
+          onClick={handleClick}
+        ></i>
+      </div>
+
       <div
         id="righttxtbtn"
         className={clicked ? "#righttxtbtn active" : "#righttxtbtn"}
@@ -50,14 +59,6 @@ function RightNav() {
             Log In
           </button>
         </div>
-      </div>
-
-      <div id="mobile">
-        <i
-          id="bar"
-          className={clicked ? "fa fa-times" : "fa fa-bars"}
-          onClick={handleClick}
-        ></i>
       </div>
     </div>
   );

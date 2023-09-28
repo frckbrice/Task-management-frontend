@@ -84,25 +84,22 @@ ul li a {
   #mobile {
     display: initial;
     position: absolute;
-    font-size: 20px;
     right: 30px;
   }
 
   #bar {
-    font-size: 28px;
+    font-size: 2rem;
     color: #04175A;
   }
 
   #righttxtbtn {
-    /* display: flex; */
     flex-direction: column;
-    margin-top: 55vh;
-    /* width: 280px; */
-    margin-left: -110%;
-    padding: 20px 100px 40px 100px;
+    margin-top: 45vh;
+    width: 50vw;
+    max-width: 100%;
+    padding: 10px 0 20px 40px;
     display: none;
     line-height: 2.5;
-    /* border-radius: 20px; */
     background-color: #04175A;
     transition: 0.3s ease-in-out;
   }
@@ -118,16 +115,18 @@ ul li a {
 
   ul li a {
     color: white;
-    font-size: 16px;
+    font-size: 1.2rem;
   }
 
   .btn {
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1rem;
   }
 
-  .btn button {
-    /* padding: 0.5rem 1.5rem; */
-    font-size: smaller ;
+  .log,
+  .reg {
+    width: 35vw;
   }
+
+
 }

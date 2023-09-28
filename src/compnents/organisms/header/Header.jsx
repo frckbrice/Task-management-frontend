@@ -8,7 +8,7 @@ function Header() {
   return (
     <div className="header">
       <div className="HeaderTxt">
-        <h1 className="head1">
+        <h1 className="headone">
           Simple, Yet Powerful. Tasktrec Helps You Stay Organised And On Track
           With Your Tasks.
         </h1>
