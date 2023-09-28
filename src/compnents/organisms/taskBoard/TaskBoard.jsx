@@ -6,10 +6,10 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-
 // icon imports
 import { MdNavigateNext } from "react-icons/md";
 import { GrFormPrevious } from "react-icons/gr";
+import { AiOutlineDelete } from "react-icons/ai";
 
 import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
@@ -435,15 +435,15 @@ const TaskBoard = () => {
     let totalTask = 0;
     const columnValue = Object.values(columns);
     // console.log("columnValue", columnValue);
-    columnValue.forEach((column) => {
-      totalTask += column["tasks"].length;
+    columnValue?.forEach((column) => {
+      totalTask += column["tasks"]?.length;
       return totalTask;
     });
     const completedTask = columnValue.find(
       (column) => column["task_status"] === "Completed"
     );
 
-    const percentage = (completedTask["tasks"].length / totalTask) * 100;
+    const percentage = (completedTask["tasks"]?.length / totalTask) * 100;
     // update progress bar
     setProgress(percentage);
     console.clear();
@@ -452,6 +452,23 @@ const TaskBoard = () => {
     console.log("percentage: ", percentage);
   };
   completedPecentage();
+
+  // handle delete column
+  const handleDeleteColumn = (id) => {
+    const columnKeys = Object.keys(columns);
+    const updatedColumns = columnKeys.filter((column) => column !== id);
+
+    const result = updatedColumns.reduce((acc, current) => {
+      return {
+        ...acc,
+        [current]: columns[current],
+      };
+    }, {});
+    setColumns(result);
+    console.clear();
+    console.log("updatedColumns", result);
+    console.log("columns", columns);
+  };
 
   return (
     <>
@@ -489,6 +506,13 @@ const TaskBoard = () => {
                   <div className="list-options">
                     <h3>{column.task_status}</h3>
                     <div className="list-action">
+                      <Tippy content="delete list" className="tippy-button">
+                        <button onClick={() => handleDeleteColumn(id)}>
+                          <span className="delete-list">
+                            <AiOutlineDelete />
+                          </span>
+                        </button>
+                      </Tippy>
                       <Tippy content="move left" className="tippy-button">
                         <button onClick={() => handelMovePrev(id)}>
                           <span>
