@@ -13,6 +13,7 @@ const ContextProvider = ({ children }) => {
   const [isRefreshSuccess, setIsRefreshSuccess] = useState(true);
   const [isRefreshError, setIsRefreshError] = useState(false);
   const [memberofProject, setMembersofProject] = useState([]);
+  const [profilePict, setProfilePict] = useState('');
 
   console.log("project data", projectData);
 
@@ -35,6 +36,8 @@ const ContextProvider = ({ children }) => {
     setProjectStatus,
     memberofProject,
     setMembersofProject,
+    profilePict,
+    setProfilePict,
   };
 
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;

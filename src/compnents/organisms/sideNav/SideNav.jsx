@@ -83,7 +83,7 @@ const SideNav = () => {
     };
 
     fetchProjects();
-  }, [newdata]);
+  }, [newdata, serverInterceptor, token]);
 
   useEffect(() => {
     serverInterceptor
@@ -102,7 +102,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting projects", err));
-  }, [token]);
+  }, [token, serverInterceptor,lsData, setlsData]);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -271,7 +271,7 @@ const SideNav = () => {
                 <img
                   src={member.picture || avatar}
                   alt=""
-                  // className="member-avatar"
+                  className="member-avatar"
                 />
                 <p>{member.username}</p>
               </div>

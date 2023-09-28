@@ -21,7 +21,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
       <form action="search">
         <input type="text" placeholder="search" />
       </form>
-      <div className="tippy" followCursor={true} content="view notification">
+      <div className="tippy" followcursor={true} content="view notification">
         <button onClick={handleNotify} className="icon-button">
           <IoMdNotifications />
           <span className="icon-button__badge">5+</span>
@@ -44,11 +44,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
               <Notifications />
               <Notifications />
               <Notifications />
-              <Notifications />
-              <Notifications />
-              <Notifications />
-              <Notifications />
-              <Notifications />
+             
             </div>
           </PopupModal>
         </div>
