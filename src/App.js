@@ -11,12 +11,13 @@ import Toaster from "react-hot-toast";
 import Page404 from "./pages/404/Page404";
 import PersistLogin from "./compnents/auth/PersistLogin";
 import ErrorPage from "./pages/errorPage/errorPage";
-import RequireAuth from './compnents/auth/RequireAuth'
+import RequireAuth from "./compnents/auth/RequireAuth";
 import ROLES from "./compnents/auth/RequireAuth";
 import ForgottenPassword from "./pages/forgottenPassword/ForgottenPassword";
 import VerifyEmail from "./pages/verifyEmail/VerifyEmail";
 import ResetPassword from "./pages/resetPassword/ResetPassword";
 import WelcomeMember from "./pages/welcomeMember/WelcomeMember";
+import ProgressContextProvider from "./context/ProgressContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -76,7 +77,9 @@ function App() {
   return (
     <>
       <ContextProvider>
-        <RouterProvider router={router} />
+        <ProgressContextProvider>
+          <RouterProvider router={router} />
+        </ProgressContextProvider>
       </ContextProvider>
     </>
   );
