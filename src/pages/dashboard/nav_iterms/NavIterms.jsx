@@ -31,7 +31,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
       <div className="tippy" content="view profile">
         <img
           src={profilePicture}
-          alt="profile avatar"
+          alt=""
           className="profile-avatar"
           onClick={togleProfile}
         />

@@ -12,11 +12,20 @@ import { TmsContext } from "../../../context/TaskBoardContext";
 import { useStorage } from "../../../hooks/useStorage";
 import { serverInterceptor } from "../../../config";
 import toast from "react-hot-toast";
+import PulseLoader from "react-spinners/PulseLoader";
 
-const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
+const TaskOpen = ({
+  onClick,
+  taskName,
+  description,
+  editTask,
+  task,
+  isLoading,
+}) => {
   const [onEdit, setOnEdit] = useState(false);
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
 
- const { token } = useStorage("token");
+  const { token } = useStorage("token");
   const handleOnEdit = () => {
     setOnEdit(!onEdit);
   };
@@ -36,38 +45,38 @@ const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
     // console.log("taskname: ", data.taskName);
     // console.log("description", data.description);
     editTask(editDescription, editName);
-  };  
-  
-  
+  };
+
   const id = task.id;
- console.log("id: ", id);
+  console.log("id: ", id);
 
-
-  const deleteTask = async() => {
+  const deleteTask = async () => {
+    setIsLoadingUpdate(true);
     const data = {
       id,
-    }
+    };
 
-  
-     if (token) {
-       try {
-         const response = await serverInterceptor.delete("/tasks", {
-           headers: {
-             Authorization: `Bearer ${token}`,
-             "Access-Control-Allow-Credentials": true,
-             Accept: "application/json",
-           },
-           data,
-         });
+    if (token) {
+      try {
+        const response = await serverInterceptor.delete("/tasks", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Access-Control-Allow-Credentials": true,
+            Accept: "application/json",
+          },
+          data,
+        });
 
-         if (response && response.data && response.data.assigment) {
-           toast.success("task successfully deleted ");
-           console.log("task updated", response?.data?.message);
-         }
-       } catch (error) {
-        console.log('Error deleting task: ' + error.message); 
-         toast.error('Error deleting the task');
-       }
+        if (response && response.data && response.data.assigment) {
+          toast.success("task successfully deleted ");
+          console.log("task updated", response?.data?.message);
+          setIsLoadingUpdate(false);
+        }
+      } catch (error) {
+        setIsLoadingUpdate(false);
+        console.log("Error deleting task: " + error.message);
+        toast.error("Error deleting the task");
+      }
     }
   };
 
@@ -75,7 +84,13 @@ const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
     <div className="taskOpen">
       <div className="head-text">
         <h4>Task details...!</h4>
-        <button onClick={onClick}> <AiOutlineClose style={{color: 'red'}}/> </button>
+        {(isLoading || isLoadingUpdate) && (
+          <PulseLoader color="#0707a0" size={15} />
+        )}
+        <button onClick={onClick}>
+          {" "}
+          <AiOutlineClose style={{ color: "red" }} />{" "}
+        </button>
       </div>
       {!onEdit && (
         <div className="content">
@@ -102,7 +117,9 @@ const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
         <div className="updateBtn">
           <button onClick={handleOnEdit}>{!onEdit ? "edit" : "back"}</button>
         </div>
-        <button className="assign-task" onClick={deleteTask}>delete</button>
+        <button className="assign-task" onClick={deleteTask}>
+          delete
+        </button>
       </div>
       <div className="task-member">
         {memberofProject?.map((member, index) => (

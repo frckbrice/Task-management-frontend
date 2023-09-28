@@ -15,6 +15,7 @@ import PopupModal from "../../molecules/popupModal/PopupModal";
 import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
 import ProgressBar from "../progressBar/ProgressBar";
+import PulseLoader from "react-spinners/PulseLoader";
 // custom hook import
 
 const ProjectDetialsBar = () => {
@@ -23,7 +24,8 @@ const ProjectDetialsBar = () => {
   const [errMsg, setErrMsg] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { selectedProject, setIsLoad } = useContext(TmsContext);
+   const [isLoading, setIsLoading] = useState(false);
+  const { selectedProject } = useContext(TmsContext);
   const { token } = useStorage("token");
 
   console.log({ token });
@@ -41,6 +43,7 @@ const ProjectDetialsBar = () => {
     async (e) => {
       e.preventDefault();
       setDisabled(true);
+      setIsLoading(true);
       // const emailContent = `${conf.clientbaseURL}/`;
       const emailContent = "http://localhost:3000/";
       let data = {
@@ -60,10 +63,12 @@ const ProjectDetialsBar = () => {
           });
           if (response && response.data && response.status === (200 || 201)) {
             toast.success("invitation successfully sent");
-            setIsLoad(true);
+           setIsLoading(false);
           }
         } catch (err) {
-          // console.log("error sending invitation",   error?.data?.message);
+          // console.log("error sending invitation",   error?.data?.message); 
+          setIsLoading(false);
+
           console.log("error sending invitation", err);
           toast.error("Failed to send an invite.");
           if (!err.status) {
@@ -82,9 +87,10 @@ const ProjectDetialsBar = () => {
       } else {
         console.log("no token, cannot proceed");
         toast.error("Login before inviting members");
+         setIsLoading(false);
       }
     },
-    [emailDescription, emails, selectedProject?.id, token, setIsLoad]
+    [emailDescription, emails, selectedProject?.id, token]
   );
 
   const handleEmailChange = useCallback((e) => {
@@ -117,6 +123,7 @@ const ProjectDetialsBar = () => {
       {showPopup && (
         <div className="add-member-popup">
           <PopupModal title="Add new member" onClick={closePopup}>
+            {isLoading && <PulseLoader color="#0707a0" size={15} />}
             <PopupForm
               inputText={"add email address"}
               buttonText={"ADD"}

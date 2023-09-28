@@ -61,6 +61,7 @@ const onDragEnd = (result, columns, setColumns) => {
   // console.log("this is dropableId: ", result.draggableId);
 
   // if (result.source[0].droggableId === result.description.droppableId) return;
+
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -70,6 +71,7 @@ const onDragEnd = (result, columns, setColumns) => {
     const destColumn = columns[destination.droppableId];
     const sourceTasks = [...sourceColumn.tasks];
     const destTasks = [...destColumn.tasks];
+    let completed = false;
 
     const [removed] = sourceTasks.splice(source.index, 1);
     destTasks.splice(destination.index, 0, removed);
@@ -85,6 +87,34 @@ const onDragEnd = (result, columns, setColumns) => {
         tasks: destTasks,
       },
     });
+
+    if(destColumn?.task_status === 'Completed')
+      completed = true;
+
+    const data = {
+      sourceStatusId: source.droppableId,
+      destStatusId: destination.droppableId,
+      taskid: removed.id,
+      completed,
+    };
+
+    //update the status of the task in the backend
+    serverInterceptor.post("/tasks/updatOnDrag&Drop", data, {
+      headers: {
+        "Access-Control-Allow-Credentials": true,
+        Accept: "application/json",
+      },
+    }).then(response => {
+      if(response && response.data.newTaskStatus) {
+        toast.success("task status successfully updated");
+        console.log(
+          "task status successfully updated",
+          response.data.newTaskStatus
+        );
+      }
+        
+    }).catch(err => console.log('Error updating task status', err));
+
   } else {
     const column = columns[source.droppableId];
     const copiedTasks = [...column.tasks];
@@ -252,7 +282,7 @@ const TaskBoard = () => {
   );
 
   const addNewTaskList = async () => {
-     setIsLoading(true);
+    setIsLoading(true);
     const data = {
       projectId: selectedProject?.id,
       designation: listName,
@@ -283,7 +313,7 @@ const TaskBoard = () => {
         }
       } catch (err) {
         toast.error("Failed to create a task.");
-         setIsLoading(false);
+        setIsLoading(false);
         console.log(err);
         if (!err.status) {
           setErrMsg("No Server Response");
@@ -346,7 +376,7 @@ const TaskBoard = () => {
           }
         } catch (err) {
           toast.error("Failed to create a task.");
-           setIsLoading(false);
+          setIsLoading(false);
           console.log(err);
           if (!err.status) {
             setErrMsg("No Server Response");
@@ -440,7 +470,7 @@ const TaskBoard = () => {
         {showAddTask && (
           <div className="add-task">
             <PopupModal onClick={togglePopup} title={`Add new task `}>
-              {isLoading && <PulseLoader color="#0707a0" size={15} /> }
+              {isLoading && <PulseLoader color="#0707a0" size={15} />}
 
               <PopupForm
                 inputText="Enter task name"
@@ -567,7 +597,7 @@ const TaskBoard = () => {
             onClick={handleOpentask}
             editTask={updateTask}
             task={editTask}
-            
+            isLoading={isLoading}
           />
         )}
         <button
@@ -582,7 +612,7 @@ const TaskBoard = () => {
           <div className="addListForm">
             {" "}
             <PopupModal onClick={() => setOpenAddList(!openAddList)}>
-              {isLoading ? <PulseLoader color="#0707a0" size={15} />: setOpenAddList(!openAddList)}
+              {isLoading && <PulseLoader color="#0707a0" size={15} />}
               <div className="addForm">
                 <p className={errClass} aria-live="assertive">
                   {errMsg}
