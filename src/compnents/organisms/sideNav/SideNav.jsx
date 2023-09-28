@@ -271,7 +271,7 @@ const SideNav = () => {
                 <img
                   src={member.picture || avatar}
                   alt=""
-                  // className="member-avatar"
+                  className="member-avatar"
                 />
                 <p>{member.username}</p>
               </div>

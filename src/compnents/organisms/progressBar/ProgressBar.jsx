@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ProgressBar.css";
 
 const ProgressBar = () => {
-  const [progress, setProgress] = useState(10);
+  const [progress, setProgress] = useState(75);
 
   const getColor = () => {
     if (progress < 40) {
