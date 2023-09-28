@@ -1,25 +1,21 @@
 .allForm {
-  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
 }
 
 .formBody {
+  width: 90%;
   display: flex;
-  text-align: center;
-  width: 94%;
-  padding: 20px 0;
-  position: absolute;
-  top: 600%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  justify-content: center;
+  margin: 1% 5%;
+  background-color: #413e3e0a;
 }
 
 .signupImg {
   background: linear-gradient(#0101b3f3, #0101b3f0), url("../../assets/signupImg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  height:90vh;
-  width: 40%;
+  width: 50%;
   text-align: center;
   color: white;
   position: relative;
@@ -28,7 +24,7 @@
 
 .signImgTxt,
 .logbtn {
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 600;
   position: absolute;
   top: 50%;
@@ -40,7 +36,7 @@
 .logbtn {
   background-color: transparent;
   border: 1px solid #ffffffb5;
-  padding: 5px 25px;
+  padding: 8px 35px;
   font-size: smaller;
   color: white;
   margin-top: 50px;
@@ -48,37 +44,36 @@
 }
 
 .signupForm {
-  width:42%;
-  background-color: #413e3e0a;
+  width:50%;
+  padding: 30px 0 30px 0;
 }
 
 .signupform-h2 {
-  padding-top: 60px;
-  font-size: 24px;
+  font-size: 2rem;
 }
 
 .signupform-p {
-  font-size: 12px;
-  margin: 5px auto 20px;
+  font-size: 0.9rem;
+  width: 70%;
+  margin: 5px 0 20px;
   color: grey;
 }
 
 .formlabel {
   display: block;
-  font-size: 15px;
+  font-size: 0.9rem;
   font-weight: bold;
 }
 
 .forminput {
   width: 70%;
   padding: 5px;
-  font-size: 16px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   margin-bottom: 20px;
 }
 
 .cred {
-  justify-content: left;
   text-align: left;
 }
 
@@ -86,8 +81,6 @@
   color: red;
   font-size: 13px;
   width: 75%;
-  /* margin: auto; */
-
 }
 
 .signupButton,
@@ -98,9 +91,9 @@
   width: 72%;
   border: none;
   padding: 10px 20px;
-  margin-right: 26%;
+  margin-right: 27%;
   border-radius: 5px;
-  font-size: 18px;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
@@ -117,17 +110,16 @@
   }
 
   .signupForm {
-    width: 100%;
-    background-color: #413e3e0a;
-  }
-
-  .innerform {
-    padding: 0 0 0 10%;
-    width: 100%;
+    width: 86%;
+    margin: 0 0 0 9%;
   }
 
   .formBody {
-    top: 540%;
+    width: 94%;
+    margin: auto;
   }
 
+  .allForm {
+    width: 98%;
+  }
 }

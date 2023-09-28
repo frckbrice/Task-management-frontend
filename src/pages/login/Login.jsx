@@ -232,7 +232,7 @@ function Login() {
     ));
   } else {
     content = (
-      <div>
+      <div className="allForm">
         <NavBar />
 
         <div className="formlogin">
