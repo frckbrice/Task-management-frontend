@@ -23,7 +23,7 @@ const TaskOpen = ({ onClick, taskName, description, editTask, task }) => {
 
   const { memberofProject } = useContext(TmsContext);
 
-  console.log("memberofProject", memberofProject);
+  // console.log("memberofProject", memberofProject);
 
   let editName, editDescription;
   const handleSubmit = (e) => {

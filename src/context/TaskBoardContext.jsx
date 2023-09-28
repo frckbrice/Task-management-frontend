@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
   const [isRefreshError, setIsRefreshError] = useState(false);
   const [memberofProject, setMembersofProject] = useState([]);
   const [profilePict, setProfilePict] = useState('');
+  const [isLoad, setIsLoad] = useState(false);
 
   console.log("project data", projectData);
 

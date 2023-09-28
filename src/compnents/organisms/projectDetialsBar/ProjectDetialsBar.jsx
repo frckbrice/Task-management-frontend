@@ -23,7 +23,7 @@ const ProjectDetialsBar = () => {
   const [errMsg, setErrMsg] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { selectedProject } = useContext(TmsContext);
+  const { selectedProject, setIsLoad } = useContext(TmsContext);
   const { token } = useStorage("token");
 
   console.log({ token });
@@ -59,7 +59,8 @@ const ProjectDetialsBar = () => {
             },
           });
           if (response && response.data && response.status === (200 || 201)) {
-            toast.success("invitation successfully sent", response.data);
+            toast.success("invitation successfully sent");
+            setIsLoad(true);
           }
         } catch (err) {
           // console.log("error sending invitation",   error?.data?.message);
@@ -83,7 +84,7 @@ const ProjectDetialsBar = () => {
         toast.error("Login before inviting members");
       }
     },
-    [emailDescription, emails, selectedProject?.id, token]
+    [emailDescription, emails, selectedProject?.id, token, setIsLoad]
   );
 
   const handleEmailChange = useCallback((e) => {

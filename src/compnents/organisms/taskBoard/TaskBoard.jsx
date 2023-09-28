@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import { serverInterceptor } from "../../../config";
 import { useStorage } from "../../../hooks/useStorage";
 import { TmsContext } from "../../../context/TaskBoardContext";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const taskformBackend = [
   { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
@@ -28,13 +29,13 @@ const taskformBackend = [
 ];
 
 const list = {
-  [uuid()]: {
-    task_status: "Backlogs",
-    tasks: [],
-  },
+  // [uuid()]: {
+  //   task_status: "Backlogs",
+  //   tasks: [],
+  // },
   [uuid()]: {
     task_status: "To do",
-    tasks: taskformBackend,
+    tasks: [],
   },
   [uuid()]: {
     task_status: "In Progress",
@@ -117,6 +118,7 @@ const TaskBoard = () => {
   const [errMsg, setErrMsg] = useState("");
   const [listName, setListName] = useState("");
   const [rendered, setRendered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { selectedProject } = useContext(TmsContext);
 
@@ -130,7 +132,7 @@ const TaskBoard = () => {
   useEffect(() => {
     setDisabled(false);
     setErrMsg("");
-  }, [rendered]);
+  }, []);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -186,7 +188,7 @@ const TaskBoard = () => {
   const addTask = useCallback(
     async (e) => {
       e.preventDefault();
-
+      setIsLoading(true);
       const data = {
         name: taskName,
         description: taskDescription,
@@ -201,9 +203,11 @@ const TaskBoard = () => {
               Accept: "application/json",
             },
           });
-          if (response && response.data) {
+          if (response && response.data.task) {
             toast.success("task successfully created");
             console.log("task created", response?.data?.task);
+
+            setIsLoading(false);
 
             const column = columns[currentStatusId];
             setColumns({
@@ -217,10 +221,11 @@ const TaskBoard = () => {
             setTaskList([...column.tasks, response?.data?.task]);
             setTaskDescription("");
             setTaskName("");
+            setIsLoading(false);
           }
         } catch (err) {
           toast.error("Failed to create a task.");
-
+          setIsLoading(false);
           console.log(err?.data?.message);
           if (!err.status) {
             setErrMsg("No Server Response");
@@ -247,6 +252,7 @@ const TaskBoard = () => {
   );
 
   const addNewTaskList = async () => {
+     setIsLoading(true);
     const data = {
       projectId: selectedProject?.id,
       designation: listName,
@@ -261,7 +267,7 @@ const TaskBoard = () => {
           },
         });
         console.log("project status", response.data);
-        if (response && response.data) {
+        if (response && response.data && response.data.status) {
           toast.success("new column successfully created");
           console.log("project status", response.data);
           setColumns({
@@ -273,10 +279,11 @@ const TaskBoard = () => {
           });
 
           setListName("");
+          setIsLoading(false);
         }
       } catch (err) {
         toast.error("Failed to create a task.");
-
+         setIsLoading(false);
         console.log(err);
         if (!err.status) {
           setErrMsg("No Server Response");
@@ -312,12 +319,11 @@ const TaskBoard = () => {
       // if (columns[currentStatusId]?.task_status === lastColumn.task_status) {
       //   setTaskcompleted(true);
       // }
-
+      setIsLoading(true);
       const data = {
         id: editTask.id,
         name: editName,
         description: editDescription,
-        // projectStatusId: currentStatusId,
         completed: taskcompleted,
       };
       if (token) {
@@ -329,19 +335,18 @@ const TaskBoard = () => {
               Accept: "application/json",
             },
           });
-          if (response && response.data) {
+          if (response && response.data.updatedTask) {
             toast.success("task successfully updated");
             console.log("task updated", response?.data?.updatedTask);
             setRendered(true);
-
-            // setColumns();
+            setIsLoading(false);
 
             setTaskDescription("");
             setTaskName("");
           }
         } catch (err) {
           toast.error("Failed to create a task.");
-
+           setIsLoading(false);
           console.log(err);
           if (!err.status) {
             setErrMsg("No Server Response");
@@ -422,6 +427,11 @@ const TaskBoard = () => {
     setColumns(result);
   };
 
+  const handleChange = (e) => {
+    setListName(e.target.value);
+    setErrMsg("");
+  };
+
   return (
     <>
       {showAddTask && <OverLay action={togglePopup} />}
@@ -430,6 +440,8 @@ const TaskBoard = () => {
         {showAddTask && (
           <div className="add-task">
             <PopupModal onClick={togglePopup} title={`Add new task `}>
+              {isLoading && <PulseLoader color="#0707a0" size={15} /> }
+
               <PopupForm
                 inputText="Enter task name"
                 value={taskName}
@@ -555,6 +567,7 @@ const TaskBoard = () => {
             onClick={handleOpentask}
             editTask={updateTask}
             task={editTask}
+            
           />
         )}
         <button
@@ -569,6 +582,7 @@ const TaskBoard = () => {
           <div className="addListForm">
             {" "}
             <PopupModal onClick={() => setOpenAddList(!openAddList)}>
+              {isLoading ? <PulseLoader color="#0707a0" size={15} />: setOpenAddList(!openAddList)}
               <div className="addForm">
                 <p className={errClass} aria-live="assertive">
                   {errMsg}
@@ -579,7 +593,7 @@ const TaskBoard = () => {
                   type="text"
                   placeholder="Enter List name"
                   value={listName}
-                  onChange={(e) => setListName(e.target.value)}
+                  onChange={handleChange}
                 />
                 <button onClick={addNewTaskList}>Add List</button>
               </div>

@@ -52,7 +52,7 @@ const SideNav = () => {
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
 
-  const { setProjectData, setSelectedProject, setMembersofProject } =
+  const { setProjectData, setSelectedProject, setMembersofProject, isLoad } =
     useContext(TmsContext);
   const { token } = useStorage("token");
 
@@ -61,7 +61,7 @@ const SideNav = () => {
   // console.log("collaborations", collaborations);
   useEffect(() => {
     setDisabled(false);
-  }, []);
+  }, [isLoad]);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -133,6 +133,7 @@ const SideNav = () => {
         if (response && response.status === 201) {
           toast.success("project successfully created");
           setProjectData(response.data.data);
+          setProjectList((prev) => [...prev, response.data.data]);
           setNewdata(true);
         }
       } catch (error) {
