@@ -6,10 +6,10 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-
 // icon imports
 import { MdNavigateNext } from "react-icons/md";
 import { GrFormPrevious } from "react-icons/gr";
+import { AiOutlineDelete } from "react-icons/ai";
 
 import "./TaskBoard.css";
 import { faker } from "@faker-js/faker";
@@ -23,9 +23,15 @@ import { useStorage } from "../../../hooks/useStorage";
 import { TmsContext } from "../../../context/TaskBoardContext";
 import PulseLoader from "react-spinners/PulseLoader";
 
+// project progress context import
+import { ProgressContext } from "../../../context/ProgressContext";
+
 const taskformBackend = [
-  { id: uuid(), name: "first task", description: faker.lorem.paragraph(2) },
-  { id: uuid(), name: "second task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "1st task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "2nd task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "3rd task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "4th task", description: faker.lorem.paragraph(2) },
+  { id: uuid(), name: "5th task", description: faker.lorem.paragraph(2) },
 ];
 
 const list = {
@@ -88,8 +94,7 @@ const onDragEnd = (result, columns, setColumns) => {
       },
     });
 
-    if(destColumn?.task_status === 'Completed')
-      completed = true;
+    if (destColumn?.task_status === "Completed") completed = true;
 
     const data = {
       sourceStatusId: source.droppableId,
@@ -99,22 +104,23 @@ const onDragEnd = (result, columns, setColumns) => {
     };
 
     //update the status of the task in the backend
-    serverInterceptor.post("/tasks/updatOnDrag&Drop", data, {
-      headers: {
-        "Access-Control-Allow-Credentials": true,
-        Accept: "application/json",
-      },
-    }).then(response => {
-      if(response && response.data.newTaskStatus) {
-        toast.success("task status successfully updated");
-        console.log(
-          "task status successfully updated",
-          response.data.newTaskStatus
-        );
-      }
-        
-    }).catch(err => console.log('Error updating task status', err));
-
+    serverInterceptor
+      .post("/tasks/updatOnDrag&Drop", data, {
+        headers: {
+          "Access-Control-Allow-Credentials": true,
+          Accept: "application/json",
+        },
+      })
+      .then((response) => {
+        if (response && response.data.newTaskStatus) {
+          toast.success("task status successfully updated");
+          console.log(
+            "task status successfully updated",
+            response.data.newTaskStatus
+          );
+        }
+      })
+      .catch((err) => console.log("Error updating task status", err));
   } else {
     const column = columns[source.droppableId];
     const copiedTasks = [...column.tasks];
@@ -151,6 +157,8 @@ const TaskBoard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { selectedProject } = useContext(TmsContext);
+
+  const { setProgress } = useContext(ProgressContext);
 
   const { token } = useStorage("token");
 
@@ -460,6 +468,44 @@ const TaskBoard = () => {
   const handleChange = (e) => {
     setListName(e.target.value);
     setErrMsg("");
+    // handle task completed count
+    const completedPecentage = () => {
+      let totalTask = 0;
+      const columnValue = Object.values(columns);
+      // console.log("columnValue", columnValue);
+      columnValue?.forEach((column) => {
+        totalTask += column["tasks"]?.length;
+        return totalTask;
+      });
+      const completedTask = columnValue.find(
+        (column) => column["task_status"] === "Completed"
+      );
+
+      const percentage = (completedTask["tasks"]?.length / totalTask) * 100;
+      // update progress bar
+      setProgress(percentage);
+      console.clear();
+      console.log("totalTask: ", totalTask);
+      console.log("completed: ", completedTask["tasks"].length);
+      console.log("percentage: ", percentage);
+    };
+    completedPecentage();
+  };
+  // handle delete column
+  const handleDeleteColumn = (id) => {
+    const columnKeys = Object.keys(columns);
+    const updatedColumns = columnKeys.filter((column) => column !== id);
+
+    const result = updatedColumns.reduce((acc, current) => {
+      return {
+        ...acc,
+        [current]: columns[current],
+      };
+    }, {});
+    setColumns(result);
+    console.clear();
+    console.log("updatedColumns", result);
+    console.log("columns", columns);
   };
 
   return (
@@ -500,6 +546,13 @@ const TaskBoard = () => {
                   <div className="list-options">
                     <h3>{column.task_status}</h3>
                     <div className="list-action">
+                      <Tippy content="delete list" className="tippy-button">
+                        <button onClick={() => handleDeleteColumn(id)}>
+                          <span className="delete-list">
+                            <AiOutlineDelete />
+                          </span>
+                        </button>
+                      </Tippy>
                       <Tippy content="move left" className="tippy-button">
                         <button onClick={() => handelMovePrev(id)}>
                           <span>
