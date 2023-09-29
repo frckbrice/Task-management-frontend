@@ -2,19 +2,27 @@
   border-bottom: 1px solid #b8bec7;
   background-color: white;
   /* position: fixed; */
-  width: 100%;
+  max-width: 100%;
   /* z-index: 9990-[]; */
 }
 
 .navbar {
   display: flex;
-  height: 78px;
+  height: 9vh;
   justify-content: space-between;
-  margin: 0 5%;
+  margin: 0 6%;
 }
 
 .logo {
-  height: 60px;
-  width: 200px;
+  height: 7vh;
+  width: 15vw;
   margin: auto 0;
+}
+
+@media screen and (max-width: 768px) {
+
+  .logo {
+    height: 6vh;
+    width: 33vw;
+  }
 }
