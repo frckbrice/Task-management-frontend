@@ -1,45 +1,59 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@800&display=swap');
 
 .header {
-  /* font-family: 'Lobster', cursive; */
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
   color: white;
   padding: 50px 0;
   object-fit: contain;
   background-color: #04175A;
 }
 
-/* .HeaderTxt {
-  margin: 0 0 35px 80px;
-} */
-
 .HeaderTxt,
 .HeaderImg {
-  width: 40%;
+  max-width: 40%;
 }
 
 .head1 {
   font-family: serif;
-  width: 100%;
+  max-width: 100%;
   text-align: left;
-  font-size: 50px;
+  font-size: 2.5rem;
   margin:  0 0 40px 0;
 }
 
 .par {
-  width: 75%;
+  max-width: 90%;
   text-align: left;
-  font-size: 25px;
+  font-size: 1.5rem;
   font-weight: 300;
-  margin: 50px 0;
+  margin: 40px 0;
 }
 
 .img1 {
   width: 100%;
   object-fit: contain;
   margin: 60px 0 0;
+}
+
+@media screen and (min-width: 2560px) {
+  .head1 {
+    text-align: left;
+    font-size: 4.5rem;
+    margin:  0 0 50px 0;
+  }
+  
+  .par {
+    font-size: 2.5rem;
+  }
+
+  .img1 {
+    width: 40vw;
+    object-fit: contain;
+    margin: 60px 0 0;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -53,22 +67,19 @@
 
   .HeaderTxt {
     margin: 0;
-    width: 78%;
+    max-width: 90%;
   }
 
-  .head1 {
-    font-size: 1.8rem;
-    margin: auto;
-    text-align: center;
+  .headone {
+    width: 100%;
   }
   
   .par {
-    margin: auto;
     font-size: 1.2rem;
     font-weight: 500;
     text-align: center;
     margin: 30px auto;
-    /* width: 100%; */
+    width: 100vw;
   }
   
   .img1 {
