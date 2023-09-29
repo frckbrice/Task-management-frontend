@@ -134,8 +134,7 @@ function Signup() {
             })
             .catch((err) => {
               console.log("error registering user", err);
-
-              if (!err.response.status) {
+              if (!err.response) {
                 setErrMsg("No Server Response");
               } else if (err.response.status === 400) {
                 setErrMsg("Missing Username or Password");
