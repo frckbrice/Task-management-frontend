@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 
 // import Tippy from "@tippyjs/react";
@@ -7,9 +7,36 @@ import { IoMdNotifications } from "react-icons/io";
 import "./NavIterms.css";
 import PopupModal from "../../../compnents/molecules/popupModal/PopupModal";
 import OverLay from "../../../compnents/atoms/overlay/OverLay";
+import { useNavigate } from "react-router-dom";
+import { TmsContext } from "../../../context/TaskBoardContext";
+import { serverInterceptor } from "../../../config";
 
 const NavIterms = ({ profilePicture, children, togleProfile }) => {
   const [isNotiOpen, setIsNotiOpen] = useState(false);
+
+  const [invitationList, setInvitationList] = useState([]);
+
+  useEffect(() => {
+    serverInterceptor
+      .get("/invitations/notifications", {
+        headers: {
+          Accept: "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+      .then((resp) => {
+        if (resp && resp?.data && resp.data.invitations.length) {
+          setInvitationList(resp.data.invitations);
+        }
+      })
+      .catch((err) => console.log("Error getting notifications", err));
+  }, []);
+
+  const handleDecline = (id) => {
+    setInvitationList(
+      invitationList?.filter((invitation) => invitation.id === id)
+    );
+  };
 
   const handleNotify = () => {
     setIsNotiOpen(!isNotiOpen);
@@ -17,7 +44,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
 
   return (
     <div className="NavIterms">
-      {isNotiOpen && <OverLay action={handleNotify} />}
+      {/* {isNotiOpen && <OverLay action={handleNotify} />} */}
       <form action="search">
         <input type="text" placeholder="search" />
       </form>
@@ -40,12 +67,15 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
       {isNotiOpen && (
         <div className="notifications">
           <PopupModal title={`Notifications`} onClick={handleNotify}>
-            <div className="updateCards">
-              <Notifications />
-              <Notifications />
-              <Notifications />
-             
-            </div>
+            {invitationList?.map((invitation) => (
+              <div className="updateCards" key={invitation.id}>
+                <Notifications
+                  invitationId={invitation.id}
+                  project={invitation.project}
+                  declineInvite={() => handleDecline(invitation.id)}
+                />
+              </div>
+            ))}
           </PopupModal>
         </div>
       )}
@@ -53,18 +83,27 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
   );
 };
 
-const Notifications = () => {
+const Notifications = ({ invitationId, project, declineInvite }) => {
+  const navigate = useNavigate();
+  const handleInvite = () => {
+    navigate(`/invitation/${invitationId}`);
+  };
+
   return (
     <div className="notification-card">
       <div className="noti-header">
         <h3>James</h3>
         <div className="notiBTN">
-          <button className="decline">Decline</button>
-          <button className="accept">Accept</button>
+          <button className="decline" onClick={declineInvite}>
+            Decline
+          </button>
+          <button className="accept" onClick={handleInvite}>
+            Accept
+          </button>
         </div>
       </div>
       <p>
-        invites you to join <span>project Name</span>
+        invites you to join <span>{project.name}</span>
       </p>
     </div>
   );

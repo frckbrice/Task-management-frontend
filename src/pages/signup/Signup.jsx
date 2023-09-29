@@ -75,20 +75,20 @@ function Signup() {
               .catch((err) => {
                 console.log("error registering a user", err);
 
-                if (!err.status) {
-                  setErrMsg("No Server Response");
-                } else if (err.status === 400) {
-                  setErrMsg("Missing Username or Password");
-                } else if (err.status === 401) {
-                  setErrMsg("Unauthorized");
-                } else if (err.status === 403) {
-                  setErrMsg("Forbidden");
-                } if (err.status === 409) {
-                  setErrMsg("Already register");
-                } else {
-                  setErrMsg(err.data?.message);
-                  console.error(err.data?.message);
-                }
+                 if (!err.response.status) {
+                   setErrMsg("No Server Response");
+                 } else if (err.response.status === 400) {
+                   setErrMsg("Missing Username or Password");
+                 } else if (err.response.status === 401) {
+                   setErrMsg("Unauthorized");
+                 } else if (err.response.status === 403) {
+                   setErrMsg("Forbidden");
+                 } else if (err.response.status === 409) {
+                   setErrMsg("This email already exist");
+                 } else {
+                   setErrMsg(err.data?.message);
+                   console.error(err.response.data?.message);
+                 }
               })
               .finally(() => setIsLoading(false));;
           })
@@ -135,17 +135,19 @@ function Signup() {
             .catch((err) => {
               console.log("error registering user", err);
 
-              if (!err.status) {
+              if (!err.response.status) {
                 setErrMsg("No Server Response");
-              } else if (err.status === 400) {
+              } else if (err.response.status === 400) {
                 setErrMsg("Missing Username or Password");
-              } else if (err.status === 401) {
+              } else if (err.response.status === 401) {
                 setErrMsg("Unauthorized");
-              } else if (err.status === 403) {
+              } else if (err.response.status === 403) {
                 setErrMsg("Forbidden");
+              } else if (err.response.status === 409) {
+                setErrMsg("This email already exist");
               } else {
                 setErrMsg(err.data?.message);
-                console.error(err.data?.message);
+                console.error(err.response.data?.message);
               }
             })
             .finally(() => setIsLoading(false));
