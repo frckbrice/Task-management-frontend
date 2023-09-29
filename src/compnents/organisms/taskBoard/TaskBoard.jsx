@@ -174,6 +174,7 @@ const TaskBoard = () => {
 
   useEffect(() => {
     const fetchProjects = () => {
+      setIsLoading(true);
       let data = { id: selectedProject?.id };
       serverInterceptor
         .post("projectStatus/ofproject", data, {
@@ -184,11 +185,12 @@ const TaskBoard = () => {
           },
         })
         .then((response) => {
-          if (response && response.data) {
+          if (response && response.data.formatedStatuses) {
             console.log(
               "\n \n all project status:",
               new Set(response.data.formatedStatuses)
             );
+            setIsLoading(false);
             const columnsStatus = response?.data?.formatedStatuses
               ?.reverse()
               .reduce((obj, status) => {
@@ -199,7 +201,10 @@ const TaskBoard = () => {
             setColumns(columnsStatus);
           }
         })
-        .catch((err) => console.log("Error getting project status", err));
+        .catch((err) => {
+          console.log("Error getting project status", err);
+          setIsLoading(false);
+        });
     };
 
     fetchProjects();
@@ -468,29 +473,30 @@ const TaskBoard = () => {
   const handleChange = (e) => {
     setListName(e.target.value);
     setErrMsg("");
-    // handle task completed count
-    const completedPecentage = () => {
-      let totalTask = 0;
-      const columnValue = Object.values(columns);
-      // console.log("columnValue", columnValue);
-      columnValue?.forEach((column) => {
-        totalTask += column["tasks"]?.length;
-        return totalTask;
-      });
-      const completedTask = columnValue.find(
-        (column) => column["task_status"] === "Completed"
-      );
-
-      const percentage = (completedTask["tasks"]?.length / totalTask) * 100;
-      // update progress bar
-      setProgress(percentage);
-      console.clear();
-      console.log("totalTask: ", totalTask);
-      console.log("completed: ", completedTask["tasks"].length);
-      console.log("percentage: ", percentage);
-    };
-    completedPecentage();
   };
+  // handle task completed count
+  const completedPecentage = () => {
+    let totalTask = 0;
+    const columnValue = Object.values(columns);
+    // console.log("columnValue", columnValue);
+    columnValue?.forEach((column) => {
+      totalTask += column["tasks"]?.length;
+      return totalTask;
+    });
+    const completedTask = columnValue.find(
+      (column) => column["task_status"] === "Completed"
+    );
+
+    const percentage = (completedTask["tasks"]?.length / totalTask) * 100;
+    // update progress bar
+    setProgress(percentage);
+    console.clear();
+    // console.log("totalTask: ", totalTask);
+    // console.log("completed: ", completedTask["tasks"].length);
+    // console.log("percentage: ", percentage);
+  };
+
+  //  completedPecentage();
   // handle delete column
   const handleDeleteColumn = (id) => {
     const columnKeys = Object.keys(columns);
@@ -504,11 +510,13 @@ const TaskBoard = () => {
     }, {});
     setColumns(result);
     console.clear();
-    console.log("updatedColumns", result);
-    console.log("columns", columns);
+    // console.log("updatedColumns", result);
+    // console.log("columns", columns);
   };
 
-  return (
+  const loader = <PulseLoader color="#0707a0" size={15} />;
+
+  const content = (
     <>
       {showAddTask && <OverLay action={togglePopup} />}
       {openTask && <OverLay action={handleOpentask} />}
@@ -686,6 +694,7 @@ const TaskBoard = () => {
       </div>
     </>
   );
+  return <>{isLoading ? loader : content}</>;
 };
 
 export default TaskBoard;

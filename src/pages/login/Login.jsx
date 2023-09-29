@@ -76,7 +76,7 @@ function Login() {
                 .then((resp) => {
                   if (resp && resp.data) {
                     console.log("registered data: ", resp.data);
-                    const { email } = resp.data;
+
                     let data = {
                       email: resp.data,
                     };
@@ -119,17 +119,19 @@ function Login() {
                         toast.error("Failed to log in");
                         setMove(false);
 
-                        if (!err.status) {
+                        if (!err.response.status) {
                           setErrMsg("No Server Response");
-                        } else if (err.status === 400) {
-                          setErrMsg("Missing some useful information");
-                        } else if (err.status === 401) {
+                        } else if (err.response.status === 400) {
+                          setErrMsg("Missing Username or Password");
+                        } else if (err.response.status === 401) {
                           setErrMsg("Unauthorized");
-                        } else if (err.status === 403) {
+                        } else if (err.response.status === 403) {
                           setErrMsg("Forbidden");
+                        } else if (err.response.status === 409) {
+                          setErrMsg("This email already exist");
                         } else {
                           setErrMsg(err.data?.message);
-                          console.error(err.data?.message);
+                          console.error(err.response.data?.message);
                         }
                       })
                       .finally(() => setIsLoading(false));
@@ -162,6 +164,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log("\nhandle submit fired\n");
     if (email && password) {
       if (password.length >= 6 && /\d/.test(password)) {
         let data = {
@@ -197,17 +200,19 @@ function Login() {
 
             console.log("error login in", err.message);
 
-            if (!err.status) {
+            if (!err.response.status) {
               setErrMsg("No Server Response");
-            } else if (err.status === 400) {
+            } else if (err.response.status === 400) {
               setErrMsg("Missing Username or Password");
-            } else if (err.status === 401) {
+            } else if (err.response.status === 401) {
               setErrMsg("Unauthorized");
-            } else if (err.status === 403) {
+            } else if (err.response.status === 403) {
               setErrMsg("Forbidden");
+            } else if (err.response.status === 409) {
+              setErrMsg("This email already exist");
             } else {
               setErrMsg(err.data?.message);
-              console.error(err.data?.message);
+              console.error(err.response.data?.message);
             }
           })
           .finally(() => setIsLoading(false));
@@ -237,11 +242,11 @@ function Login() {
         <NavBar />
 
         <div className="formlogin">
-          <form className="loginform">
+          <form className="loginform" onSubmit={handleSubmit}>
             <p ref={errorRef} className={errClass} aria-live="assertive">
               {errMsg}
             </p>
-            <div className="innerform" onSubmit={handleSubmit}>
+            <div className="innerform">
               <div className="credential">
                 {" "}
                 <h2 className="loginform-h2">Login</h2>
@@ -260,6 +265,7 @@ function Login() {
                   className="loginforminput"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  autocompleted="off"
                   ref={userRef}
                   required
                 />

@@ -47,31 +47,33 @@ function WelcomeMember() {
         },
       })
       .then((response) => {
-        if (response && response.statusText === "OK") {
+        if (response && response.data) {
           setMove(true);
           console.log(response.data);
+          if(response.data.location) {
+            setMove(true)
+          }
           setContact("");
           setName("");
           setSkills("");
           setIsLoading(false);
+          
         }
       })
-      .catch((err) => console.log("Error confirm invitation process", err));
+      .catch((err) => {console.log("Error confirm invitation process", err);
+      setIsLoading(false);
+    });
   };
 
-   if (isLoading) {
-     return (
-       <div className="loading">
-         <PulseLoader color="#0707a0" size={26} />
-       </div>
-     );
-   }
+
 
   return (
     <div className="welcomePage">
+      {isLoading && <PulseLoader color="#0707a0" size={26} />}
       <h2 className="welcomeTitle">Welcome to TASKTREC APP</h2>
       <p className="welcomeDesc">
-        Please Kindly Fill the form below to confirm your acceptation to take part to the the project conerned.
+        Please Kindly Fill the form below to confirm your acceptation to take
+        part to the the project conerned.
       </p>
       <div className="welcomeForm">
         <label className="welcomeLabel" htmlFor="name">
