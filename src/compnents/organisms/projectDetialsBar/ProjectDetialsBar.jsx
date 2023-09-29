@@ -25,7 +25,7 @@ const ProjectDetialsBar = () => {
   const [emailDescription, setEmailDescription] = useState("");
   const [disabled, setDisabled] = useState(false);
    const [isLoading, setIsLoading] = useState(false);
-  const { selectedProject } = useContext(TmsContext);
+  const { selectedProject, isLoad } = useContext(TmsContext);
   const { token } = useStorage("token");
 
   console.log({ token });
@@ -33,6 +33,7 @@ const ProjectDetialsBar = () => {
 
   useEffect(() => {
     setDisabled(false);
+    setErrMsg("");
   }, []);
 
   const closePopup = () => {
@@ -42,6 +43,7 @@ const ProjectDetialsBar = () => {
   const handleInvite = useCallback(
     async (e) => {
       e.preventDefault();
+      setErrMsg('');
       setDisabled(true);
       setIsLoading(true);
       // const emailContent = `${conf.clientbaseURL}/`;
@@ -108,9 +110,10 @@ const ProjectDetialsBar = () => {
       {showPopup && <OverLay action={closePopup} />}
       <div className="detialsBar">
         <div className="progress-section">
-          <h3>Web Enterprice</h3>
+          <h3>{selectedProject.name}</h3>
           <ProgressBar />
         </div>
+       
         <div className="addMemberBtn">
           <DashActionBtn onClick={closePopup}>
             <span>

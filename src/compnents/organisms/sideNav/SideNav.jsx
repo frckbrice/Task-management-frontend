@@ -54,8 +54,13 @@ const SideNav = () => {
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
 
-  const { setProjectData, setSelectedProject, setMembersofProject, isLoad } =
-    useContext(TmsContext);
+  const {
+    setProjectData,
+    setSelectedProject,
+    setMembersofProject,
+    isLoad,
+    setIsLoad,
+  } = useContext(TmsContext);
   const { token } = useStorage("token");
 
   // console.log({ token, setProjectData });
@@ -159,7 +164,8 @@ const SideNav = () => {
   const selectProject = (project) => {
     //send select project to context for sharing
     setSelectedProject(project);
-
+    setIsLoad(true);
+   setIsLoading(true);
     let data = { id: project.id };
     serverInterceptor
       .post("projects/members", data, {
