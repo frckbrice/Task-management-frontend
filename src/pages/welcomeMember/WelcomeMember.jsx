@@ -51,7 +51,8 @@ function WelcomeMember() {
           setMove(true);
           console.log(response.data);
           if(response.data.location) {
-            setMove(true)
+            // setMove(true)
+            navigate(response.data.location);
           }
           setContact("");
           setName("");
