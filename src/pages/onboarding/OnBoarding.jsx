@@ -36,7 +36,7 @@ function OnBoarding() {
   const location = useLocation();
   const { username } = userAuth();
 
-  const serverInterceptor = useServerInterceptor();
+  // const serverInterceptor = useServerInterceptor();
 
   if (projectData) console.log({ projectId: projectData });
 

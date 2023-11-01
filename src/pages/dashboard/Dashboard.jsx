@@ -8,7 +8,7 @@ import "./Dashboard.css";
 import avatar from "../../assets/avatar.jpg";
 
 // components import
-// import NavBar from "../../compnents/organisms/navBar/NavBar";
+import Avatar from "react-avatar";
 import NavIterms from "./nav_iterms/NavIterms";
 // import { projectData } from "../../dummyData";
 import SideNav from "../../compnents/organisms/sideNav/SideNav";
@@ -24,17 +24,24 @@ import useAuth from "../../hooks/userAuth";
 import { conf, server } from "../../config";
 import { useStorage } from "../../hooks/useStorage";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   // const [user, setUser] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
 
   const { profilePict, setProfilePict } = useContext(TmsContext);
+  const navigate = useNavigate();
 
-  const { username, picture, email } = useAuth();
+  const { token, setStorToken } = useStorage("token");
+  if (!token) navigate("/login");
+  const { username, picture, email, googleId } = useAuth();
+
+  // console.log("picture", picture);
+  console.log("profilPict", `"${profilePict}"`);
 
   if (picture) setProfilePict(picture);
-  const { setStorToken } = useStorage("token");
+
   const toggleProfile = () => {
     setOpenProfile(!openProfile);
   };
@@ -67,7 +74,7 @@ const Dashboard = () => {
       <DashBoardNavBar>
         <div className="navContent">
           <NavIterms
-            profilePicture={profilePict || avatar}
+            profilePicture={`"${profilePict}"` || avatar}
             togleProfile={toggleProfile}
           ></NavIterms>
         </div>
@@ -86,16 +93,22 @@ const Dashboard = () => {
         <div className="userProfile">
           <PopupModal onClick={toggleProfile}>
             <div className="profile">
-              <img src={picture} alt="profile avatar" />
+              {/* <img src={picture} alt="profile avatar" /> */}
+              <Avatar
+                src={picture}
+                googleId={googleId}
+                size="50"
+                round={true}
+              />
               <div className="profileDetai">
-                <h4>{username}</h4>
-                <p>{email}</p>
+                <span>{username}</span>
+                <span>{email}</span>
               </div>
               <div className="actions">
-                <button className="logout" onClick={logout}>
+                <button className="edit" onClick={editProfile}>
                   logout
                 </button>
-                <button className="" onClick={editProfile}>
+                <button className="edit" onClick={editProfile}>
                   edit
                 </button>
               </div>

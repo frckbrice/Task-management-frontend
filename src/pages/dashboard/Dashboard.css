@@ -36,3 +36,28 @@
   height: 20px;
   border-radius: 50%;
 } */
+
+.profile {
+  margin: 0.5rem 1rem;
+}
+
+.actions .edit {
+  padding: 3px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  margin: 0 0 0 10px;
+  border-radius: 0.5rem;
+  border: 1px solid gray;
+}
+
+.profileDetai {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileDetai span {
+  font-family: poppins, sans-serif;
+  font-size: 12px;
+}

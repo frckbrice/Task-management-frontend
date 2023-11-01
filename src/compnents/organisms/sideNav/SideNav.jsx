@@ -33,6 +33,7 @@ import { useStorage } from "../../../hooks/useStorage";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { members } from "../../../dummyData";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useNavigate } from "react-router-dom";
 
 const SideNav = () => {
   // create ref
@@ -53,6 +54,7 @@ const SideNav = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
+  const navigate = useNavigate();
 
   const {
     setProjectData,
@@ -63,14 +65,13 @@ const SideNav = () => {
   } = useContext(TmsContext);
   const { token } = useStorage("token");
 
-  // console.log({ token, setProjectData });
-
-  // console.log("collaborations", collaborations);
   useEffect(() => {
     setDisabled(false);
-  }, [isLoad]);
-
-
+    if (!token) {
+      alert("Need to login first");
+      navigate("/login");
+    }
+  }, [isLoad, token, navigate]);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -147,9 +148,9 @@ const SideNav = () => {
           setNewdata(true);
           setIsLoading(false);
           // window.location.reload()
-          setProjectName('');
-          setTeamName('')
-          setProjectDescription('')
+          setProjectName("");
+          setTeamName("");
+          setProjectDescription("");
         }
       } catch (error) {
         toast.error("Failed to create project.");
@@ -190,8 +191,6 @@ const SideNav = () => {
       })
       .catch((err) => console.log("Error getting project Members", err));
   };
-
- 
 
   return (
     <>

@@ -1,6 +1,7 @@
 .popup-modal {
   background-color: #fff;
   /* min-height: 10vw; */
+  margin: 1rem 1.3rem;
   height: fit-content;
   /* box-shadow: #0000001f 0px 1px 3px, #0000003d 0px 1px 2px; */
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -34,6 +35,5 @@
 .outlinecancel {
   width: 20px;
   height: 15px;
-  color: red;
   font-weight: bold;
 }

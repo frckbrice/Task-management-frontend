@@ -184,6 +184,8 @@
 .addProjectForm textarea {
   border: 1px solid #1b34b5;
   /* background-color: green; */
+  font-size: 13px;
+  height: 100%;
   width: 100%;
 }
 

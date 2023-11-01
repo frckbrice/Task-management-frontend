@@ -10,8 +10,8 @@ export const server = axios.create({
 });
 
 export const serverInterceptor = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
-  // baseURL: "http://localhost:5001",
+  // baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
+  baseURL: "http://localhost:5001",
   headers: {
     Accept: "application/json",
     // "Access-Control-Allow-Origin": "http://localhost:3000",
