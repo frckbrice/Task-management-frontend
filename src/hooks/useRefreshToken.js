@@ -10,12 +10,7 @@ const useRefreshToken = () => {
   const { setIsRefreshSuccess, setIsRefreshError, setErrorMsg } =
     useContext(TmsContext);
 
-  const { lsData } = useLocalStorage("setRefreshToken");
-  const { setStorToken } = useStorage("token", " ");
-
-  // console.log(setStorToken);
-
-  const refreshToken = lsData;
+  const refreshToken = JSON.parse(localStorage.getItem("refreshToken"));
 
   const refresh = async () => {
     const response = await server.get(
@@ -29,8 +24,11 @@ const useRefreshToken = () => {
       }
     );
     console.log(response);
-    if (response && response.status === 200) {
-      setStorToken(response?.data?.accessToken);
+    if (response && response.data) {
+      localStorage.setItem(
+        "token",
+        JSON.stringify(response?.data?.accessToken)
+      );
       setIsRefreshSuccess(true);
       return response.data.accessToken;
     } else if (response.statusText !== "OK") {

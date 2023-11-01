@@ -36,8 +36,6 @@ function Signup() {
     setErrMsg("");
   }, [email, password]);
 
-  let registeredUser = {};
-
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
       console.log("login goood");
@@ -67,13 +65,10 @@ function Signup() {
               .then((response) => {
                 if (response && response.data) {
                   console.log("", response.data);
-                  registeredUser = response.data.registeredUser;
-                  registeredUser.email = response.data.email;
-                  // console.log(registeredUser);
 
                   localStorage.setItem(
                     "currentUser",
-                    JSON.stringify(registeredUser)
+                    JSON.stringify(response.data)
                   );
 
                   navigate("/onboarding");
@@ -134,10 +129,12 @@ function Signup() {
             .then((response) => {
               if (response && response.data) {
                 console.log("Form submitted successfully!");
-                console.log("", response.data);
-                registeredUser = response.data.registeredUser;
-                registeredUser.email = response.data.email;
-                // console.log(registeredUser);
+                console.log("registered user  ", response.data);
+
+                localStorage.setItem(
+                  "currentUser",
+                  JSON.stringify(response.data)
+                );
                 navigate("/onboarding"); // navigate to onboarding page
               }
               setUsername("");

@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-// css import
+
 import "./Dashboard.css";
 
-// libery imports
-// import Tippy from "@tippyjs/react";
-// import "tippy.js/dist/tippy.css";
 import avatar from "../../assets/avatar.jpg";
 
-// components import
 import Avatar from "react-avatar";
 import NavIterms from "./nav_iterms/NavIterms";
-// import { projectData } from "../../dummyData";
 import SideNav from "../../compnents/organisms/sideNav/SideNav";
 import ProjectDetialsBar from "../../compnents/organisms/projectDetialsBar/ProjectDetialsBar";
 import PopupModal from "../../compnents/molecules/popupModal/PopupModal";
@@ -21,24 +16,36 @@ import DashBoardNavBar from "../../compnents/organisms/dashBoardNavBar/DashBoard
 import { TmsContext } from "../../context/TaskBoardContext";
 import OverLay from "../../compnents/atoms/overlay/OverLay";
 import useAuth from "../../hooks/userAuth";
-import { conf, server } from "../../config";
-import { useStorage } from "../../hooks/useStorage";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { useNavigate } from "react-router-dom";
+import { conf, server, serverInterceptor } from "../../config";
 
 const Dashboard = () => {
-  // const [user, setUser] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
-
+  const [notificationsList, setNotificationsList] = useState([]);
   const { profilePict, setProfilePict } = useContext(TmsContext);
-  const navigate = useNavigate();
 
-  const { token, setStorToken } = useStorage("token");
-  if (!token) navigate("/login");
   const { username, picture, email, googleId } = useAuth();
 
-  // console.log("picture", picture);
   console.log("profilPict", `"${profilePict}"`);
+
+  const token = JSON.parse(localStorage.getItem("token"));
+
+  useEffect(() => {
+    serverInterceptor
+      .get("/invitation/notifications", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+      .then((resp) => {
+        if (resp && resp?.data) {
+          console.log("Notifications", resp?.data);
+          setNotificationsList(resp.data);
+        }
+      })
+      .catch((err) => console.log("Error getting notifications", err));
+  }, []);
 
   if (picture) setProfilePict(picture);
 
@@ -46,16 +53,14 @@ const Dashboard = () => {
     setOpenProfile(!openProfile);
   };
 
-  const { setlsData } = useLocalStorage("refreshToken", " ");
-
   const logout = async () => {
     const resp = await server.post("/auth/logout", {
       headers: conf.headers,
     });
 
     if (resp && resp?.data?.accessToken) {
-      setStorToken(resp?.data?.accessToken);
-      setlsData(resp?.data?.refreshToken);
+      localStorage.setItem(resp?.data?.accessToken);
+      localStorage.setItem(resp?.data?.refreshToken);
     }
   };
 
@@ -76,6 +81,7 @@ const Dashboard = () => {
           <NavIterms
             profilePicture={`"${profilePict}"` || avatar}
             togleProfile={toggleProfile}
+            invitationList={notificationsList}
           ></NavIterms>
         </div>
       </DashBoardNavBar>
@@ -105,7 +111,7 @@ const Dashboard = () => {
                 <span>{email}</span>
               </div>
               <div className="actions">
-                <button className="edit" onClick={editProfile}>
+                <button className="edit" onClick={logout}>
                   logout
                 </button>
                 <button className="edit" onClick={editProfile}>

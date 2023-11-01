@@ -10,7 +10,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 import toast from "react-hot-toast";
-import usePersist from "../../hooks/usePersist";
+import jwtDecode from "jwt-decode";
 import { useStorage } from "../../hooks/useStorage";
 
 // import Task from "../onboarding/task";
@@ -113,7 +113,13 @@ function Login() {
                             "refreshToken",
                             JSON.stringify(response.data.refreshToken)
                           );
-                          localStorage.removeItem("currentUser");
+                          const currentUser = jwtDecode(
+                            response.data.accessToken
+                          );
+                          localStorage.setItem(
+                            "currentUser",
+                            JSON.stringify(currentUser.userInfo)
+                          );
                           navigate("/dashboard");
                           setIsLoading(false);
                           // navigate to onboarding page
@@ -203,7 +209,11 @@ function Login() {
                 "refreshToken",
                 JSON.stringify(res.data.refreshToken)
               );
-              localStorage.removeItem("currentUser");
+              const currentUser = jwtDecode(res.data.accessToken);
+              localStorage.setItem(
+                "currentUser",
+                JSON.stringify(currentUser.userInfo)
+              );
               navigate("/dashboard"); // navigate to onboarding page
               setIsLoading(false);
             }
