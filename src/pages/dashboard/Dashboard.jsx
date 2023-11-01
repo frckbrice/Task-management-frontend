@@ -20,47 +20,33 @@ import DashBoardNavBar from "../../compnents/organisms/dashBoardNavBar/DashBoard
 
 import { TmsContext } from "../../context/TaskBoardContext";
 import OverLay from "../../compnents/atoms/overlay/OverLay";
-import userAuth from "../../hooks/userAuth";
+import useAuth from "../../hooks/userAuth";
 import { conf, server } from "../../config";
 import { useStorage } from "../../hooks/useStorage";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
-
-  const { token } = useStorage("token");
 
   const { profilePict, setProfilePict } = useContext(TmsContext);
 
-  const { email, username, picture } = userAuth(token);
-  if (picture) setProfilePict(picture);
+  const { username, picture, email } = useAuth();
 
+  if (picture) setProfilePict(picture);
+  const { setStorToken } = useStorage("token");
   const toggleProfile = () => {
     setOpenProfile(!openProfile);
   };
 
-  const {setStorToken} = useStorage('token',' ');
   const { setlsData } = useLocalStorage("refreshToken", " ");
-
-  console.log("this is user data", { email, username, picture });
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     setUser({ email, username, picture });
-  //   }
-
-  //   localStorage.setItem("user", { email, username, picture });
-  // }, [user]);
-
-  // const user = dataValues;
 
   const logout = async () => {
     const resp = await server.post("/auth/logout", {
       headers: conf.headers,
     });
 
-    if(resp && resp?.data?.accessToken) {
+    if (resp && resp?.data?.accessToken) {
       setStorToken(resp?.data?.accessToken);
       setlsData(resp?.data?.refreshToken);
     }
@@ -73,7 +59,7 @@ const Dashboard = () => {
     });
   };
 
-  console.log("user: ", user);
+  // console.log("user: ", user);
   return (
     <div className="dashboard">
       {openProfile && <OverLay action={toggleProfile} />}

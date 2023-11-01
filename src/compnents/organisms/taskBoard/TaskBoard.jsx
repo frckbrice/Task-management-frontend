@@ -155,6 +155,7 @@ const TaskBoard = () => {
   const [listName, setListName] = useState("");
   const [rendered, setRendered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
 
   const { selectedProject } = useContext(TmsContext);
 
@@ -295,7 +296,7 @@ const TaskBoard = () => {
   );
 
   const addNewTaskList = async () => {
-    setIsLoading(true);
+    setIsLoad(true);
     const data = {
       projectId: selectedProject?.id,
       designation: listName,
@@ -322,11 +323,11 @@ const TaskBoard = () => {
           });
 
           setListName("");
-          setIsLoading(false);
+          setIsLoad(false);
         }
       } catch (err) {
         toast.error("Failed to create a task.");
-        setIsLoading(false);
+        setIsLoad(false);
         console.log(err);
         if (!err.status) {
           setErrMsg("No Server Response");
@@ -673,7 +674,7 @@ const TaskBoard = () => {
           <div className="addListForm">
             {" "}
             <PopupModal onClick={() => setOpenAddList(!openAddList)}>
-              {isLoading && <PulseLoader color="#0707a0" size={15} />}
+              {isLoad && <PulseLoader color="#0707a0" size={15} />}
               <div className="addForm">
                 <p className={errClass} aria-live="assertive">
                   {errMsg}

@@ -76,7 +76,7 @@ function Login() {
                 .then((resp) => {
                   if (resp && resp.data) {
                     console.log("registered data: ", resp.data);
-                    const {email} = resp.data;
+                    const email = resp.data;
                     let data = {
                       email,
                     };
@@ -231,11 +231,11 @@ function Login() {
   const errClass = errMsg ? "mgs" : "offscreen";
 
   if (isLoading) {
-    return (content = (
+    content = (
       <div className="loading">
         <PulseLoader color="#0707a0" size={26} />
       </div>
-    ));
+    );
   } else {
     content = (
       <div className="allForm">

@@ -4,6 +4,7 @@ import { useStorage } from "./useStorage";
 const useAuth = () => {
   const currentUser = localStorage.getItem("currentUser");
   const { token } = useStorage("token");
+
   if (!token && currentUser) {
     const { username, roles, picture, email } = currentUser;
     return { username, roles, picture, email };
@@ -15,8 +16,6 @@ const useAuth = () => {
       return { username, roles, picture, email };
     }
   }
-
-  return { username: "", roles: "", picture: "", email: "" };
 };
 
 export default useAuth;

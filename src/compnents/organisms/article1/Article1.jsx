@@ -6,10 +6,9 @@ function Article1() {
   return (
     <div className="article1">
       <table className="art1Table">
-        <tab className="tab1">Docs</tab>
-        <tab>Whiteboards</tab>
-        <br />
-        <tab>Dashboards</tab>
+        <th className="tab1">Docs</th>
+        <th>Whiteboards</th>
+        <th>Dashboards</th>
       </table>
 
       <div className="head2">

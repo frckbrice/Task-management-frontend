@@ -70,6 +70,8 @@ const SideNav = () => {
     setDisabled(false);
   }, [isLoad]);
 
+
+
   useEffect(() => {
     const fetchProjects = () => {
       serverInterceptor
@@ -109,7 +111,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting projects", err));
-  }, [token, serverInterceptor,lsData, setlsData]);
+  }, [token, serverInterceptor, lsData, setlsData]);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -138,12 +140,16 @@ const SideNav = () => {
           },
         });
         console.log(response);
-        if (response && response.status === 201) {
+        if (response && response.data) {
           toast.success("project successfully created");
           setProjectData(response.data.data);
           setProjectList((prev) => [...prev, response.data.data]);
           setNewdata(true);
           setIsLoading(false);
+          // window.location.reload()
+          setProjectName('');
+          setTeamName('')
+          setProjectDescription('')
         }
       } catch (error) {
         toast.error("Failed to create project.");
@@ -165,7 +171,7 @@ const SideNav = () => {
     //send select project to context for sharing
     setSelectedProject(project);
     setIsLoad(true);
-   setIsLoading(true);
+    setIsLoading(true);
     let data = { id: project.id };
     serverInterceptor
       .post("projects/members", data, {
@@ -184,6 +190,8 @@ const SideNav = () => {
       })
       .catch((err) => console.log("Error getting project Members", err));
   };
+
+ 
 
   return (
     <>
