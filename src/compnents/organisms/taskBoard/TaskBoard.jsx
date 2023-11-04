@@ -25,6 +25,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 
 // project progress context import
 import { ProgressContext } from "../../../context/ProgressContext";
+import { GoLinkExternal } from "react-icons/go";
 
 const taskformBackend = [
   { id: uuid(), name: "1st task", description: faker.lorem.paragraph(2) },
@@ -141,13 +142,13 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 const TaskBoard = () => {
-  const [columns, setColumns] = useState(list);
+  const [columns, setColumns] = useState({});
   const [taskList, setTaskList] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
   const [currentStatusId, setCurrentTaskStatusId] = useState("");
   const [openTask, setOpenTask] = useState(false);
   const [taskcompleted, setTaskcompleted] = useState(false);
-  const [openAddList, setOpenAddList] = useState(false);
+  // const [openAddList, setOpenAddList] = useState(false);
   const [editTask, setEditTask] = useState({});
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -157,7 +158,8 @@ const TaskBoard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
 
-  const { selectedProject } = useContext(TmsContext);
+  const { selectedProject, openAddList, setOpenAddList } =
+    useContext(TmsContext);
 
   const { setProgress } = useContext(ProgressContext);
 
@@ -172,6 +174,33 @@ const TaskBoard = () => {
     setDisabled(false);
     setErrMsg("");
   }, []);
+
+  // handle task completed count
+
+  const completedPecentage = () => {
+    let completedTask;
+    let totalTask = 0;
+    if (Object.values(columns).length) {
+      console.log("inside completedPercentage");
+      const columnValue = Object.values(columns);
+      columnValue?.forEach((column) => {
+        totalTask += column["tasks"]?.length;
+        return totalTask;
+      });
+
+      completedTask = columnValue[columnValue.length - 1];
+      let percentage = 0;
+      if (completedTask["tasks"]?.length && totalTask) {
+        percentage = (completedTask["tasks"]?.length / totalTask) * 100;
+      }
+      percentage ? setProgress(percentage.toFixed(1)) : setProgress(0);
+    } else {
+      setProgress(0);
+    }
+    // console.clear();
+  };
+
+  completedPecentage();
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -199,6 +228,7 @@ const TaskBoard = () => {
                 obj[key] = status[key];
                 return obj;
               }, {});
+
             setColumns(columnsStatus);
           }
         })
@@ -265,7 +295,7 @@ const TaskBoard = () => {
             setTaskList([...column.tasks, response?.data?.task]);
             setTaskDescription("");
             setTaskName("");
-            setIsLoading(false);
+            // setIsLoading(false);
           }
         } catch (err) {
           toast.error("Failed to create a task.");
@@ -475,29 +505,7 @@ const TaskBoard = () => {
     setListName(e.target.value);
     setErrMsg("");
   };
-  // handle task completed count
-  const completedPecentage = () => {
-    let totalTask = 0;
-    const columnValue = Object.values(columns);
-    // console.log("columnValue", columnValue);
-    columnValue?.forEach((column) => {
-      totalTask += column["tasks"]?.length;
-      return totalTask;
-    });
-    const completedTask = columnValue.find(
-      (column) => column["task_status"] === "Completed"
-    );
 
-    const percentage = (completedTask["tasks"]?.length / totalTask) * 100;
-    // update progress bar
-    setProgress(percentage);
-    console.clear();
-    // console.log("totalTask: ", totalTask);
-    // console.log("completed: ", completedTask["tasks"].length);
-    // console.log("percentage: ", percentage);
-  };
-
-  //  completedPecentage();
   // handle delete column
   const handleDeleteColumn = (id) => {
     const columnKeys = Object.keys(columns);
@@ -514,6 +522,8 @@ const TaskBoard = () => {
     // console.log("updatedColumns", result);
     // console.log("columns", columns);
   };
+
+  console.log("openAddList", openAddList);
 
   const loader = <PulseLoader color="#0707a0" size={15} />;
 
@@ -662,13 +672,17 @@ const TaskBoard = () => {
             isLoading={isLoading}
           />
         )}
-        <button
+        {/* <button
           className="add-list"
           onClick={() => setOpenAddList(!openAddList)}
         >
           add list
-        </button>
-        {openAddList && <OverLay action={() => setOpenAddList(!openAddList)} />}
+        </button> */}
+        {openAddList && (
+          <OverLay
+            action={() => setOpenAddList((openAddList) => !openAddList)}
+          />
+        )}
 
         {openAddList && (
           <div className="addListForm">

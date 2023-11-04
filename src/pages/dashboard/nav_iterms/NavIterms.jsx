@@ -73,8 +73,8 @@ const NavIterms = ({
       <div className="tippy" content="view profile">
         <Avatar
           src={picture}
-          googleId={googleId}
           name={username}
+          googleId={googleId}
           size="35"
           round={true}
           onClick={togleProfile}

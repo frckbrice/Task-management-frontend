@@ -111,7 +111,7 @@
   margin-top: 5px;
 }
 
-.add-list {
+/* .add-list {
   background-color: #fff;
   width: 60px;
   height: 60px;
@@ -123,7 +123,6 @@
   text-transform: capitalize;
   color: #fff;
   right: 0;
-  /* transition: all 0.3s ease-in-out; */
 }
 
 .add-list:hover {
@@ -134,7 +133,7 @@
 
 .add-list:active {
   background-color: #0a144a;
-}
+} */
 
 .addListForm {
   z-index: 5;

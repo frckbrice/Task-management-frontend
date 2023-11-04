@@ -52,6 +52,7 @@ const SideNav = () => {
   const [collaborations, setCollaborations] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [active, setActive] = useState(projectList[0]);
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ const SideNav = () => {
     setMembersofProject,
     isLoad,
     setIsLoad,
+    setProgress,
   } = useContext(TmsContext);
   const { token } = useStorage("token");
 
@@ -171,6 +173,7 @@ const SideNav = () => {
   const selectProject = (project) => {
     //send select project to context for sharing
     setSelectedProject(project);
+    // setProgress(0);
     setIsLoad(true);
     setIsLoading(true);
     let data = { id: project.id };
@@ -190,6 +193,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting project Members", err));
+    setActive(project);
   };
 
   return (
@@ -270,12 +274,12 @@ const SideNav = () => {
 
           {projectList?.map((project, index) => (
             <div
-              className="list project-list"
+              className={project === active ? "active" : "project-list"}
               key={index}
               onClick={() => selectProject(project)}
             >
               <p>{project.name}</p>
-              <BsThreeDotsVertical />
+              {/* <BsThreeDotsVertical /> */}
             </div>
           ))}
         </div>

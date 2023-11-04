@@ -51,15 +51,33 @@
   justify-content: space-between;
   align-items: center;
   border: 1px solid #d9d9d9;
-  gap: 20px;
-  margin-bottom: 10px;
-  padding-left: 2px;
+  gap: 5px;
+  margin-bottom: 3px;
+  padding: 2px;
   height: 30px;
   transition: 0.3s ease-in-out;
   border-radius: 3px;
   color: rgb(42, 41, 41);
   /* font-weight: 300; */
   font-size: 12px;
+}
+
+.active {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #d9d9d9;
+  gap: 5px;
+  margin-bottom: 3px;
+  padding: 2px;
+  height: 30px;
+  transition: 0.3s ease-in-out;
+  border-radius: 3px;
+  color: rgb(42, 41, 41);
+  /* font-weight: 300; */
+  font-size: 12px;
+  background-color: #1b34b5;
+  color: white;
 }
 
 .project-list:hover,
@@ -69,16 +87,17 @@
   color: #fff;
 }
 
-.project-list:active {
+/* .project-list:active {
   background-color: #1b34b5;
   color: #fff;
-}
+} */
 
 .project-list p {
   width: 100%;
   overflow: hidden;
   word-wrap: normal;
   text-overflow: unset;
+  font-size: 14px;
 }
 
 .members {

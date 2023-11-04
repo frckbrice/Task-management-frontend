@@ -45,7 +45,7 @@ const Dashboard = () => {
         }
       })
       .catch((err) => console.log("Error getting notifications", err));
-  }, []);
+  }, [token]);
 
   if (picture) setProfilePict(picture);
 
