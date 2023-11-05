@@ -16,6 +16,7 @@ import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
 import ProgressBar from "../progressBar/ProgressBar";
 import PulseLoader from "react-spinners/PulseLoader";
+import useAuth from "../../../hooks/userAuth";
 // custom hook import
 
 const ProjectDetialsBar = () => {
@@ -31,6 +32,8 @@ const ProjectDetialsBar = () => {
 
   console.log({ token });
   console.log({ selectedProject });
+
+  const { username, email, picture } = useAuth();
 
   useEffect(() => {
     setDisabled(false);
@@ -113,6 +116,10 @@ const ProjectDetialsBar = () => {
         <div className="progress-section">
           <h3>{selectedProject.name}</h3>
           <ProgressBar />
+        </div>
+        <div className="author">
+          Working space of{" "}
+          <span className="author">{username || email || picture}</span>
         </div>
         <div className="actionDiv">
           <div className="addMemberBtn">

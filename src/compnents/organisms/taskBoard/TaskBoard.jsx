@@ -262,7 +262,7 @@ const TaskBoard = () => {
   const addTask = useCallback(
     async (e) => {
       e.preventDefault();
-      setIsLoading(true);
+      setIsLoad(true);
       const data = {
         name: taskName,
         description: taskDescription,
@@ -281,7 +281,7 @@ const TaskBoard = () => {
             toast.success("task successfully created");
             console.log("task created", response?.data?.task);
 
-            setIsLoading(false);
+            setIsLoad(false);
 
             const column = columns[currentStatusId];
             setColumns({
@@ -299,7 +299,7 @@ const TaskBoard = () => {
           }
         } catch (err) {
           toast.error("Failed to create a task.");
-          setIsLoading(false);
+          setIsLoad(false);
           console.log(err?.data?.message);
           if (!err.status) {
             setErrMsg("No Server Response");
@@ -535,8 +535,6 @@ const TaskBoard = () => {
         {showAddTask && (
           <div className="add-task">
             <PopupModal onClick={togglePopup} title={`Add new task `}>
-              {isLoading && <PulseLoader color="#0707a0" size={15} />}
-
               <PopupForm
                 inputText="Enter task name"
                 value={taskName}
@@ -548,6 +546,7 @@ const TaskBoard = () => {
                 buttonText="Add Task"
                 onchangeDescription={onchangeDescription}
                 onSubmit={addTask}
+                isLoad={isLoad}
                 disabled={disabled}
                 errClass={errClass}
                 errMsg={errMsg}
@@ -710,6 +709,7 @@ const TaskBoard = () => {
     </>
   );
   return <>{isLoading ? loader : content}</>;
+  // return content;
 };
 
 export default TaskBoard;

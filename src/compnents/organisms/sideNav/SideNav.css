@@ -88,9 +88,34 @@
 }
 
 /* .project-list:active {
-  background-color: #1b34b5;
+  background-color: #1b34b5; 
+  
+  "wl: font-bold font-segoe text-lg text-ctitle  border-t-1 border-gray2 pt-4 pb-3 cursor-pointer"
+
   color: #fff;
 } */
+
+/* pn flex justify-between items-center mb-4 */
+
+.workspace-list {
+  font-weight: normal;
+  margin: 1.3rem 0 0.6rem;
+  font-size: 16px;
+  color: rgb(42, 41, 41);
+  border-bottom: 1px solid #adb0b0;
+  cursor: pointer;
+}
+
+.project-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.list-of-project {
+  margin-top: 0.8rem;
+}
 
 .project-list p {
   width: 100%;

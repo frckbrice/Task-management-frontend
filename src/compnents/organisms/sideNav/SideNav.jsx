@@ -31,9 +31,10 @@ import toast from "react-hot-toast";
 import MemberProfile from "../membersProfile/MemberProfile";
 import { useStorage } from "../../../hooks/useStorage";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
-import { members } from "../../../dummyData";
+// import { members } from "../../../dummyData";
 import PulseLoader from "react-spinners/PulseLoader";
 import { useNavigate } from "react-router-dom";
+import WorkSpace from "./components/workSpace";
 
 const SideNav = () => {
   // create ref
@@ -271,17 +272,22 @@ const SideNav = () => {
               </PopupModal>
             </div>
           )}
-
-          {projectList?.map((project, index) => (
-            <div
-              className={project === active ? "active" : "project-list"}
-              key={index}
-              onClick={() => selectProject(project)}
-            >
-              <p>{project.name}</p>
-              {/* <BsThreeDotsVertical /> */}
-            </div>
-          ))}
+          {/* <div className="list-of-project">
+            {projectList?.map((project, index) => (
+              <div
+                className={project === active ? "active" : "project-list"}
+                key={index}
+                onClick={() => selectProject(project)}
+              >
+                <p>{project.name}</p>
+              </div>
+            ))}
+          </div> */}
+          <WorkSpace
+            projectList={projectList}
+            selectProject={selectProject}
+            active={active}
+          />
         </div>
 
         <div className="members">
