@@ -8,6 +8,7 @@ import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -24,7 +25,8 @@ function Signup() {
   const errorRef = useRef();
 
   const navigate = useNavigate();
-  // const { setUserData } = useContext(TmsContext);
+
+  const { setlsData } = useLocalStorage("currentUser", {});
 
   useEffect(() => {
     userRef.current.focus();
@@ -62,9 +64,14 @@ function Signup() {
               })
               .then((response) => {
                 if (response && response.data) {
-                  console.log("Form submitted successfully!", response.data);
-                  // setUserData(response.data);
-                  navigate("/onboarding"); // navigate to onboarding page
+                  console.log("", response.data);
+
+                  localStorage.setItem(
+                    "currentUser",
+                    JSON.stringify(response.data)
+                  );
+
+                  navigate("/onboarding");
                   setIsLoading(false);
                 }
                 setUsername("");
@@ -74,23 +81,22 @@ function Signup() {
               })
               .catch((err) => {
                 console.log("error registering a user", err);
-
-                 if (!err.response.status) {
-                   setErrMsg("No Server Response");
-                 } else if (err.response.status === 400) {
-                   setErrMsg("Missing Username or Password");
-                 } else if (err.response.status === 401) {
-                   setErrMsg("Unauthorized");
-                 } else if (err.response.status === 403) {
-                   setErrMsg("Forbidden");
-                 } else if (err.response.status === 409) {
-                   setErrMsg("This email already exist");
-                 } else {
-                   setErrMsg(err.data?.message);
-                   console.error(err.response.data?.message);
-                 }
+                if (!err.response.status) {
+                  setErrMsg("No Server Response");
+                } else if (err.response.status === 400) {
+                  setErrMsg("Missing Username or Password");
+                } else if (err.response.status === 401) {
+                  setErrMsg("Unauthorized");
+                } else if (err.response.status === 403) {
+                  setErrMsg("Forbidden");
+                } else if (err.response.status === 409) {
+                  setErrMsg("This email already exist");
+                } else {
+                  setErrMsg(err.data?.message);
+                  console.error(err.response.data?.message);
+                }
               })
-              .finally(() => setIsLoading(false));;
+              .finally(() => setIsLoading(false));
           })
           .catch((err) => console.log("error fetching user from google", err));
       }
@@ -120,12 +126,16 @@ function Signup() {
             .post("/auth/register", data, {
               headers: conf.headers,
             })
-            .then((res) => {
-              if (res && res.data) {
+            .then((response) => {
+              if (response && response.data) {
                 console.log("Form submitted successfully!");
-                // setUserData(res.data);
-                navigate("/login"); // navigate to onboarding page
-                
+                console.log("registered user  ", response.data);
+
+                localStorage.setItem(
+                  "currentUser",
+                  JSON.stringify(response.data)
+                );
+                navigate("/onboarding"); // navigate to onboarding page
               }
               setUsername("");
               setPassword("");

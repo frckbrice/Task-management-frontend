@@ -10,7 +10,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { conf, server } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 import toast from "react-hot-toast";
-import usePersist from "../../hooks/usePersist";
+import jwtDecode from "jwt-decode";
 import { useStorage } from "../../hooks/useStorage";
 
 // import Task from "../onboarding/task";
@@ -76,9 +76,9 @@ function Login() {
                 .then((resp) => {
                   if (resp && resp.data) {
                     console.log("registered data: ", resp.data);
-
+                    const email = resp.data.email;
                     let data = {
-                      email: resp.data,
+                      email,
                     };
                     server
                       .post(
@@ -104,10 +104,23 @@ function Login() {
                             response.data
                           );
                           toast.success("User successfully logged in");
-                          setStorToken(response.data.accessToken);
 
-                          setlsData(response.data.refreshToken);
-                          navigate("/onboarding");
+                          localStorage.setItem(
+                            "token",
+                            JSON.stringify(response.data.accessToken)
+                          );
+                          localStorage.setItem(
+                            "refreshToken",
+                            JSON.stringify(response.data.refreshToken)
+                          );
+                          const currentUser = jwtDecode(
+                            response.data.accessToken
+                          );
+                          localStorage.setItem(
+                            "currentUser",
+                            JSON.stringify(currentUser.userInfo)
+                          );
+                          navigate("/dashboard");
                           setIsLoading(false);
                           // navigate to onboarding page
                         }
@@ -184,12 +197,24 @@ function Login() {
             }
           )
           .then((res) => {
-            if (res && res.data && res.status === (200 || 201)) {
+            if (res && res.data) {
               setMove(true);
               console.log("Login successful!", res.data);
-              setStorToken(res.data.accessToken);
-              setlsData(res.data.refreshToken);
-              navigate("/onboarding"); // navigate to onboarding page
+
+              localStorage.setItem(
+                "token",
+                JSON.stringify(res.data.accessToken)
+              );
+              localStorage.setItem(
+                "refreshToken",
+                JSON.stringify(res.data.refreshToken)
+              );
+              const currentUser = jwtDecode(res.data.accessToken);
+              localStorage.setItem(
+                "currentUser",
+                JSON.stringify(currentUser.userInfo)
+              );
+              navigate("/dashboard"); // navigate to onboarding page
               setIsLoading(false);
             }
             setEmail("");
@@ -231,17 +256,30 @@ function Login() {
   const errClass = errMsg ? "mgs" : "offscreen";
 
   if (isLoading) {
-    return (content = (
+    content = (
       <div className="loading">
         <PulseLoader color="#0707a0" size={26} />
       </div>
-    ));
+    );
   } else {
     content = (
       <div className="allForm">
         <NavBar />
 
         <div className="formlogin">
+          <div className="loginImg">
+            <h3 className="loginImgTxt">Don't have an Account...?</h3>
+            <br />
+            <button
+              type="submit"
+              className="signbtn"
+              onClick={() => {
+                navigate("/signup");
+              }}
+            >
+              Signup
+            </button>
+          </div>
           <form className="loginform" onSubmit={handleSubmit}>
             <p ref={errorRef} className={errClass} aria-live="assertive">
               {errMsg}
@@ -304,20 +342,6 @@ function Login() {
               </button>
             </div>
           </form>
-
-          <div className="loginImg">
-            <h3 className="loginImgTxt">Don't have an Account...?</h3>
-            <br />
-            <button
-              type="submit"
-              className="signbtn"
-              onClick={() => {
-                navigate("/signup");
-              }}
-            >
-              Signup
-            </button>
-          </div>
         </div>
       </div>
     );

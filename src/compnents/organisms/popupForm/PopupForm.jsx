@@ -1,7 +1,7 @@
 import React, { memo, useContext, useState, useRef } from "react";
 
 import "./PopupForm.css";
-
+import PulseLoader from "react-spinners/PulseLoader";
 
 const PopupForm = ({
   inputText,
@@ -17,15 +17,15 @@ const PopupForm = ({
   disabled,
   errClass,
   errMsg,
+  isLoad,
 }) => {
   const errorRef = useRef();
-
- 
 
   return (
     <div>
       {/* <form className="popup-form" onSubmit={handleInvite}> */}
       <form className="popup-form" onSubmit={onSubmit}>
+        {isLoad && <PulseLoader color="#0707a0" size={15} />}
         <p ref={errorRef} className={errClass} aria-live="assertive">
           {errMsg}
         </p>

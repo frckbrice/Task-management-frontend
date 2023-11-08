@@ -31,8 +31,10 @@ import toast from "react-hot-toast";
 import MemberProfile from "../membersProfile/MemberProfile";
 import { useStorage } from "../../../hooks/useStorage";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
-import { members } from "../../../dummyData";
+// import { members } from "../../../dummyData";
 import PulseLoader from "react-spinners/PulseLoader";
+import { useNavigate } from "react-router-dom";
+import WorkSpace from "./components/workSpace";
 
 const SideNav = () => {
   // create ref
@@ -51,8 +53,10 @@ const SideNav = () => {
   const [collaborations, setCollaborations] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [active, setActive] = useState(projectList[0]);
 
   const { lsData, setlsData } = useLocalStorage("collaborations");
+  const navigate = useNavigate();
 
   const {
     setProjectData,
@@ -60,15 +64,17 @@ const SideNav = () => {
     setMembersofProject,
     isLoad,
     setIsLoad,
+    setProgress,
   } = useContext(TmsContext);
   const { token } = useStorage("token");
 
-  // console.log({ token, setProjectData });
-
-  // console.log("collaborations", collaborations);
   useEffect(() => {
     setDisabled(false);
-  }, [isLoad]);
+    if (!token) {
+      alert("Need to login first");
+      navigate("/login");
+    }
+  }, [isLoad, token, navigate]);
 
   useEffect(() => {
     const fetchProjects = () => {
@@ -109,7 +115,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting projects", err));
-  }, [token, serverInterceptor,lsData, setlsData]);
+  }, [token, serverInterceptor, lsData, setlsData]);
 
   const handleClick = () => {
     setIsModalOpen(!isModalOpen);
@@ -138,12 +144,16 @@ const SideNav = () => {
           },
         });
         console.log(response);
-        if (response && response.status === 201) {
+        if (response && response.data) {
           toast.success("project successfully created");
           setProjectData(response.data.data);
           setProjectList((prev) => [...prev, response.data.data]);
           setNewdata(true);
           setIsLoading(false);
+          // window.location.reload()
+          setProjectName("");
+          setTeamName("");
+          setProjectDescription("");
         }
       } catch (error) {
         toast.error("Failed to create project.");
@@ -164,8 +174,9 @@ const SideNav = () => {
   const selectProject = (project) => {
     //send select project to context for sharing
     setSelectedProject(project);
+    // setProgress(0);
     setIsLoad(true);
-   setIsLoading(true);
+    setIsLoading(true);
     let data = { id: project.id };
     serverInterceptor
       .post("projects/members", data, {
@@ -183,6 +194,7 @@ const SideNav = () => {
         }
       })
       .catch((err) => console.log("Error getting project Members", err));
+    setActive(project);
   };
 
   return (
@@ -260,17 +272,22 @@ const SideNav = () => {
               </PopupModal>
             </div>
           )}
-
-          {projectList?.map((project, index) => (
-            <div
-              className="list project-list"
-              key={index}
-              onClick={() => selectProject(project)}
-            >
-              <p>{project.name}</p>
-              <BsThreeDotsVertical />
-            </div>
-          ))}
+          {/* <div className="list-of-project">
+            {projectList?.map((project, index) => (
+              <div
+                className={project === active ? "active" : "project-list"}
+                key={index}
+                onClick={() => selectProject(project)}
+              >
+                <p>{project.name}</p>
+              </div>
+            ))}
+          </div> */}
+          <WorkSpace
+            projectList={projectList}
+            selectProject={selectProject}
+            active={active}
+          />
         </div>
 
         <div className="members">

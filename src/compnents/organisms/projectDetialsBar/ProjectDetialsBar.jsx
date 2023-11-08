@@ -16,6 +16,7 @@ import PopupForm from "../popupForm/PopupForm";
 import OverLay from "../../atoms/overlay/OverLay";
 import ProgressBar from "../progressBar/ProgressBar";
 import PulseLoader from "react-spinners/PulseLoader";
+import useAuth from "../../../hooks/userAuth";
 // custom hook import
 
 const ProjectDetialsBar = () => {
@@ -24,12 +25,15 @@ const ProjectDetialsBar = () => {
   const [errMsg, setErrMsg] = useState("");
   const [emailDescription, setEmailDescription] = useState("");
   const [disabled, setDisabled] = useState(false);
-   const [isLoading, setIsLoading] = useState(false);
-  const { selectedProject, isLoad } = useContext(TmsContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const { selectedProject, openAddList, setOpenAddList } =
+    useContext(TmsContext);
   const { token } = useStorage("token");
 
   console.log({ token });
   console.log({ selectedProject });
+
+  const { username, email, picture } = useAuth();
 
   useEffect(() => {
     setDisabled(false);
@@ -43,7 +47,7 @@ const ProjectDetialsBar = () => {
   const handleInvite = useCallback(
     async (e) => {
       e.preventDefault();
-      setErrMsg('');
+      setErrMsg("");
       setDisabled(true);
       setIsLoading(true);
       // const emailContent = `${conf.clientbaseURL}/`;
@@ -65,10 +69,10 @@ const ProjectDetialsBar = () => {
           });
           if (response && response.data && response.status === (200 || 201)) {
             toast.success("invitation successfully sent");
-           setIsLoading(false);
+            setIsLoading(false);
           }
         } catch (err) {
-          // console.log("error sending invitation",   error?.data?.message); 
+          // console.log("error sending invitation",   error?.data?.message);
           setIsLoading(false);
 
           console.log("error sending invitation", err);
@@ -89,7 +93,7 @@ const ProjectDetialsBar = () => {
       } else {
         console.log("no token, cannot proceed");
         toast.error("Login before inviting members");
-         setIsLoading(false);
+        setIsLoading(false);
       }
     },
     [emailDescription, emails, selectedProject?.id, token]
@@ -113,14 +117,27 @@ const ProjectDetialsBar = () => {
           <h3>{selectedProject.name}</h3>
           <ProgressBar />
         </div>
-       
-        <div className="addMemberBtn">
-          <DashActionBtn onClick={closePopup}>
-            <span>
-              <BsPersonAdd />
-            </span>
-            Add Members
-          </DashActionBtn>
+        <div className="author">
+          Working space of{" "}
+          <span className="author">{username || email || picture}</span>
+        </div>
+        <div className="actionDiv">
+          <div className="addMemberBtn">
+            <DashActionBtn onClick={closePopup}>
+              <span>
+                <BsPersonAdd />
+              </span>
+              Add Members
+            </DashActionBtn>
+          </div>
+          <div>
+            <button
+              className="add-listp"
+              onClick={() => setOpenAddList((openAddList) => !openAddList)}
+            >
+              add list
+            </button>
+          </div>
         </div>
       </div>
       {showPopup && (

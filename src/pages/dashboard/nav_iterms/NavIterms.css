@@ -7,6 +7,7 @@
   gap: 20px;
   font-family: poppins;
   position: relative;
+  padding: 0 1.2rem;
 }
 
 .NavIterms form {
@@ -99,7 +100,6 @@
   right: 0;
   position: fixed;
   z-index: 5;
-  background-color: red;
 }
 
 .profile {
@@ -136,6 +136,7 @@
   border: 1px solid #d3d3d3;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   color: #000;
+  border-radius: 50%;
 }
 
 /* *******notification section****** */

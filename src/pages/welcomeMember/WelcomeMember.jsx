@@ -50,10 +50,7 @@ function WelcomeMember() {
         if (response && response.data) {
           setMove(true);
           console.log(response.data);
-          if(response.data.location) {
-            // setMove(true)
-            navigate(response.data.location);
-          }
+         
           setContact("");
           setName("");
           setSkills("");

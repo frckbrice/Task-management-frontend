@@ -2,9 +2,12 @@ import React, { useState, useContext } from "react";
 import "./ProgressBar.css";
 // project progress context import
 import { ProgressContext } from "../../../context/ProgressContext";
+import { TmsContext } from "../../../context/TaskBoardContext";
 
 const ProgressBar = () => {
   const { progress } = useContext(ProgressContext);
+
+  console.log("progress", progress);
 
   const getColor = () => {
     if (progress < 40) {

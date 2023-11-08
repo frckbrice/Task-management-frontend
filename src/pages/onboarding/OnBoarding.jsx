@@ -36,7 +36,7 @@ function OnBoarding() {
   const location = useLocation();
   const { username } = userAuth();
 
-  const serverInterceptor = useServerInterceptor();
+  // const serverInterceptor = useServerInterceptor();
 
   if (projectData) console.log({ projectId: projectData });
 
@@ -63,46 +63,49 @@ function OnBoarding() {
       description: taskDescription,
       projectId: projectData?.id,
     };
-    if (token) {
-      try {
-        const response = await serverInterceptor.post(
-          "/tasks/onboarding",
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Access-Control-Allow-Credentials": true,
-              Accept: "application/json",
-            },
-          }
-        );
-        if (response && response.data && response.status === (200 || 201)) {
-          toast.success("task successfully created");
-          setTaskdata(response.data.data);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        toast.error("Failed to create a task.");
-        setIsLoading(false);
-        console.log(err?.data?.message);
-        if (!err.status) {
-          setErrMsg("No Server Response");
-        } else if (err.status === 400) {
-          setErrMsg("Missing Username or Password");
-        } else if (err.status === 401) {
-          setErrMsg("Unauthorized");
-        } else if (err.status === 403) {
-          setErrMsg("Forbidden");
-        } else {
-          setErrMsg(err.data?.message);
-          console.error(err.data?.message);
-        }
-      }
-    } else {
-      console.log("no token, can not proceed");
-      toast.error("Failed to create a task.");
-      setIsLoading(false);
-    }
+
+    setProjectData(() => (projectData.onBoardingTask = data));
+    toast.success("invitation successfully sent");
+    // if (token) {
+    //   try {
+    //     const response = await serverInterceptor.post(
+    //       "/tasks/onboarding",
+    //       data,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${token}`,
+    //           "Access-Control-Allow-Credentials": true,
+    //           Accept: "application/json",
+    //         },
+    //       }
+    //     );
+    //     if (response && response.data && response.status === (200 || 201)) {
+    //       toast.success("task successfully created");
+    //       setTaskdata(response.data.data);
+    //       setIsLoading(false);
+    //     }
+    //   } catch (err) {
+    //     toast.error("Failed to create a task.");
+    //     setIsLoading(false);
+    //     console.log(err?.data?.message);
+    //     if (!err.status) {
+    //       setErrMsg("No Server Response");
+    //     } else if (err.status === 400) {
+    //       setErrMsg("Missing Username or Password");
+    //     } else if (err.status === 401) {
+    //       setErrMsg("Unauthorized");
+    //     } else if (err.status === 403) {
+    //       setErrMsg("Forbidden");
+    //     } else {
+    //       setErrMsg(err.data?.message);
+    //       console.error(err.data?.message);
+    //     }
+    //   }
+    // } else {
+    //   console.log("no token, can not proceed");
+    //   toast.error("Failed to create a task.");
+    //   setIsLoading(false);
+    // }
   };
 
   //*create project
@@ -116,43 +119,45 @@ function OnBoarding() {
       teamName,
     };
 
-    if (token) {
-      try {
-        const response = await serverInterceptor.post("/projects", data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Access-Control-Allow-Credentials": true,
-            Accept: "application/json",
-          },
-        });
-        console.log(response);
-        if (response && response.data.data) {
-          toast.success("project successfully created");
-          setProjectData(response.data.data);
-          // setIsLoading(false);
-        }
-      } catch (err) {
-        toast.error("Failed to create project.");
-        console.log(err?.data?.message);
-        if (!err.status) {
-          setErrMsg("No Server Response");
-        } else if (err.status === 400) {
-          setErrMsg("Missing Username or Password");
-        } else if (err.status === 401) {
-          setErrMsg("Unauthorized");
-        } else if (err.status === 403) {
-          setErrMsg("Forbidden");
-        } else {
-          setErrMsg(err.data?.message);
-          console.error(err.data?.message);
-        }
-        setIsLoading(false);
-      }
-    } else {
-      console.log("no token, cannot proceed");
-      setMove(false);
-      setIsLoading(false);
-    }
+    setProjectData(data);
+    toast.success("invitation successfully sent");
+    // if (token) {
+    //   try {
+    //     const response = await serverInterceptor.post("/projects", data, {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         "Access-Control-Allow-Credentials": true,
+    //         Accept: "application/json",
+    //       },
+    //     });
+    //     console.log(response);
+    //     if (response && response.data.data) {
+    //       toast.success("project successfully created");
+    //       setProjectData(response.data.data);
+    //       // setIsLoading(false);
+    //     }
+    //   } catch (err) {
+    //     toast.error("Failed to create project.");
+    //     console.log(err?.data?.message);
+    //     if (!err.status) {
+    //       setErrMsg("No Server Response");
+    //     } else if (err.status === 400) {
+    //       setErrMsg("Missing Username or Password");
+    //     } else if (err.status === 401) {
+    //       setErrMsg("Unauthorized");
+    //     } else if (err.status === 403) {
+    //       setErrMsg("Forbidden");
+    //     } else {
+    //       setErrMsg(err.data?.message);
+    //       console.error(err.data?.message);
+    //     }
+    //     setIsLoading(false);
+    //   }
+    // } else {
+    //   console.log("no token, cannot proceed");
+    //   setMove(false);
+    //   setIsLoading(false);
+    // }
   };
 
   //*send invitation
@@ -166,37 +171,40 @@ function OnBoarding() {
       emails: inviteEmail, //need to create a list of invitees email
       emailContent,
     };
-    try {
-      const response = await serverInterceptor.post("/invitation", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Access-Control-Allow-Credentials": true,
-          Accept: "application/json",
-        },
-      });
 
-      if (response && response.status === 200) {
-        setIsLoading(false);
-        toast.success("invitation successfully sent");
-      }
-    } catch (err) {
-      toast.error("Failed to send an invite.");
-      console.log(err?.data?.message);
-      setMove(false);
-      setIsLoading(false);
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.status === 401) {
-        setErrMsg("Unauthorized");
-      } else if (err.status === 403) {
-        setErrMsg("Forbidden");
-      } else {
-        setErrMsg(err.data?.message);
-        console.error(err.data?.message);
-      }
-    }
+    setProjectData(() => (projectData.invitation = data));
+    toast.success("invitation successfully sent");
+    // try {
+    //   const response = await serverInterceptor.post("/invitation", data, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "Access-Control-Allow-Credentials": true,
+    //       Accept: "application/json",
+    //     },
+    //   });
+
+    //   if (response && response.status === 200) {
+    //     setIsLoading(false);
+    //     toast.success("invitation successfully sent");
+    //   }
+    // } catch (err) {
+    //   toast.error("Failed to send an invite.");
+    //   console.log(err?.data?.message);
+    //   setMove(false);
+    //   setIsLoading(false);
+    //   if (!err.status) {
+    //     setErrMsg("No Server Response");
+    //   } else if (err.status === 400) {
+    //     setErrMsg("Missing Username or Password");
+    //   } else if (err.status === 401) {
+    //     setErrMsg("Unauthorized");
+    //   } else if (err.status === 403) {
+    //     setErrMsg("Forbidden");
+    //   } else {
+    //     setErrMsg(err.data?.message);
+    //     console.error(err.data?.message);
+    //   }
+    // }
   };
 
   const errClass = errMsg ? "mgs" : "offscreen";
@@ -235,7 +243,7 @@ function OnBoarding() {
 
       {currentStep === 1 && (
         <div className="create-project">
-          <h2 className="createH2">Create your first project</h2>
+          <h2 className="createH2">Create a demo project</h2>
           <p className="createP">
             Input the name of your project and describe the purpose of that
             project.
@@ -309,8 +317,12 @@ function OnBoarding() {
             {errMsg && <p className={errClass}>{errMsg}</p>}
           </div>
           <div className="projectBtns Btns">
-            <button onClick={handlePrev}>Prev</button>
-            <button onClick={handleNext}>Next</button>
+            <button onClick={handlePrev} className="btnNextPrev">
+              Prev
+            </button>
+            <button onClick={handleNext} className="btnNextPrev">
+              Next
+            </button>
           </div>
         </div>
       )}
@@ -319,26 +331,30 @@ function OnBoarding() {
         <div className="create-task">
           <h2 className="crtTaskHead">Create tasks</h2>
           <p>
-            Divide Your Project into tasks or assign the project to a member if
-            it can be handled by just one person
+            Divide Your Project into tasks and assign it to a project member.
           </p>
           <h4> status: Backlogs</h4>
-          <input
-            type="text"
-            id="taskinput"
-            className="forminput"
-            value={taskName}
-            onChange={(e) => setTaskName(e.target.value)}
-          />{" "}
-          <button className="addtaskBtn" onClick={addTask}>
-            Add Task
-          </button>
+          <div className="createTask">
+            <input
+              type="text"
+              id="taskinput"
+              className="forminput"
+              placeholder="add task name"
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+            />
+            <button className="addtaskBtn" onClick={addTask}>
+              Add Task
+            </button>
+          </div>
           <br />
           <textarea
             name="task decription"
             cols="30"
             id="taskfield"
+            placeholder="add task description"
             rows="3"
+            className="taskDescription"
             value={taskDescription}
             onChange={(e) => setTaskDescription(e.target.value)}
           />
@@ -367,6 +383,7 @@ function OnBoarding() {
               id="invitemember"
               name="invitemember"
               placeholder="add email address"
+              className="invitationInput"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
             />
@@ -376,16 +393,20 @@ function OnBoarding() {
             {errMsg && <p className={errClass}>{errMsg}</p>}
           </div>
           <div className="inviteBtns Btns">
-            <button onClick={handlePrev}>Prev</button>
-            <button onClick={handleNext}>Next</button>
+            <button onClick={handlePrev} className="btnNextPrev">
+              Prev
+            </button>
+            <button onClick={handleNext} className="btnNextPrev">
+              Next
+            </button>
           </div>
         </div>
       )}
 
       {currentStep === 4 && (
         <div className="congratulation">
-          <h1 className="congratH1">Congratulations! "daisy"</h1>
-          <h3>You have successfully created your first project on Tasktrec</h3>
+          <h3 className="congratH1">Congratulations!</h3>
+          <h4>You have successfully created your first project on Tasktrec</h4>
           <p className="congratP">
             Explore more fields on your workspace like Project progress,
             sharing, and generating reports.

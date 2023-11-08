@@ -3,44 +3,57 @@ import { IoMdNotifications } from "react-icons/io";
 
 // import Tippy from "@tippyjs/react";
 // import "tippy.js/dist/tippy.css";
-
+import Avatar from "react-avatar";
 import "./NavIterms.css";
 import PopupModal from "../../../compnents/molecules/popupModal/PopupModal";
-import OverLay from "../../../compnents/atoms/overlay/OverLay";
+// import OverLay from "../../../compnents/atoms/overlay/OverLay";
 import { useNavigate } from "react-router-dom";
-import { TmsContext } from "../../../context/TaskBoardContext";
+// import { TmsContext } from "../../../context/TaskBoardContext";
 import { serverInterceptor } from "../../../config";
+import useAuth from "../../../hooks/userAuth";
+import { useStorage } from "../../../hooks/useStorage";
 
-const NavIterms = ({ profilePicture, children, togleProfile }) => {
+const NavIterms = ({
+  profilePicture,
+  children,
+  togleProfile,
+  invitationList,
+}) => {
   const [isNotiOpen, setIsNotiOpen] = useState(false);
+  // const [invitationList, setInvitationList] = useState([]);
+  // const { token } = useStorage("token");
 
-  const [invitationList, setInvitationList] = useState([]);
-
-  useEffect(() => {
-    serverInterceptor
-      .get("/invitations/notifications", {
-        headers: {
-          Accept: "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      })
-      .then((resp) => {
-        if (resp && resp?.data && resp.data.invitations.length) {
-          setInvitationList(resp.data.invitations);
-        }
-      })
-      .catch((err) => console.log("Error getting notifications", err));
-  }, []);
+  // useEffect(() => {
+  //   serverInterceptor
+  //     .get("/invitations/notifications", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         Accept: "application/json",
+  //         "Access-Control-Allow-Credentials": true,
+  //       },
+  //     })
+  //     .then((resp) => {
+  //       if (resp && resp?.data) {
+  //         console.log("Notifications", resp?.data);
+  //         // setInvitationList(resp.data.invitations);
+  //       }
+  //     })
+  //     .catch((err) => console.log("Error getting notifications", err));
+  // }, []);
 
   const handleDecline = (id) => {
-    setInvitationList(
-      invitationList?.filter((invitation) => invitation.id === id)
+    // setInvitationList(() =>
+    invitationList = invitationList?.filter(
+      (invitation) => invitation.id !== id
     );
+    // );
   };
 
   const handleNotify = () => {
     setIsNotiOpen(!isNotiOpen);
   };
+
+  const { googleId, picture, username } = useAuth();
 
   return (
     <div className="NavIterms">
@@ -50,16 +63,20 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
       </form>
       <div className="tippy" followcursor={true} content="view notification">
         <button onClick={handleNotify} className="icon-button">
-          <IoMdNotifications />
+          <IoMdNotifications
+            className={invitationList.length ? "notified" : ""}
+          />
           <span className="icon-button__badge">5+</span>
         </button>
       </div>
 
       <div className="tippy" content="view profile">
-        <img
-          src={profilePicture}
-          alt=""
-          className="profile-avatar"
+        <Avatar
+          src={picture}
+          name={username}
+          googleId={googleId}
+          size="35"
+          round={true}
           onClick={togleProfile}
         />
       </div>
@@ -72,6 +89,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
                 <Notifications
                   invitationId={invitation.id}
                   project={invitation.project}
+                  username={username}
                   declineInvite={() => handleDecline(invitation.id)}
                 />
               </div>
@@ -83,7 +101,7 @@ const NavIterms = ({ profilePicture, children, togleProfile }) => {
   );
 };
 
-const Notifications = ({ invitationId, project, declineInvite }) => {
+const Notifications = ({ invitationId, project, declineInvite, username }) => {
   const navigate = useNavigate();
   const handleInvite = () => {
     navigate(`/invitation/${invitationId}`);
@@ -92,7 +110,7 @@ const Notifications = ({ invitationId, project, declineInvite }) => {
   return (
     <div className="notification-card">
       <div className="noti-header">
-        <h3>James</h3>
+        <h3>{username}</h3>
         <div className="notiBTN">
           <button className="decline" onClick={declineInvite}>
             Decline

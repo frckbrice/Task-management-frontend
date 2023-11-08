@@ -1,11 +1,11 @@
 import { serverInterceptor } from "../config";
 import useRefreshToken from "./useRefreshToken";
-import {useEffect } from "react";
+import { useEffect } from "react";
 import { useStorage } from "./useStorage";
 
 const useServerInterceptor = () => {
   const refresh = useRefreshToken();
-  const { token } = useStorage('token');
+  const { token } = useStorage("token");
 
   useEffect(() => {
     const reqIntercept = serverInterceptor.interceptors.request.use(
@@ -22,11 +22,9 @@ const useServerInterceptor = () => {
     const resIntercept = serverInterceptor.interceptors.response.use(
       (response) => response,
       async (error) => {
-        console.log("\n in the axios response error ");
+        console.log("\n in the axios response error:  ", error.response);
 
         const prevRequest = error?.config;
-        console.log("\n before requesting a refresh token");
-        // console.log({ prevRequestSENT: prevRequest});
 
         if (error?.response?.status === 403 && !prevRequest?.sent) {
           console.log("\n we are requesting a refresh token");
