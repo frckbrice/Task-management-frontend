@@ -31,8 +31,6 @@ function Login() {
   const [move, setMove] = useState(false);
 
   const { setProfilePict } = useContext(TmsContext);
-  const { setlsData } = useLocalStorage("setRefreshToken", " ");
-  const { setStorToken } = useStorage("token", " ");
 
   useEffect(() => {
     // userRef.current.focus();
