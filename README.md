@@ -21,6 +21,7 @@ The aims also to display statistic about all the work done within the project fr
 
 ![home](/src/assets/tasktrec_home.png)
 ![dashboard](/src/assets/tasktrec_dashboard.png)
+![workspace](/src/assets/dashbordproject.png)
 
 ## Build with
 This project was built using the following technologies;
