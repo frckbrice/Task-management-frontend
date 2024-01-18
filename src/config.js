@@ -14,7 +14,6 @@ export const serverInterceptor = axios.create({
   // baseURL: "http://localhost:5000",
   headers: {
     Accept: "application/json",
-    // "Access-Control-Allow-Origin": "http://localhost:3000",
   },
   withCredentials: true,
 });
