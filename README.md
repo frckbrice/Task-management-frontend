@@ -19,8 +19,8 @@ The aims also to display statistic about all the work done within the project fr
 
 ## App
 
-![home](./assets/tasktrec_home.png)
-![dashboard](./assets/tasktrec_dashboard.png)
+![home](/src/assets/tasktrec_home.png)
+![dashboard](/src/assets/tasktrec_dashboard.png)
 
 ## Build with
 This project was built using the following technologies;
