@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { TmsContext } from "../../context/TaskBoardContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { conf, server } from "../../config";
+import { conf, server,client } from "../../config";
 import PulseLoader from "react-spinners/PulseLoader";
 import toast from "react-hot-toast";
 import jwtDecode from "jwt-decode";
@@ -43,6 +43,12 @@ function Login() {
     setErrMsg("");
   }, [email, password]);
 
+
+console.log("server: ", server);
+  console.log("client: ", client);
+  console.log("conf: ", conf);
+
+  
   let content;
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
