@@ -4,6 +4,10 @@ export const client = axios.create({
   baseURL: process.env.REACT_APP_FRONTEND_ADDRESS,
 });
 
+console.log("url backend: ", process.env.REACT_APP_BACKEND_ADDRESS);
+console.log("url frontend: ", process.env.REACT_APP_FRONTEND_ADDRESS);
+console.log("url googleapis: ", process.env.REACT_APP_GOOGLEAPIS);
+
 export const server = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_ADDRESS,
   // baseURL: "http://localhost:5001",
