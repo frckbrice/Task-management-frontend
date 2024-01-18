@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+# Welcome to TMS-app (Task Management System Application)
+This document outlines the structure, setup and functionalities of Tasktrec app. It's is designed for developpers, contributors and users to understand the project and how it works.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Overview
+Name: tasktrec-app
 
-## Available Scripts
+**Description**: An online Application that manage processes and transactions involved in the monitoring and recording updates in a project.
 
-In the project directory, you can run:
+**Target audience**: Developers, programmers, students, and anyone interested in learning and practicing coding.
+**Tech stack**: Full stack application.
 
-### `npm start`
+## About
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This app help project manager to create a project, divide the project into tasks and assigns status to those tasks. The project manager is able within the app
+to invite member via email. The member can join the app via a link sent in the email. Once accepting the terms and registering, he can now signin to the app.
+The project manager can assign task to the member(s). monitor the progress of the task (and the project); he can set a task as "done" and also set project as "finished". and then start a new project.
+The aims also to display statistic about all the work done within the project from the begining.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## App
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![home](./assets/tasktrec_home.png)
+![dashboard](./assets/tasktrec_dashboard.png)
 
-### `npm run build`
+## Build with
+This project was built using the following technologies;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Frontend: ReactJs with JavaScript
+Backend: ExpressJs with NodeJs, JavaScript and Sequelize-ORM
+Database: MySQL
+Assets: Storing images, icons, and other static files
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Knowledge about JS:
 
-### `npm run eject`
+- Basic data structures
+- Arrays
+- Functions
+- Constructors
+- Knowledge of webpack (optional)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Clone project
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- To get a local copy up and running follow these simple example steps.
+- Clone this repository with `git@github.com:frckbrice/TMS-app-frontend.git` using your terminal or command line.
+- Change to the project directory by entering: cd frontend-tasktrec in the terminal.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Command line steps
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- $ git clone `$ git@github.com:frckbrice/TMS-app-frontend.git`
+- $ `cd frontend-tasktrec `
+- $ `git checkout feature/[name_of_the _feature]
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Setup and installation:
+Install dependencies: Use the following command line tool to install required libraries and frameworks;
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Start App
 
-### Code Splitting
+- run `npm install`
+- run `npm run start` or `npm start` in your command line
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+# Key functionalities
+- Create Project by the project manager
+- divide project into tasks by the project manager
+- invite members
+-  When a member join the project, assign task to a member
+-  monitor the progresses and updates of the task made by the member of the project.
+-  update the task status ("todo", "in progress", "ready to review", "done"). there possibility to add statuses.
+-  set the task as "done" of the project as "finished/ended"
+-  receive notification for the invite for the member already in the system
+-  update profile info for the user of the app
+-  see projects created, projects in which you are involved
+  
+## Live Site
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+[Link](https://tms-app-frontend.vercel.app)
 
-### Making a Progressive Web App
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+👤 **avom Brice**
 
-### Advanced Configuration
+- GitHub: [@frckbrice](https://github.com/frckbrice)
+- Twitter: [@johndoe](https://twitter.com/evaristeavom)
+- LinkedIn: [John Doe](https://www.linkedin.com/in/avom-brice/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🤝 Contributing
 
-### Deployment
+Contributions, issues, and feature requests are welcome!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Feel free to check the [issues page](link to issue page on GitHub).
 
-### `npm run build` fails to minify
+## Show your support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Give a ⭐️ if you like this project!
+
+## 📝 License (optional)
+
+This project is [MIT](./LICENSE) licensed.
+
