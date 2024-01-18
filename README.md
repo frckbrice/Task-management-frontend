@@ -76,4 +76,26 @@ Install dependencies: Use the following command line tool to install required li
   
 ## Live Site
 
-[Link](https://unruffled-euler-e01838.netlify.app/)
+[Link](https://tms-app-frontend.vercel.app)
+
+## Author
+
+👤 **avom Brice**
+- GitHub: [@frckbrice](https://github.com/frckbrice)
+- Twitter: [@johndoe](https://twitter.com/evaristeavom)
+- LinkedIn: [John Doe](https://www.linkedin.com/in/avom-brice/)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](link to issue page on GitHub).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## 📝 License (optional)
+
+This project is [MIT](./LICENSE) licensed.
+
