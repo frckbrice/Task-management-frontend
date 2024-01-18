@@ -4,10 +4,10 @@ This document outlines the structure, setup and functionalities of Tasktrec app.
 # Project Overview
 Name: tasktrec-app
 
-Description: An online Application that manage processes and transactions involved in the monitoring and recording updates in a project.
+**Description**: An online Application that manage processes and transactions involved in the monitoring and recording updates in a project.
 
-Target audience: Developers, programmers, students, and anyone interested in learning and practicing coding.
-Tech stack: Full stack application.
+**Target audience**: Developers, programmers, students, and anyone interested in learning and practicing coding.
+**Tech stack**: Full stack application.
 
 ## About
 
@@ -81,6 +81,7 @@ Install dependencies: Use the following command line tool to install required li
 ## Author
 
 👤 **avom Brice**
+
 - GitHub: [@frckbrice](https://github.com/frckbrice)
 - Twitter: [@johndoe](https://twitter.com/evaristeavom)
 - LinkedIn: [John Doe](https://www.linkedin.com/in/avom-brice/)
