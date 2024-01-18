@@ -43,27 +43,37 @@ Knowledge about JS:
 ## Clone project
 
 - To get a local copy up and running follow these simple example steps.
-- Clone this repository with `https://github.com/nganifaith/JS_Capstone-RPG-Phaser.git` using your terminal or command line.
-- Change to the project directory by entering: cd JS_Capstone-RPG-Phaser in the terminal.
+- Clone this repository with `git@github.com:frckbrice/TMS-app-frontend.git` using your terminal or command line.
+- Change to the project directory by entering: cd frontend-tasktrec in the terminal.
 
+## Command line steps
+
+- $ git clone `$ git@github.com:frckbrice/TMS-app-frontend.git`
+- $ `cd frontend-tasktrec `
+- $ `git checkout feature/[name_of_the _feature]
 
 
 # Setup and installation:
 Install dependencies: Use the following command line tool to install required libraries and frameworks;
 
-## npm install
+## Start App
 
-Run the server: Use the following command to run the server;
-## npm run dev 
-Access the website: Open  [http://localhost:3000] with your browser to see the result.
+- run `npm install`
+- run `npm run start` or `npm start` in your command line
+
 
 # Key functionalities
 - Create Project by the project manager
 - divide project into tasks by the project manager
 - invite members
 -  When a member join the project, assign task to a member
--  monitor the progresses and updates on the task made by the member of the project.
+-  monitor the progresses and updates of the task made by the member of the project.
 -  update the task status ("todo", "in progress", "ready to review", "done"). there possibility to add statuses.
+-  set the task as "done" of the project as "finished/ended"
+-  receive notification for the invite for the member already in the system
+-  update profile info for the user of the app
+-  see projects created, projects in which you are involved
   
-Demo
-You can view a fully working demo at 
+## Live Site
+
+[Link](https://unruffled-euler-e01838.netlify.app/)
