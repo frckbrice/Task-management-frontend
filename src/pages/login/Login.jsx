@@ -73,6 +73,7 @@ console.log("server: ", server);
                 picture: res.data.picture,
                 id: res.data.id,
               };
+              console.log(res.data);
               console.log(data);
               setProfilePict(res.data.picture);
               server
