@@ -69,8 +69,8 @@ function Login() {
               };
               console.log(data);
               setProfilePict(res.data.picture);
-              axios
-                .post("https://taskmanagsystem.onrender.com/auth/googleRegister", data, {
+              server
+                .post("/auth/googleRegister", data, {
                   headers: conf.headers,
                 })
                 .then((resp) => {
