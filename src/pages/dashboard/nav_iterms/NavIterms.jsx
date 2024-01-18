@@ -1,17 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
-
-// import Tippy from "@tippyjs/react";
-// import "tippy.js/dist/tippy.css";
 import Avatar from "react-avatar";
 import "./NavIterms.css";
 import PopupModal from "../../../compnents/molecules/popupModal/PopupModal";
-// import OverLay from "../../../compnents/atoms/overlay/OverLay";
 import { useNavigate } from "react-router-dom";
-// import { TmsContext } from "../../../context/TaskBoardContext";
-import { serverInterceptor } from "../../../config";
 import useAuth from "../../../hooks/userAuth";
-import { useStorage } from "../../../hooks/useStorage";
 
 const NavIterms = ({
   profilePicture,
@@ -20,33 +13,11 @@ const NavIterms = ({
   invitationList,
 }) => {
   const [isNotiOpen, setIsNotiOpen] = useState(false);
-  // const [invitationList, setInvitationList] = useState([]);
-  // const { token } = useStorage("token");
-
-  // useEffect(() => {
-  //   serverInterceptor
-  //     .get("/invitations/notifications", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         Accept: "application/json",
-  //         "Access-Control-Allow-Credentials": true,
-  //       },
-  //     })
-  //     .then((resp) => {
-  //       if (resp && resp?.data) {
-  //         console.log("Notifications", resp?.data);
-  //         // setInvitationList(resp.data.invitations);
-  //       }
-  //     })
-  //     .catch((err) => console.log("Error getting notifications", err));
-  // }, []);
 
   const handleDecline = (id) => {
-    // setInvitationList(() =>
     invitationList = invitationList?.filter(
       (invitation) => invitation.id !== id
     );
-    // );
   };
 
   const handleNotify = () => {
@@ -66,7 +37,9 @@ const NavIterms = ({
           <IoMdNotifications
             className={invitationList.length ? "notified" : ""}
           />
-          <span className="icon-button__badge">5+</span>
+          <span className="icon-button__badge">
+            {invitationList.length ? invitationList.length : "5+"}
+          </span>
         </button>
       </div>
 

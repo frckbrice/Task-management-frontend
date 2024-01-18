@@ -64,9 +64,12 @@ const SideNav = () => {
     setMembersofProject,
     isLoad,
     setIsLoad,
-    setProgress,
+    projects,
+    setProjects,
   } = useContext(TmsContext);
   const { token } = useStorage("token");
+
+  console.log(projects);
 
   useEffect(() => {
     setDisabled(false);
@@ -90,13 +93,14 @@ const SideNav = () => {
           if (response && response.data && response.status === (200 || 201)) {
             console.log("\n \n all projects:", response.data);
             setProjectList(response.data);
+            setProjects(response.data);
           }
         })
         .catch((err) => console.log("Error getting projects", err));
     };
 
     fetchProjects();
-  }, [newdata, serverInterceptor, token]);
+  }, [newdata, serverInterceptor, token, setProjects]);
 
   useEffect(() => {
     serverInterceptor
@@ -293,7 +297,7 @@ const SideNav = () => {
         <div className="members">
           <div className="title">
             <MdPeopleOutline className="title-icon" />
-            <h3>Members</h3>
+            <h3>Project Members</h3>
           </div>
           {projectMembers?.map((member, index) => (
             <div className="members-list" key={index}>

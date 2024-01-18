@@ -8,6 +8,7 @@
   font-family: poppins;
   position: relative;
   padding: 0 1.2rem;
+  background-color: #f48207;
 }
 
 .NavIterms form {
@@ -162,6 +163,7 @@
 .notifications p {
   font-size: 12px;
   color: #4f4e4e;
+  margin: 3px 5px;
 }
 
 .notiBTN {
@@ -209,4 +211,8 @@
   .NavIterms input {
     display: none;
   }
+}
+
+.notified {
+  background: red;
 }

@@ -17,6 +17,7 @@ const ContextProvider = ({ children }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [progress, setProgress] = useState(0);
   const [openAddList, setOpenAddList] = useState(false);
+  const [projects, setProjects] = useState(false);
 
   console.log("project data", projectData);
 
@@ -45,6 +46,8 @@ const ContextProvider = ({ children }) => {
     setProgress,
     openAddList,
     setOpenAddList,
+    projects,
+    setProjects,
   };
 
   return <TmsContext.Provider value={values}>{children} </TmsContext.Provider>;

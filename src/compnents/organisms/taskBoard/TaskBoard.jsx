@@ -26,6 +26,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 // project progress context import
 import { ProgressContext } from "../../../context/ProgressContext";
 import { GoLinkExternal } from "react-icons/go";
+import FirstViewOfTaskBoard from "./component/FirstViewOfTaskBoard";
 
 const taskformBackend = [
   { id: uuid(), name: "1st task", description: faker.lorem.paragraph(2) },
@@ -158,7 +159,7 @@ const TaskBoard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
 
-  const { selectedProject, openAddList, setOpenAddList } =
+  const { selectedProject, openAddList, setOpenAddList, projects } =
     useContext(TmsContext);
 
   const { setProgress } = useContext(ProgressContext);
@@ -708,8 +709,19 @@ const TaskBoard = () => {
       </div>
     </>
   );
-  return <>{isLoading ? loader : content}</>;
-  // return content;
+
+  const isSelected = typeof selectedProject?.id === "string";
+  if (isSelected) return <>{isLoading ? loader : content}</>;
+
+  return (
+    <>
+      {projects.length ? (
+        <>{isLoading ? loader : <FirstViewOfTaskBoard projects={projects} />}</>
+      ) : (
+        content
+      )}
+    </>
+  );
 };
 
 export default TaskBoard;

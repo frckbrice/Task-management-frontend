@@ -28,7 +28,7 @@
 }
 
 .title h3 {
-  font-family: Roboto;
+  font-family: Montserrat;
   font-weight: 500;
   font-size: 13px;
 }
@@ -100,7 +100,7 @@
 .workspace-list {
   font-weight: normal;
   margin: 1.3rem 0 0.6rem;
-  font-size: 16px;
+
   color: rgb(42, 41, 41);
   border-bottom: 1px solid #adb0b0;
   cursor: pointer;
@@ -111,6 +111,16 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5px;
+}
+
+.project-name span {
+  font-family: sans-serif;
+  font-size: 15px;
+}
+
+.workspace-list .projectselected {
+  color: #f48207;
+  font-size: 12px;
 }
 
 .list-of-project {
