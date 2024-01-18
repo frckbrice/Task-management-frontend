@@ -33,4 +33,4 @@ Access the website: Open  [http://localhost:3000] with your browser to see the r
 -  update the task status ("todo", "in progress", "ready to review", "done"). there possibility to add statuses.
 -  
 Demo
-You can view a fully working demo at https://code-4all-dev.vercel.app/
+You can view a fully working demo at 
