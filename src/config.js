@@ -28,7 +28,7 @@ export const conf = {
     "Access-Control-Allow-Headers":
       "Origin, X-Requested-With, Content-Type, Accept",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-    "access-controll-allow-origin":
+    "Access-Control-Allow-origin":
       "https://tms-app-frontend.vercel.app/, http://localhost:3000",
   },
 };
